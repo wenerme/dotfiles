@@ -1,0 +1,10 @@
+
+
+# FOR cd 
+alias cd-="cd -"
+alias cd..="cd .."
+alias cd...="cd ../.."
+
+# FOR ls
+alias la="ls -a"
+alias ll="ls -l"
