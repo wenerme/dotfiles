@@ -8,6 +8,32 @@ function o()
 	fi
 }
 
+# 显示exe文件包含的dll
+# objdump a.exe -p|grep DLL\ [^:]\*|sed 's/^\s*//g'
+# objdump rex_pcre.dll -p|sed 's/^\s*DLL[^:：]*[:：]\s*\(.*\)/\t\1/p' -n
+incdll()
+{
+    for i in "$@"
+    do
+        if [ -f "$i" ]
+        then
+            echo $i: included
+            # objdump $i -p|grep DLL\ [^:]:|sed 's/^.*:/\t/g'
+			objdump $i -p|sed 's/^\s*DLL[^:：]*[:：]\s*\(.*\)/\t\1/p' -n
+            echo 
+        else
+            echo incdll:\'$i\' file not exists or permission deny
+        fi
+    done
+}
+
+# 检测系统
+osis()
+{
+	# echo $OS|grep $1 -i >/dev/null
+	uname -o |grep $1 -i >/dev/null
+	return $?
+}
 # 输出颜色
 colorname()
 {
