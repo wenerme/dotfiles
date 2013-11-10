@@ -5,14 +5,10 @@ if [ -f "${HOME}/.bash_profile" ]; then
     source "${HOME}/.bash_profile"
 fi
 
-if [ -f "${HOME}/.bash_func" ]; then
-    source "${HOME}/.bash_func"
-fi
-
-if [ -f "${HOME}/.bash_alias" ]; then
-    source "${HOME}/.bash_alias"
-fi
-
-if [ -f "${HOME}/.bash_post" ]; then
-    source "${HOME}/.bash_post"
-fi
+# Load the shell dotfiles, and then some:
+# * ~/.path can be used to extend `$PATH`.
+# * ~/.extra can be used for other settings you don’t want to commit.
+for file in ~/.bashrc_{path,prompt,exports,alias,func,extra}; do
+	[ -r "$file" ] && [ -f "$file" ] && source "$file"
+done
+unset file
