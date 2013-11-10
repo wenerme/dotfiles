@@ -1,0 +1,23 @@
+{
+	"bitwise": true,
+	"browser": true,
+	"curly": true,
+	"debugger": true,
+	"devel": true,
+	"eqeqeq": true,
+	"eqnull": true,
+	"expr": true,
+	"forin": true,
+	"globalstrict": true,
+	"laxcomma": true,
+	"noarg": true,
+	"noempty": true,
+	"smarttabs": true,
+	"strict": true,
+	"sub": true,
+	"undef": true,
+	"unused": true,
+	"maxstatements": 60,
+	"maxdepth": 5,
+	"maxlen": 1000
+}

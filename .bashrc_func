@@ -1,0 +1,24 @@
+# `o` 打开目录
+function o() 
+{
+	if [ $# -eq 0 ]; then
+		open .
+	else
+		open "$@"
+	fi
+}
+
+# 输出颜色
+colorname()
+{
+	echo "colorname:"
+	echo -e "30 \e[00;30m Balck \e[01;30m Dark Gray \e[00m"
+	echo -e "31 \e[00;31m Red \e[01;31m Light Red \e[00m"
+	echo -e "32 \e[00;32m Green \e[01;32m Light Green \e[00m"
+	echo -e "33 \e[00;33m Brown \e[01;33m Yellow \e[00m"
+	echo -e "34 \e[00;34m Blue \e[01;34m Light Blue \e[00m"
+	echo -e "35 \e[00;35m Purple \e[01;35m Light Purple \e[00m"
+	echo -e "36 \e[00;36m Cyan \e[01;36m Light Cyan \e[00m"
+	echo -e "37 \e[00;37m Light Gray \e[01;37m White \e[00m"
+	echo -e "\e[00m"
+}

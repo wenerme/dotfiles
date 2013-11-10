@@ -1,0 +1,11 @@
+--style=allman
+--indent=tab
+--indent-classes
+--indent-switches
+--indent-namespaces
+--indent-preprocessor
+# --indent-coll-comments
+-Y
+--break-blocks
+--pad-oper
+--pad-paren-in

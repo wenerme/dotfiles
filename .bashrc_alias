@@ -47,3 +47,38 @@ alias lrc=". ~/.bashrc"
 # 测试命令是否存在
 # type foo >/dev/null 2>&1 || { echo >&2 "I require foo but it's not installed.  Aborting."; exit 1; }
 # command -v grunt > /dev/null && alias grunt="grunt --stack"
+
+# 编码转换
+alias utf82gbk="iconv -f utf-8 -t gbk"
+alias gbk2utf8="iconv -f gbk -t utf-8"
+alias grep="grep --color=auto"
+alias du="du -h"
+
+# 压入当前位置
+alias pushcd="pushd $PWD"
+
+# 在已存在的gvim窗口便捷
+alias gvimr="gvim --remote"
+
+
+# =========================
+# CygWin
+# =========================
+if [ $(uname -o) == "Cygwin" ]
+then
+	alias gvim='cmd /c "set SHELL=cmd & start gvim"'
+	alias vim='cmd /c "set SHELL=cmd & start vim"'
+
+	alias cls='echo -e "\033c"'
+	# cygwin下cmd不是很好用 这样可以弹出一个cmd
+	alias cmdk='cygstart cmd /k'
+	alias cmdc='cygstart cmd /c'
+
+	# mingw 版的gcc
+	alias mgcc='i686-w64-mingw32-gcc'
+
+	# ecplise
+	alias eclipse='/env/eclipse64/standard/eclipse'
+	alias eclipsejee='/env/eclipse64/jee/eclipse'
+
+fi
