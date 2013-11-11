@@ -2,10 +2,15 @@
 function o() 
 {
 	if [ $# -eq 0 ]; then
-		open .
+		local opath=.
 	else
-		open "$@"
+		opath="$@"
 	fi
+
+	command -v cygstart > /dev/null && cygstart $opath && return
+	command -v cmd > /dev/null && cmd /c start $opath && return
+	command -v nautilus > /dev/null && nautilus --browser $opath && return
+	command -v open > /dev/null && open $opath && return
 }
 
 # 显示exe文件包含的dll
@@ -50,7 +55,8 @@ colorname()
 }
 
 # Simple calculator
-function calc() {
+function calc()
+{
 	local result=""
 	result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
 	#                       └─ default (when `--mathlib` is used) is 20
@@ -175,16 +181,6 @@ function v() {
 		vim .
 	else
 		vim "$@"
-	fi
-}
-
-# `o` with no arguments opens current directory, otherwise opens the given
-# location
-function o() {
-	if [ $# -eq 0 ]; then
-		open .
-	else
-		open "$@"
 	fi
 }
 
