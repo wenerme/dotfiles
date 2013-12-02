@@ -23,3 +23,5 @@ export MANPAGER="less -X"
 
 # Always enable colored `grep` output
 export GREP_OPTIONS="--color=auto"
+
+export NODE_PATH=`cygpath -d /env/nodejs/node_modules/`
