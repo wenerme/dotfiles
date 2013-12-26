@@ -44,6 +44,8 @@ alias clear="cls"
 
 alias lrc=". ~/.bashrc"
 
+alias g="git"
+
 # 测试命令是否存在
 # type foo >/dev/null 2>&1 || { echo >&2 "I require foo but it's not installed.  Aborting."; exit 1; }
 # command -v grunt > /dev/null && alias grunt="grunt --stack"
