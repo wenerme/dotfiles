@@ -12,7 +12,7 @@ export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
 #export LANG="en_US"
 #export LC_ALL="en_US.UTF-8"
 export LANG="zh_CN"
-export LC_ALL="zh_CN.GBK"
+export LC_ALL="zh_CN.UTF-8"
 
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
