@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Only for my minienv
+osis Cygwin && 
+{
+	# ecplise
+	alias eclipse='/env/eclipse64/standard/eclipse'
+	
+	export NODE_PATH=`cygpath -d /env/nodejs/node_modules/`
+}

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# =========================
+# CygWin
+# =========================
+osis Cygwin && 
+{
+	
+	alias gvim='cmd /c "set SHELL=cmd & start gvim"'
+	alias vim='cmd /c "set SHELL=cmd & start vim"'
+
+	# cygwin下cmd不是很好用 这样可以弹出一个cmd
+	alias cmdk='cygstart cmd /k'
+	alias cmdc='cygstart cmd /c'
+
+	# mingw 版的gcc
+	alias mgcc='i686-w64-mingw32-gcc'
+	
+}

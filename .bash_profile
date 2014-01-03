@@ -1,11 +1,14 @@
+#!/bin/bash
+
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
 
 
 # Load the shell dotfiles, and then some:
-# * ~/.path can be used to extend `$PATH`.
-# * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/.bashrc_{path,prompt,exports,alias,func,extra}; 
+# * ~/.bashrc_path can be used to extend `$PATH`.
+# * ~/.bashrc_cygwin for cygwin only
+# * ~/.bashrc_extra can be used for other settings you don’t want to commit.
+for file in ~/.bashrc_{path,prompt,exports,alias,func,cygwin,extra}; 
 do
 	#echo "load file " $file
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
@@ -29,7 +32,8 @@ for option in autocd globstar; do
 done
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
+[ -e "$HOME/.ssh/config" ] && 
+complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
 
 # Add tab completion for `defaults read|write NSGlobalDomain`
 # You could just use `-g` instead, but I like being explicit
