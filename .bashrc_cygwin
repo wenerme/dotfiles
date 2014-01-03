@@ -5,8 +5,8 @@
 # =========================
 osis Cygwin && 
 {
-	
-	alias gvim='cmd /c "set SHELL=cmd & start gvim"'
+	# alias gvim='/env/vim/vim74/gvim'
+	alias gvim='cmd /c "set SHELL=cmd & `cygpath -d /env/vim/vim74/gvim.exe`"'
 	alias vim='cmd /c "set SHELL=cmd & start vim"'
 
 	# cygwin下cmd不是很好用 这样可以弹出一个cmd
