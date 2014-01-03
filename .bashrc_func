@@ -12,6 +12,8 @@ function o()
 	command -v cygstart > /dev/null && cygstart $opath && return
 	command -v cmd > /dev/null && cmd /c start $opath && return
 	command -v nautilus > /dev/null && nautilus --browser $opath && return
+	# Linux Mint Cinnamon
+	command -v nemo > /dev/null && nemo $opath && return
 	command -v open > /dev/null && open $opath && return
 }
 
