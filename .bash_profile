@@ -8,7 +8,7 @@ export PATH="$HOME/bin:$PATH"
 # * ~/.bashrc_path can be used to extend `$PATH`.
 # * ~/.bashrc_cygwin for cygwin only
 # * ~/.bashrc_extra can be used for other settings you don’t want to commit.
-for file in ~/.bashrc_{path,prompt,exports,alias,func,cygwin,extra}; 
+for file in ~/.bashrc_{path,prompt,exports,func,alias,cygwin,extra}; 
 do
 	#echo "load file " $file
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
