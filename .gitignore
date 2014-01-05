@@ -1,4 +1,7 @@
-*
-*.swp
+*/
 *_history
-!*.d/*
+*viminfo
+
+# temp files
+*.swp
+*~
