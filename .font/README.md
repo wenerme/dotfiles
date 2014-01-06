@@ -7,8 +7,8 @@ Font for code
 
 字体列表
 
-* [AndaleMono-Powerline](#andaleMono-powerline)
-* [YaHei.Consolas](#yahei.consolas)
+* [AndaleMono-Powerline](#andalemono-powerline)
+* [YaHei.Consolas](#yaheiconsolas)
 
 About Powerline
 ----------------------
@@ -16,43 +16,43 @@ About Powerline
 Powerline中使用的编码
 
 ```viml
-  " unicode symbols
+    " unicode symbols
 
-  " RIGHT-POINTING DOUBLE ANGLE QUOTATIONMARK
-  let g:airline_left_sep = '»'  " 0x00bb
-  let g:airline_left_sep = '▶'  " 0x25b6 BLACK RIGHT-POINTING TRIANGLE
-  " LEFT-POINTING DOUBLE ANGLE QUOTATIONMARK
-  let g:airline_right_sep = '«' " 0x00ab
-  let g:airline_right_sep = '◀' " 0x25c0 BLACK LEFT-POINTING TRIANGLE
-  let g:airline_symbols.linenr = '␊'    " 0x240a SYMBOL FOR LINE FEED
-  let g:airline_symbols.linenr = '␤'    " 0x2424 SYMBOL FOR NEWLINE
-  let g:airline_symbols.linenr = '¶'    " 0x00b6 PILCROW SIGN
-  let g:airline_symbols.branch = '⎇'    " 0x2387 ALTERNATIVE KEY SYMBOL
-  let g:airline_symbols.paste = 'ρ'     " 0x03c1 GREEK SMALL LETTER RHO
-  let g:airline_symbols.paste = 'Þ'     " 0x00de LATIN CAPITAL LETTER THORN
-  let g:airline_symbols.paste = '∥'     " 0x2225 PARALLEL TO
-  let g:airline_symbols.whitespace = 'Ξ'" 0x039e GREEK CAPITAL LETTER XI
+    " RIGHT-POINTING DOUBLE ANGLE QUOTATIONMARK
+    let g:airline_left_sep = '»'  " 0x00bb
+    let g:airline_left_sep = '▶'  " 0x25b6 BLACK RIGHT-POINTING TRIANGLE
+    " LEFT-POINTING DOUBLE ANGLE QUOTATIONMARK
+    let g:airline_right_sep = '«' " 0x00ab
+    let g:airline_right_sep = '◀' " 0x25c0 BLACK LEFT-POINTING TRIANGLE
+    let g:airline_symbols.linenr = '␊'    " 0x240a SYMBOL FOR LINE FEED
+    let g:airline_symbols.linenr = '␤'    " 0x2424 SYMBOL FOR NEWLINE
+    let g:airline_symbols.linenr = '¶'    " 0x00b6 PILCROW SIGN
+    let g:airline_symbols.branch = '⎇'    " 0x2387 ALTERNATIVE KEY SYMBOL
+    let g:airline_symbols.paste = 'ρ'     " 0x03c1 GREEK SMALL LETTER RHO
+    let g:airline_symbols.paste = 'Þ'     " 0x00de LATIN CAPITAL LETTER THORN
+    let g:airline_symbols.paste = '∥'     " 0x2225 PARALLEL TO
+    let g:airline_symbols.whitespace = 'Ξ'" 0x039e GREEK CAPITAL LETTER XI
 
-  " powerline symbols
-  " Unicode E000-F8FF is Private Use Area(PUA)
-  let g:airline_left_sep = ''          " 0xe0b0
-  let g:airline_left_alt_sep = ''      " 0xe0b1
-  let g:airline_right_sep = ''         " 0xe0b2
-  let g:airline_right_alt_sep = ''     " 0xe0b3
-  let g:airline_symbols.branch = ''    " 0xe0a0
-  let g:airline_symbols.readonly = ''  " 0xe0a2
-  let g:airline_symbols.linenr = ''    " 0xe0a1
+    " powerline symbols
+    " Unicode E000-F8FF is Private Use Area(PUA)
+    let g:airline_left_sep = ''          " 0xe0b0
+    let g:airline_left_alt_sep = ''      " 0xe0b1
+    let g:airline_right_sep = ''         " 0xe0b2
+    let g:airline_right_alt_sep = ''     " 0xe0b3
+    let g:airline_symbols.branch = ''    " 0xe0a0
+    let g:airline_symbols.readonly = ''  " 0xe0a2
+    let g:airline_symbols.linenr = ''    " 0xe0a1
 
-  " old vim-powerline symbols
-  " These code in Unicode is not used currently
-  " See http://www.unicode.org/charts/PDF/U2B00.pdf
-  let g:airline_left_sep = '⮀'          " 0x2b80
-  let g:airline_left_alt_sep = '⮁'      " 0x2b81
-  let g:airline_right_sep = '⮂'         " 0x2b82
-  let g:airline_right_alt_sep = '⮃'     " 0x2b83
-  let g:airline_symbols.branch = '⭠'    " 0x2b60
-  let g:airline_symbols.readonly = '⭤'  " 0x2b64
-  let g:airline_symbols.linenr = '⭡'    " 0x2b61
+    " old vim-powerline symbols
+    " These code in Unicode is not used currently
+    " See http://www.unicode.org/charts/PDF/U2B00.pdf
+    let g:airline_left_sep = '⮀'          " 0x2b80
+    let g:airline_left_alt_sep = '⮁'      " 0x2b81
+    let g:airline_right_sep = '⮂'         " 0x2b82
+    let g:airline_right_alt_sep = '⮃'     " 0x2b83
+    let g:airline_symbols.branch = '⭠'    " 0x2b60
+    let g:airline_symbols.readonly = '⭤'  " 0x2b64
+    let g:airline_symbols.linenr = '⭡'    " 0x2b61
 ```
 
 |Powerline Symbols|Description|
