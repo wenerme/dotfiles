@@ -5,15 +5,15 @@
 # =========================
 osis Cygwin && 
 {
-	# alias gvim='/env/vim/vim74/gvim'
-	alias gvim='cmd /c "set SHELL=cmd & `cygpath -d /env/vim/vim74/gvim.exe`"'
-	alias vim='cmd /c "set SHELL=cmd & start vim"'
+    # alias gvim='/env/vim/vim74/gvim'
+    # alias gvim='cmd /c "set SHELL=cmd & `cygpath -d /env/vim/vim74/gvim.exe`"'
+    # alias vim='cmd /c "set SHELL=cmd & start vim"'
 
-	# cygwin下cmd不是很好用 这样可以弹出一个cmd
-	alias cmdk='cygstart cmd /k'
-	alias cmdc='cygstart cmd /c'
+    # cygwin下cmd不是很好用 这样可以弹出一个cmd
+    alias cmdk='cygstart cmd /k'
+    alias cmdc='cygstart cmd /c'
 
-	# mingw 版的gcc
-	alias mgcc='i686-w64-mingw32-gcc'
-	
+    # mingw 版的gcc
+    alias mgcc='i686-w64-mingw32-gcc'
+
 }

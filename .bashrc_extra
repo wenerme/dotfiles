@@ -6,5 +6,6 @@ osis Cygwin &&
 	# ecplise
 	alias eclipse='/env/eclipse64/standard/eclipse'
 	
+    PATH=$PATH:/env/vim/vim74
 	export NODE_PATH=`cygpath -d /env/nodejs/node_modules/`
 }
