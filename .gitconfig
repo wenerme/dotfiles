@@ -8,13 +8,14 @@
 [alias]
 	ci = commit
 	co = checkout
-	stsb = status -sb
 	loggo = log --graph --oneline
 	loggod = log --graph --oneline --decorate
 	logg = log --graph
 	sti = status --ignored
 	st = status
 	sts = status -s
+    stsb = status -sb
+    latest = clone --depth=1
 [color]
     diff = auto
     status = auto
