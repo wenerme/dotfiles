@@ -1,5 +1,12 @@
 #!/bin/bash
 
+[ "$BASHRC_LOADED" == 'yes' ] || 
+{
+	echo reload profile
+	source ~/.bash_profile
+	return
+}
+
 # name@host dir [time]
 PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
