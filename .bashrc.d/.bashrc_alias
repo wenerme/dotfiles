@@ -42,9 +42,9 @@ alias gurl='curl --compressed'
 # Get week number
 alias week='date +%V'
 
-iscmd cls && alias cls="echo -en '\ec'"
+iscmd cls || alias cls="echo -en '\ec'"
 
-iscmd clear &&  alias clear="cls"
+iscmd clear ||  alias clear="cls"
 
 # lrc for Load *rc
 alias lrc=". ~/.bash_profile"
