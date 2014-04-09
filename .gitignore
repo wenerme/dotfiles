@@ -1,9 +1,13 @@
+# ignore all hide fill
+.*
+# ignore all dirs
 */
+
 *_history
 *viminfo
 !.font/
 # temp files
 *.swp
 *~
-# ignore less history
-.lesshst
+# ignore all hide files in home dir
+
