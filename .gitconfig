@@ -1,5 +1,5 @@
 [push]
-    # default = simplie
+    default = simple
 [user]
 	editor = gvim
 	quotepath = false
