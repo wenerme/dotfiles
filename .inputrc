@@ -1,3 +1,7 @@
+# /etc/inputrc - ~/.inputrc
+# This file configures keyboard input for programs using readline.
+# See "man 3 readline" for more examples.
+
 # Make Tab autocomplete regardless of filename case
 set completion-ignore-case on
 
@@ -32,9 +36,35 @@ set visible-stats on
 set skip-completed-text on
 
 # Allow UTF-8 input and output, instead of showing stuff like $'\0123\0456'
+# Enable 8 bit input.
+set meta-flag On
 set input-meta on
 set output-meta on
 set convert-meta off
 
 # Use Alt/Meta + Delete to delete the preceding word
 "\e[3;3~": kill-word
+
+# Set various nice escape sequences:
+"\eOd": backward-word
+"\eOc": forward-word
+
+# for linux console
+"\e[1~": beginning-of-line
+"\e[4~": end-of-line
+"\e[5~": beginning-of-history
+"\e[6~": end-of-history
+"\e[3~": delete-char
+"\e[2~": quoted-insert
+
+# for rxvt                     #added
+"\e[7~": beginning-of-line      
+"\e[8~": end-of-line           
+
+# for xterm
+"\eOH": beginning-of-line
+"\eOF": end-of-line
+
+# for freebsd console
+"\e[H": beginning-of-line
+"\e[F": end-of-line
