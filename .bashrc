@@ -10,6 +10,8 @@
 # name@host dir [time]
 PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
+# Try to open the ssh agent
+[ -e ~/.ssh/agent.env ] && {
 
 #-----------------------------
 # See https://help.github.com/articles/working-with-ssh-key-passphrases
@@ -61,3 +63,4 @@ elif ! agent_has_keys; then
 fi
 
 unset env
+}
