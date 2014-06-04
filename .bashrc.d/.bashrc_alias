@@ -53,12 +53,15 @@ alias gurl='curl --compressed'
 # Get week number
 alias week='date +%V'
 
-iscmd cls || alias cls="echo -en '\ec'"
-
-iscmd clear ||  alias clear="cls"
-
 # g for git
 iscmd git && alias g="git"
+
+# alias for alternative
+iscmd cls || alias cls="echo -en '\ec'"
+iscmd clear ||  alias clear="cls"
+
+iscmd ifconfig || alias ifconfig="ipconfig"
+iscmd ipconfig || alias ipconfig="ifconfig"
 
 # reload run configuration
 alias lrc=". ~/.bash_profile"

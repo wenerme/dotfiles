@@ -8,14 +8,16 @@ export HISTSIZE=32768
 export HISTFILESIZE=$HISTSIZE
 export HISTCONTROL=ignoredups
 # Make some commands not show up in history
-export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+export HISTIGNORE="ls:cd:cd -:pwd:exit:date"
 
 # Prefer US English and use UTF-8
-#export LANG="en_US"
-#export LC_ALL="en_US.UTF-8"
-export LANG="zh_CN"
-export LC_ALL="zh_CN.UTF-8"
-
+# export LANG="en_US"
+# export LC_ALL="en_US.UTF-8"
+# 如果是在 linux 的终端下,则不显示中文, 因为基本不支持 :-)
+termis linux || {
+    export LANG="zh_CN"
+    export LC_ALL="zh_CN.UTF-8"
+}
 # Don’t clear the screen after quitting a manual page
 export MANPAGER="less -X"
 

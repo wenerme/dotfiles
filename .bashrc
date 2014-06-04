@@ -8,7 +8,7 @@
 }
 
 # name@host dir [time]
-PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
+PS1="\[\e]\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
 # =================set up ssh agent==============
 # Reference http://superuser.com/questions/141044
@@ -33,7 +33,7 @@ function sshagent_testsocket {
     fi
 
     if [ -S $SSH_AUTH_SOCK ] ; then
-        ssh-add -l > /dev/null
+        ssh-add -l 2>&1 > /dev/null
         if [ $? = 2 ] ; then
             # echo "Socket $SSH_AUTH_SOCK is dead!  Deleting!"
             rm -f $SSH_AUTH_SOCK
@@ -43,7 +43,7 @@ function sshagent_testsocket {
             return 0
         fi
     else
-        echo "$SSH_AUTH_SOCK is not a socket!"
+        # echo "$SSH_AUTH_SOCK is not a socket!"
         return 3
     fi
 }
