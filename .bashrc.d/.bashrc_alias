@@ -76,6 +76,9 @@ alias gbk2utf8="iconv -f gbk -t utf-8"
 alias grep="grep --color=auto"
 alias du="du -h"
 
+# bash log
+# alias blog="echo \$-|grep x > /dev/null&&echo"
+
 # 压入当前位置
 alias pushcd="pushd $PWD"
 

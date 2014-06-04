@@ -10,75 +10,58 @@
 # name@host dir [time]
 PS1="\[\e]\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
-# =================set up ssh agent==============
-# Reference http://superuser.com/questions/141044
-# ===============================================
+# 尝试启动 ssh-agent
+[ -e ~/.ssh/agent.env ] && {
 
-function sshagent_findsockets {
-    find /tmp -uid $(id -u) -type s -name agent.\* 2>/dev/null
-}
+#-----------------------------
+# See https://help.github.com/articles/working-with-ssh-key-passphrases
+# ----------------------------
+#
+# Note: ~/.ssh/environment should not be used, as it
+#       already has a different purpose in SSH.
 
-function sshagent_testsocket {
-    if [ ! -x "$(which ssh-add)" ] ; then
-        echo "ssh-add is not available; agent testing aborted"
-        return 1
-    fi
+env=~/.ssh/agent.env
 
-    if [ X"$1" != X ] ; then
-        export SSH_AUTH_SOCK=$1
-    fi
+# Note: Don't bother checking SSH_AGENT_PID. It's not used
+#       by SSH itself, and it might even be incorrect
+#       (for example, when using agent-forwarding over SSH).
 
-    if [ X"$SSH_AUTH_SOCK" = X ] ; then
-        return 2
-    fi
-
-    if [ -S $SSH_AUTH_SOCK ] ; then
-        ssh-add -l 2>&1 > /dev/null
-        if [ $? = 2 ] ; then
-            # echo "Socket $SSH_AUTH_SOCK is dead!  Deleting!"
-            rm -f $SSH_AUTH_SOCK
-            return 4
-        else
-            # echo "Found ssh-agent $SSH_AUTH_SOCK"
-            return 0
-        fi
+agent_is_running() {
+    if [ "$SSH_AUTH_SOCK" ]; then
+        # ssh-add returns:
+        #   0 = agent running, has keys
+        #   1 = agent running, no keys
+        #   2 = agent not running
+        ssh-add -l >/dev/null 2>&1 || [ $? -eq 1 ]
     else
-        # echo "$SSH_AUTH_SOCK is not a socket!"
-        return 3
+        false
     fi
 }
 
-function sshagent_init {
-    # ssh agent sockets can be attached to a ssh daemon process or an
-    # ssh-agent process.
-
-    AGENTFOUND=0
-
-    # Attempt to find and use the ssh-agent in the current environment
-    if sshagent_testsocket ; then AGENTFOUND=1 ; fi
-
-    # If there is no agent in the environment, search /tmp for
-    # possible agents to reuse before starting a fresh ssh-agent
-    # process.
-    if [ $AGENTFOUND = 0 ] ; then
-        for agentsocket in $(sshagent_findsockets) ; do
-            if [ $AGENTFOUND != 0 ] ; then break ; fi
-            if sshagent_testsocket $agentsocket ; then AGENTFOUND=1 ; fi
-        done
-    fi
-
-    # If at this point we still haven't located an agent, it's time to
-    # start a new one
-    if [ $AGENTFOUND = 0 ] ; then
-        eval `ssh-agent`
-    fi
-
-    # Clean up
-    unset AGENTFOUND
-    unset agentsocket
-
-    # Finally, show what keys are currently in the agent
-    ssh-add -l 2>&1 >/dev/null
+agent_has_keys() {
+    ssh-add -l >/dev/null 2>&1
 }
 
-sshagent_init
+agent_load_env() {
+    . "$env" >/dev/null
+}
+
+agent_start() {
+    (umask 077; ssh-agent >"$env")
+    . "$env" >/dev/null
+}
+
+if ! agent_is_running; then
+    agent_load_env
+fi
+
+if ! agent_is_running; then
+    agent_start
+    ssh-add
+elif ! agent_has_keys; then
+    ssh-add
+fi
+
+unset env
+
+}
