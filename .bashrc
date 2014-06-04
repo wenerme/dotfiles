@@ -8,9 +8,9 @@
 }
 
 # name@host dir [time]
-PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
+PS1="\[\e]\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
-# Try to open the ssh agent
+# 尝试启动 ssh-agent
 [ -e ~/.ssh/agent.env ] && {
 
 #-----------------------------
@@ -63,4 +63,5 @@ elif ! agent_has_keys; then
 fi
 
 unset env
+
 }
