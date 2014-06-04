@@ -10,7 +10,6 @@
 # name@host dir [time]
 PS1="\[\e]0;\w\a\]\n\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
-
 # =================set up ssh agent==============
 # Reference http://superuser.com/questions/141044
 # ===============================================
