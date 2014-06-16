@@ -71,7 +71,7 @@ osis Cygwin &&
 	alias eclipse='/env/eclipse64/standard/eclipse'
 	MINI_ENV_PATH=`cygpath 'G:\minienv\env'`
 
-    JAVA_HOME=`cygpath 'C:\Program Files\Java\jdk1.7.0_21'`
+    # JAVA_HOME=`cygpath 'C:\Program Files\Java\jdk1.7.0_21'`
     MAVEN_HOME=$MINI_ENV_PATH'\dev\maven'
     ANT_HOME=$MINI_ENV_PATH'\dev\ant'
     CATALINA_HOME=$MINI_ENV_PATH'\server\tomcat80'
