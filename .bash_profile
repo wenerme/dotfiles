@@ -4,16 +4,24 @@
 export PATH="$HOME/bin:$PATH"
 
 
+# Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
+(set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
+
 # Load the shell dotfiles, and then some:
 # * ~/.bashrc_path can be used to extend `$PATH`.
 # * ~/.bashrc_cygwin for cygwin only
 # * ~/.bashrc_extra can be used for other settings you don’t want to commit.
-for file in ~/.bashrc_{path,prompt,func,exports,alias,cygwin,linux,extra}; 
+for file in ~/.bashrc_{path,prompt,func,exports,alias,cygwin,linux,extra};
 do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file" && continue
 	# possible in ~/.bashrc.d
 	file=~/.bashrc.d/`basename $file`
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
+done
+for file in `ls --color=never ~/.bashrc.d/.bashrc_my_*`;
+do
+    # [ -r "$file" ] || chmod +x $file
+    source "$file"
 done
 unset file
 
