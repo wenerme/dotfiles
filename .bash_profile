@@ -18,11 +18,13 @@ do
 	file=~/.bashrc.d/`basename $file`
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
-for file in `ls --color=never ~/.bashrc.d/.bashrc_my_*`;
-do
+
+find ~/.bashrc.d/ -type f -iname ".bashrc_my_*" -print0 | while IFS= read -r -d $'\0' line; do
     # [ -r "$file" ] || chmod +x $file
-    source "$file"
+    echo "$line"
+    source "$line"
 done
+
 unset file
 
 # Case-insensitive globbing (used in pathname expansion)
