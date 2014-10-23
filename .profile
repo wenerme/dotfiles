@@ -36,5 +36,3 @@ if [ -n "${BASH_VERSION}" ]; then
   fi
 fi
 
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
