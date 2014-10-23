@@ -35,3 +35,6 @@ if [ -n "${BASH_VERSION}" ]; then
     source "${HOME}/.bashrc"
   fi
 fi
+
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

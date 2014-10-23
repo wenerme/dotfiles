@@ -3,7 +3,6 @@
 # Add `~/bin` to the `$PATH`
 export PATH="$HOME/bin:$PATH"
 
-
 # Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
 
@@ -59,3 +58,6 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 BASHRC_LOADED=yes
 
 [ -f ~/.bashrc ] && source ~/.bashrc
+
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
