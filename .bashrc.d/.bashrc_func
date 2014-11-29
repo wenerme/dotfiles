@@ -41,7 +41,7 @@ incdll()
 osis()
 {
     # echo $OS|grep $1 -i >/dev/null
-    uname -o |grep $1 -i >/dev/null
+    uname -s |grep -i $1 >/dev/null
     return $?
 }
 
