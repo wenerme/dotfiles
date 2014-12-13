@@ -1,16 +1,16 @@
-#!/bin/bash
+#! /bin/env bash
 
 # 由于不确定加载顺序 所以为了保证两个都加载,就做了这样一个处理
 [ "$BASHRC_LOADED" == 'yes' ] || 
 {
-	source ~/.bash_profile
-	return
+    source ~/.bash_profile
+    return
 }
 
 # name@host dir [time]
 PS1="\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
 
-# 尝试启动 ssh-agent
+# 尝试启动 ssh-agent {{
 [ -e ~/.ssh/agent.env ] && {
 
 #-----------------------------
@@ -66,3 +66,7 @@ unset env
 
 }
 
+# }} ssh agent
+
+
+# vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:

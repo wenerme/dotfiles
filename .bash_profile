@@ -1,31 +1,35 @@
-#!/bin/bash
+#! /bin/env bash
 
-# Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH"
-
-# Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
+ #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
 
-# Load the shell dotfiles, and then some:
-# * ~/.bashrc_path can be used to extend `$PATH`.
-# * ~/.bashrc_cygwin for cygwin only
-# * ~/.bashrc_extra can be used for other settings you don’t want to commit.
-for file in ~/.bashrc_{path,prompt,func,exports,alias,cygwin,linux,extra};
+# Load seperate shell dotfiles {{
+#   func    should contain some simple thing to support after config.
+#   exports define PATH, variables
+#   prompt  define the prompt
+#   alias   some usefual alias
+#   extra   will not commit, custom thing
+# The order is matter.
+for file in ~/.bashrc_{func,exports,prompt,alias,extra};
 do
-	[ -r "$file" ] && [ -f "$file" ] && source "$file" && continue
-	# possible in ~/.bashrc.d
-	file=~/.bashrc.d/`basename $file`
-	[ -r "$file" ] && [ -f "$file" ] && source "$file"
+    [ -r "$file" ] && [ -f "$file" ] && source "$file" && continue
+    # possible in ~/.bashrc.d
+    file=~/.bashrc.d/`basename $file`
+    [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 
+# Optional rc
 find ~/.bashrc.d/ -type f -iname ".bashrc_my_*" -print0 | while IFS= read -r -d $'\0' line; do
     # [ -r "$file" ] || chmod +x $file
-    echo "$line"
+    # echo "$line"
     source "$line"
 done
 
+# }} dotfiles
+
 unset file
 
+# sshopt {{
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 
@@ -39,8 +43,10 @@ shopt -s cdspell
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
 # * Recursive globbing, e.g. `echo **/*.txt`
 for option in autocd globstar; do
-	shopt -s "$option" 2> /dev/null
+    shopt -s "$option" 2> /dev/null
 done
+
+# }} sshopt
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -e "$HOME/.ssh/config" ] && 
@@ -59,6 +65,8 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 # ensure loaded
 BASHRC_LOADED=yes
 
+# Back to load .bashrc
 [ -f ~/.bashrc ] && source ~/.bashrc
 
 
+# vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:
