@@ -1,5 +1,5 @@
-ÎÒµÄTmuxÅäÖÃ
+ï»¿æˆ‘çš„Tmuxé…ç½®
 
-ÓÃµ½ÁË
+ç”¨åˆ°äº†
 
 * https://github.com/seebi/tmux-colors-solarized

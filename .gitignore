@@ -8,5 +8,6 @@
 !.font/
 # temp files
 *.swp
+*.log
 *~
 
