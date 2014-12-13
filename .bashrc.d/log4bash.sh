@@ -13,8 +13,8 @@
 
 #--------------------------------------------------------------------------------------------------
 # Begin Logging Section
-# 暂时不做判断,不确定
-if [[ -z $TERM ]]
+# 如果颜色数量大于等于 8 则使用带色的日志
+if [[ `tput colors` -lt 8 ]]
 then
     # Then we don't care about log colors
     LOG_DEFAULT_COLOR=""
