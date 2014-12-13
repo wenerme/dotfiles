@@ -1,5 +1,16 @@
 #! /bin/env bash
 
+# Load dependencies {{
+
+# Default: Only show WARN and ERROR
+[ -z $BASH_LOG_LEVEL ] && BASH_LOG_LEVEL=(WARN ERROR)
+export BASH_LOG_LEVEL
+# Allowed level: INFO DEBUG WARN ERROR ALL
+. ~/.bashrc.d/log4bash.sh
+log_info Load dependency log4bash
+
+# }}
+
  #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
 
@@ -12,6 +23,7 @@
 # The order is matter.
 for file in ~/.bashrc_{func,exports,prompt,alias,extra};
 do
+    log_info Try load dotfile [$file, ~/.bashrc.d/`basename $file`]
     [ -r "$file" ] && [ -f "$file" ] && source "$file" && continue
     # possible in ~/.bashrc.d
     file=~/.bashrc.d/`basename $file`
@@ -21,7 +33,7 @@ done
 # Optional rc
 find ~/.bashrc.d/ -type f -iname ".bashrc_my_*" -print0 | while IFS= read -r -d $'\0' line; do
     # [ -r "$file" ] || chmod +x $file
-    # echo "$line"
+    log_info Load custom dotfile $file
     source "$line"
 done
 

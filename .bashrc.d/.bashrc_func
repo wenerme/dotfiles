@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # `o` 打开目录
-function o() 
+function o()
 {
     if [ $# -eq 0 ]; then
         local opath=.
@@ -9,11 +9,15 @@ function o()
         local opath="$@"
     fi
 
+    # Windows
     command -v cygstart > /dev/null && cygstart $opath && return
+    # Windows
     command -v cmd > /dev/null && cmd /c start $opath && return
+    # Centos
     command -v nautilus > /dev/null && nautilus --browser $opath && return
     # Linux Mint Cinnamon
     command -v nemo > /dev/null && nemo $opath && return
+    # Mac
     command -v open > /dev/null && open $opath && return
 }
 
@@ -36,7 +40,7 @@ incdll()
     done
 }
 
-# { 检测类函数
+# 辅助类函数 {{
 # 检测系统
 osis()
 {
@@ -58,7 +62,20 @@ iscmd()
     command -v $1 > /dev/null
     return $?
 }
-# }
+
+# 判断元素是否在数组中
+iscontains () {
+    local e
+    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
+    return 1
+}
+
+# Create a new directory and enter it
+function mkd()
+{
+    mkdir -p "$@" && cd "$@"
+}
+# }}
 
 # 输出颜色
 colorname()
@@ -75,12 +92,6 @@ colorname()
     echo -e "\e[00m"
 }
 
-
-# Create a new directory and enter it
-function mkd()
-{
-    mkdir -p "$@" && cd "$@"
-}
 
 # Determine size of a file or total size of a directory
 function fs()
@@ -106,21 +117,23 @@ if [ $? -eq 0 ]; then
 fi
 
 # Create a data URL from a file
-function dataurl() {
-local mimeType=$(file -b --mime-type "$1")
-if [[ $mimeType == text/* ]]; then
-    mimeType="${mimeType};charset=utf-8"
-fi
-echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
+function dataurl() 
+{
+    local mimeType=$(file -b --mime-type "$1")
+    if [[ $mimeType == text/* ]]; then
+        mimeType="${mimeType};charset=utf-8"
+    fi
+    echo "data:${mimeType};base64,$(openssl base64 -in "$1" | tr -d '\n')"
 }
 
 # Create a git.io short URL
-function gitio() {
-if [ -z "${1}" -o -z "${2}" ]; then
-    echo "Usage: \`gitio slug url\`"
-    return 1
-fi
-curl -i http://git.io/ -F "url=${2}" -F "code=${1}"
+function gitio() 
+{
+    if [ -z "${1}" -o -z "${2}" ]; then
+        echo "Usage: \`gitio slug url\`"
+        return 1
+    fi
+    curl -i http://git.io/ -F "url=${2}" -F "code=${1}"
 }
 
 # Start a PHP server from a directory, optionally specifying the port
@@ -134,58 +147,64 @@ function phpserver()
 }
 
 # Compare original and gzipped file size
-function gz() {
-local origsize=$(wc -c < "$1")
-local gzipsize=$(gzip -c "$1" | wc -c)
-local ratio=$(echo "$gzipsize * 100/ $origsize" | bc -l)
-printf "orig: %d bytes\n" "$origsize"
-printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio"
+function gz()
+{
+    local origsize=$(wc -c < "$1")
+    local gzipsize=$(gzip -c "$1" | wc -c)
+    local ratio=$(echo "$gzipsize * 100/ $origsize" | bc -l)
+    printf "orig: %d bytes\n" "$origsize"
+    printf "gzip: %d bytes (%2.2f%%)\n" "$gzipsize" "$ratio"
 }
 
 # Escape UTF-8 characters into their 3-byte format
-function escape() {
-printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
-# print a newline unless we’re piping the output to another program
-if [ -t 1 ]; then
-    echo # newline
-fi
+function escape()
+{
+    printf "\\\x%s" $(printf "$@" | xxd -p -c1 -u)
+    # print a newline unless we’re piping the output to another program
+    if [ -t 1 ]; then
+        echo # newline
+    fi
 }
 
 # Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() {
-perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
-# print a newline unless we’re piping the output to another program
-if [ -t 1 ]; then
-    echo # newline
-fi
+function unidecode() 
+{
+    perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
+    # print a newline unless we’re piping the output to another program
+    if [ -t 1 ]; then
+        echo # newline
+    fi
 }
 
 # Get a character’s Unicode code point
-function codepoint() {
-perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
-# print a newline unless we’re piping the output to another program
-if [ -t 1 ]; then
-    echo # newline
-fi
+function codepoint() 
+{
+    perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
+    # print a newline unless we’re piping the output to another program
+    if [ -t 1 ]; then
+        echo # newline
+    fi
 }
 
 
 
 # Install Grunt plugins and add them as `devDependencies` to `package.json`
 # Usage: `gi contrib-watch contrib-uglify zopfli`
-function gi() {
-local IFS=,
-eval npm install --save-dev grunt-{"$*"}
+function gi() 
+{
+    local IFS=,
+    eval npm install --save-dev grunt-{"$*"}
 }
 
 # `v` with no arguments opens the current directory in Vim, otherwise opens the
 # given location
-function v() {
-if [ $# -eq 0 ]; then
-    vim .
-else
-    vim "$@"
-fi
+function v() 
+{
+    if [ $# -eq 0 ]; then
+        vim .
+    else
+        vim "$@"
+    fi
 }
 
 # `np` with an optional argument `patch`/`minor`/`major`/`<version>`
@@ -193,20 +212,21 @@ fi
 function np() 
 {
     git pull --rebase && \
-    npm install && \
-    npm test && \
-    npm version ${1:=patch} && \
-    npm publish && \
-    git push origin master && \
-    git push origin master --tags
+        npm install && \
+        npm test && \
+        npm version ${1:=patch} && \
+        npm publish && \
+        git push origin master && \
+        git push origin master --tags
 }
 
 # `tre` is a shorthand for `tree` with hidden files and color enabled, ignoring
 # the `.git` directory, listing directories first. The output gets piped into
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
-function tre() {
-tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+function tre() 
+{
+    tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
 
-# vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
+# vim: set foldmarker={{,}} foldlevel=0 foldmethod=marker:
