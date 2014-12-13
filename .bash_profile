@@ -1,6 +1,7 @@
 #! /bin/env bash
 
 # Load dependencies {{
+. ~/.bashrc.d/utils.sh
 
 # Default: Only show WARN and ERROR
 [ -z $BASH_LOG_LEVEL ] && BASH_LOG_LEVEL=(WARN ERROR)
