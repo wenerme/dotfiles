@@ -26,3 +26,30 @@ lrc = . ~/.bashrc
 lst 以树形显示, 在没有 tree 命令的时候很有用
 
 其他命令可查看 .bashrc_alias 和 .bashrc_func
+
+
+# 配置文件说明
+
+```
+/bin/bash
+	The bash executable
+/etc/profile
+	The systemwide initialization file, executed for login shells
+/etc/bash.bash_logout
+	The systemwide login shell cleanup file, executed when a login shell exits
+~/.bash_profile
+	The personal initialization file, executed for login shells
+~/.bashrc
+	The individual per-interactive-shell startup file
+~/.bash_logout
+	The individual login shell cleanup file, executed when a login shell exits
+~/.inputrc
+	Individual readline initialization file
+```
+from [man bash](http://linux.die.net/man/1/bash).
+
+# Document
+
+# Reference
+
+* [Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/)

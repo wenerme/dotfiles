@@ -1,15 +1,15 @@
-#! /bin/env bash
+#!/usr/bin/env bash
 
 # Load dependencies {{
-. ~/.bashrc.d/utils.sh
+. .bashrc.d/utils.sh
 
 # Default: Only show WARN and ERROR
-[ -z $BASH_LOG_LEVEL ] && BASH_LOG_LEVEL=(WARN ERROR)
-export BASH_LOG_LEVEL
 # Allowed level: INFO DEBUG WARN ERROR ALL
-. ~/.bashrc.d/log4bash.sh
-log_info Load dependency log4bash
+[ -z $LOG4BASH_LOG_LEVEL ] && export LOG4BASH_LOG_LEVEL=(WARN ERROR)
 
+
+. .bashrc.d/log4bash.sh
+log_info Load dependency log4bash
 # }}
 
  #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html

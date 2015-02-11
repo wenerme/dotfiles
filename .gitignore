@@ -1,13 +1,16 @@
-# ignore all hide fill
-.*
-# ignore all dirs
-*/
+# ignore all
+*
 
 *_history
 *viminfo
-!.font/
 # temp files
 *.swp
 *.log
 *~
+
+!.font/
+!.bashrc.d/
+!.completion.d/
+!.tmux.d/
+
 

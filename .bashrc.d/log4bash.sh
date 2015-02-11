@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 #--------------------------------------------------------------------------------------------------
 # log4bash - Makes logging in Bash scripting suck less
 # Copyright (c) Fred Palmer
@@ -11,8 +12,41 @@
 # declare -r INTERACTIVE_MODE="$([ tty --silent ] && echo on || echo off)"
 # declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
 
+bash_doc <<EOF
+## log4bash.sh
+log for shell.
+
+Based on [fredpalmer/log4bash](http://github.com/fredpalmer/log4bash).
+```
+log4bash - Makes logging in Bash scripting suck less
+Copyright (c) Fred Palmer
+Licensed under the MIT license
+http://github.com/fredpalmer/log4bash
+```
+
+### Changelog
+* Add log level
+* use `tput colors` to test the term
+
+### Commands
+```
+log message level color
+log_speak
+log_info
+log_success
+log_error
+log_warn
+log_debug
+log_captains
+log_campfire
+```
+### Log level
+
+EOF
+
 #--------------------------------------------------------------------------------------------------
 # Begin Logging Section
+
 # 如果颜色数量大于等于 8 则使用带色的日志
 if [[ `tput colors` -lt 8 ]]
 then
@@ -50,8 +84,8 @@ log() {
     [[ -z ${log_color} ]] && log_color="${LOG_INFO_COLOR}";
 
     # Only show the defined level
-    iscontains ALL "${BASH_LOG_LEVEL[@]}" || \
-    iscontains $log_level "${BASH_LOG_LEVEL[@]}" || return 0;
+    iscontains ALL "${LOG4BASH_LOG_LEVEL[@]}" || \
+    iscontains $log_level "${LOG4BASH_LOG_LEVEL[@]}" || return 0;
 
     echo -e "${log_color}[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text} ${LOG_DEFAULT_COLOR}";
     return 0;

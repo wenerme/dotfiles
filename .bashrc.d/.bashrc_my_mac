@@ -1,4 +1,5 @@
-#! /bin/env bash
+#!/usr/bin/env bash
+
 osis Darwin &&
 {
     echo Detect mac > /dev/null
