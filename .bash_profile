@@ -3,11 +3,6 @@
 # Load dependencies {{
 . .bashrc.d/utils.sh
 
-# Default: Only show WARN and ERROR
-# Allowed level: INFO DEBUG WARN ERROR ALL
-[ -z $LOG4BASH_LOG_LEVEL ] && export LOG4BASH_LOG_LEVEL=(WARN ERROR)
-
-
 . .bashrc.d/log4bash.sh
 log_info Load dependency log4bash
 # }}
@@ -22,12 +17,12 @@ log_info Load dependency log4bash
 #   alias   some usefual alias
 #   extra   will not commit, custom thing
 # The order is matter.
-for file in ~/.bashrc_{func,exports,prompt,alias,extra};
+for file in .bashrc_{func,exports,prompt,alias,extra};
 do
     log_info Try load dotfile [$file, ~/.bashrc.d/`basename $file`]
     [ -r "$file" ] && [ -f "$file" ] && source "$file" && continue
     # possible in ~/.bashrc.d
-    file=~/.bashrc.d/`basename $file`
+    file=.bashrc.d/`basename $file`
     [ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 
@@ -74,6 +69,68 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 
 # If possible, add tab completion for many more commands
 [ -f /etc/bash_completion ] && source /etc/bash_completion
+
+# name@host dir [time]
+PS1="\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
+
+# 尝试启动 ssh-agent {{
+[ -e ~/.ssh/agent.env ] && {
+
+#-----------------------------
+# See https://help.github.com/articles/working-with-ssh-key-passphrases
+# ----------------------------
+#
+# Note: ~/.ssh/environment should not be used, as it
+#       already has a different purpose in SSH.
+
+env=~/.ssh/agent.env
+
+# Note: Don't bother checking SSH_AGENT_PID. It's not used
+#       by SSH itself, and it might even be incorrect
+#       (for example, when using agent-forwarding over SSH).
+
+agent_is_running() {
+    if [ "$SSH_AUTH_SOCK" ]; then
+        # ssh-add returns:
+        #   0 = agent running, has keys
+        #   1 = agent running, no keys
+        #   2 = agent not running
+        ssh-add -l >/dev/null 2>&1 || [ $? -eq 1 ]
+    else
+        false
+    fi
+}
+
+agent_has_keys() {
+    ssh-add -l >/dev/null 2>&1
+}
+
+agent_load_env() {
+    . "$env" >/dev/null
+}
+
+agent_start() {
+    (umask 077; ssh-agent >"$env")
+    . "$env" >/dev/null
+}
+
+if ! agent_is_running; then
+    agent_load_env
+fi
+
+if ! agent_is_running; then
+    agent_start
+    ssh-add
+elif ! agent_has_keys; then
+    ssh-add
+fi
+
+unset env
+
+}
+
+# }} ssh agent
+
 
 # ensure loaded
 BASHRC_LOADED=yes

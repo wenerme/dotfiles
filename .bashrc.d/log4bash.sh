@@ -12,8 +12,9 @@
 # declare -r INTERACTIVE_MODE="$([ tty --silent ] && echo on || echo off)"
 # declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
 
-bash_doc <<EOF
-## log4bash.sh
+echo -n <<'DOC-HERE'
+log4bash.sh
+-----------
 log for shell.
 
 Based on [fredpalmer/log4bash](http://github.com/fredpalmer/log4bash).
@@ -32,20 +33,38 @@ http://github.com/fredpalmer/log4bash
 ```
 log message level color
 log_speak
-log_info
-log_success
-log_error
-log_warn
 log_debug
+log_info
+log_warn
+log_error
+log_success
 log_captains
 log_campfire
 ```
 ### Log level
+```
+DEBUG
+INFO
+SUCCESS
+WARN
+ERROR
+NONE
+```
 
-EOF
+Use level like this
+```
+log_level WARN # Only show WARN ERROR
+log_level DEBUG # Only show DEBUG, no WARN
+```
+DOC-HERE
 
 #--------------------------------------------------------------------------------------------------
 # Begin Logging Section
+
+# Default: Only show WARN and ERROR
+# Allowed level: INFO DEBUG WARN ERROR ALL
+[ -z "$LOG4BASH_LOG_LEVEL" ] && export LOG4BASH_LOG_LEVEL=WARN
+
 
 # 如果颜色数量大于等于 8 则使用带色的日志
 if [[ `tput colors` -lt 8 ]]
@@ -74,6 +93,29 @@ prepare_log_for_nonterminal() {
     sed "s/[[:cntrl:]]\[[0-9;]*m//g"
 }
 
+
+log_level()
+{
+	# get log level
+	if [ $# -eq 0 ]
+	then
+		echo "$LOG4BASH_LOG_LEVEL"
+		return
+	fi
+
+	# set log level
+	declare -A LEVELS=( ["DEBUG"]=5 ["INFO"]=4 ["SUCCESS"]=3  ["WARN"]=2 ["ERROR"]=1 ["NONE"]=0)
+	local level="${LEVELS["$1"]}"
+	# 如果第一个参数是未知的 LEVEL, 则打印支持的 LOG 级别
+	if [ -z "$level" ]
+	then
+		echo -n "Allowed level: "
+		for key in "${!LEVELS[@]}"; do echo -ne "$key "; done
+	else
+		LOG4BASH_LOG_LEVEL=$1
+	fi
+}
+
 log() {
     local log_text="$1"
     local log_level="$2"
@@ -83,14 +125,23 @@ log() {
     [[ -z ${log_level} ]] && log_level="INFO";
     [[ -z ${log_color} ]] && log_color="${LOG_INFO_COLOR}";
 
-    # Only show the defined level
-    iscontains ALL "${LOG4BASH_LOG_LEVEL[@]}" || \
-    iscontains $log_level "${LOG4BASH_LOG_LEVEL[@]}" || return 0;
+    # Test the log level
+    declare -A LEVELS=( ["DEBUG"]=5 ["INFO"]=4 ["SUCCESS"]=3  ["WARN"]=2 ["ERROR"]=1 ["NONE"]=0)
+	local level="${LEVELS["$log_level"]}"
+	local allowed_level="${LEVELS["$LOG4BASH_LOG_LEVEL"]}"
+
+	if [ $level -gt $allowed_level ];then return 0;fi;
 
     echo -e "${log_color}[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text} ${LOG_DEFAULT_COLOR}";
     return 0;
 }
 
+
+log_info()      { log "$*"; }
+log_success()   { log "$*" "SUCCESS" "${LOG_SUCCESS_COLOR}"; }
+log_error()     { log "$*" "ERROR" "${LOG_ERROR_COLOR}"; }
+log_warn()      { log "$*" "WARN" "${LOG_WARN_COLOR}"; }
+log_debug()     { log "$*" "DEBUG" "${LOG_DEBUG_COLOR}"; }
 
 log_speak()     {
     if type -P say >/dev/null
@@ -108,12 +159,6 @@ log_speak()     {
     fi
     return 0;
 }
-
-log_info()      { log "$*"; }
-log_success()   { log "$*" "SUCCESS" "${LOG_SUCCESS_COLOR}"; }
-log_error()     { log "$*" "ERROR" "${LOG_ERROR_COLOR}"; log_speak "$@"; }
-log_warn()      { log "$*" "WARN" "${LOG_WARN_COLOR}"; }
-log_debug()     { log "$*" "DEBUG" "${LOG_DEBUG_COLOR}"; }
 log_captains()  {
     if type -P figlet >/dev/null;
     then
