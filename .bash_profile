@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
+ #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
+(set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
+
+
 # Load dependencies {{
 . .bashrc.d/utils.sh
 
 . .bashrc.d/log4bash.sh
 log_info Load dependency log4bash
 # }}
-
- #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
-(set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
 
 # Load seperate shell dotfiles {{
 #   func    should contain some simple thing to support after config.
@@ -36,6 +37,7 @@ done
 # }} dotfiles
 
 unset file
+
 
 # sshopt {{
 # Case-insensitive globbing (used in pathname expansion)

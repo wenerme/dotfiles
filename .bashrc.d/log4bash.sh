@@ -61,7 +61,7 @@ DOC-HERE
 [ -z "$LOG4BASH_LOG_LEVEL" ] && export LOG4BASH_LOG_LEVEL=WARN
 
 
-# 如果颜色数量大于等于 8 则使用带色的日志
+# Detecte is terminal support colors
 if [[ `tput colors` -lt 8 ]]
 then
     # Then we don't care about log colors
@@ -78,7 +78,7 @@ else
     LOG_SUCCESS_COLOR="\033[1;32m"
     LOG_WARN_COLOR="\033[1;33m"
     LOG_DEBUG_COLOR="\033[1;34m"
-fi
+fi &>/dev/null # Supress ERROR: tput: No value for $TERM and no -T specified
 
 # This function scrubs the output of any control characters used in colorized output
 # It's designed to be piped through with text that needs scrubbing.  The scrubbed

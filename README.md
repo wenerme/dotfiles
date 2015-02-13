@@ -1,6 +1,15 @@
 dotfiles
 ========
 
+可检测的配置
+
+*  Homebrew
+
+## 要求
+
+* bash 4+
+
+## 目录说明
 .font
 	包含了一些我喜欢的字体文件
 .bashrc.d
