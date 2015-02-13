@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# For test
+command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
+
 
 FAILED()
 {
@@ -43,4 +46,3 @@ test_log4bash
 
 
 
-    

@@ -6,10 +6,11 @@
 	name = wener
 	email = wenermail@gmail.com
 [alias]
+	master = checkout master
 	ci = commit
 	co = checkout
 	loggo = log --graph --oneline
-	loggod = log --graph --oneline --decorate
+	l = log --graph --oneline --decorate
 	logg = log --graph
 	sti = status --ignored
 	st = status

@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# for test
+command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
+
+
 # 检测系统
 osis()
 {
@@ -67,6 +71,20 @@ try_prepand_manpath()
 			{ log_info Prepand manpath \'$p\' ;export $MANPATH="$p:$MANPATH"; }
 	done
 }
+
+try_source()
+{
+	if [ -f "$1" ]; then
+		log_info Source "$1"
+		. "$1"
+		return 0
+	fi
+	log_debug Source failed, "$1" not a file
+	return 1
+}
+
+
+
 
 # Document
 

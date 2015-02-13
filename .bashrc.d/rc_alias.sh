@@ -64,7 +64,7 @@ iscmd ifconfig || alias ifconfig="ipconfig"
 iscmd ipconfig || alias ipconfig="ifconfig"
 
 
-alias lrc="(cd ~;. .bash_profile)" # reload run configuration
+alias lrc="{pushd $PWD;cd ~;. .bashrc;popd}" # reload run configuration
 
 # 测试命令是否存在
 # type foo >/dev/null 2>&1 || { echo >&2 "I require foo but it's not installed.  Aborting."; exit 1; }

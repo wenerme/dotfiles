@@ -9,6 +9,8 @@ dotfiles
 
 * bash 4+
 
+
+
 ## rc 加载顺序
 
 ```
@@ -68,6 +70,11 @@ lst 以树形显示, 在没有 tree 命令的时候很有用
 from [man bash](http://linux.die.net/man/1/bash).
 
 # Document
+
+# Misc
+
+* 因为针对的是 bash 4+,所以使用bash-completion时要求使用[bash-completion2](https://github.com/Homebrew/homebrew-versions)
+	brew 默认是 bash-completion,因为 OS 默认的 Bash 是3+的
 
 # Reference
 

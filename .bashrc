@@ -37,17 +37,17 @@ log_info Load dependency utils,log4bash
 #   extra   will not commit, custom thing
 # The order is matter.
 
-log_debug Load seperate shell dotfiles
-for file in .bashrc.d/rc_{func,exports,prompt,alias,after,extra};
+log_debug Detect seperate rc
+for file in .bashrc.d/rc_{func,exports,prompt,alias,after,extra}.sh;
 do
     [ -r "$file" ] && [ -f "$file" ] && { source "$file" ; log_info Load rc $file;continue; }
 done
 
-log_debug Load optional rc
-find ~/.bashrc.d/ -type f -iname "rc_my_*" -print0 | while IFS= read -r -d $'\0' line; do
+log_debug Detect optional rc
+find .bashrc.d/ -type f -iname "rc_my_*" | while read -r file; do
     # [ -r "$file" ] || chmod +x $file
-    log_info Load optional rc $file
-    source "$line"
+    log_info Load optional rc ${file}
+    source "$file"
 done
 
 unset file

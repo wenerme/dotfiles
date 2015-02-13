@@ -2,62 +2,72 @@
 # For test
 command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
-# completion {{
-# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-[ -e "$HOME/.ssh/config" ] &&
-complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
-
-# Add tab completion for `defaults read|write NSGlobalDomain`
-# You could just use `-g` instead, but I like being explicit
-complete -W "NSGlobalDomain" defaults
-
-# Add `killall` tab completion for common apps
-complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
-
-# If possible, add tab completion for many more commands
-[ -f /etc/bash_completion ] && source /etc/bash_completion
-# }} completion
-
 # Homebrew {{
 iscmd brew &&
 {
-log_debug Detect Homebrew
-# I prefer gnu's
+log_debug Homebrew detected
+
+log_debug Prefer to use homebeww\'s coreutils,not g prefix
 try_prepand_path /usr/local/opt/coreutils/libexec/gnubin
+try_prepand_manpath /usr/local/opt/coreutils/libexec/gnuman
 
-( echo ${MANPATH} |\
-    grep "/usr/local/opt/coreutils/libexec/gnuman:" > /dev/null ) || \
-    export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-# Load bash_completion
-if [ -f $(brew --prefix)/etc/bash_completion ]; then
-    . $(brew --prefix)/etc/bash_completion
-fi
+# Try load bash_completion
+try_source $(brew --prefix)/etc/bash_completion && log_info Load bash_completion $_
+try_source $(brew --prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
 
 # Load formula completion
-find -L `brew --prefix`/etc/bash_completion.d -type f -print0 | while IFS= read -r -d $'\0' line; do
-    . ${line}
+find -L `brew --prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do
+	log_debug Load completion ${file}
+    . ${file} 2>&1 | {
+        read -d "\0" -t 0.01 error
+		[ -z "$error" ] || log_warn Load completion ${file} failed: "\n${error}"
+    }
 done
+unset -v file error
 }
 # }} Homebrew
 
 # npm {{
 iscmd npm &&
 {
-log_debug Detect npm
+	log_debug npm detected
 
-try_prepand_path "`npm config get prefix`/bin"
-
+	log_info Add npm/bin to PATH
+	try_prepand_path "`npm config get prefix`/bin"
 }
 # }} npm
 
 
+# Set up java path
+[[ -f /usr/libexec/java_home ]] &&
+{
+	log_debug Java detected
+	[[ -z "$JAVA_HOME" ]] && export JAVA_HOME=`/usr/libexec/java_home`
+	export JAVA_1_7_HOME=`/usr/libexec/java_home -v 1.7`
+
+	for v in 1.5 1.6 1.7 1.8;
+	do
+		/usr/libexec/java_home -v ${v} &>/dev/null &&
+		{
+			p=`/usr/libexec/java_home -v ${v}`
+			log_info Set "JAVA_${v/./_}_HOME"="$p"
+			export "JAVA_${v/./_}_HOME"="$p"
+		}
+	done
+
+	[[ -z "$M2_HOME" ]] && [[ -e ~/.m2 ]] && export M2_HOME=~/.m2
+
+	unset -v v p
+}
+
 
 osis Darwin &&
 {
-    log_debug Detect mac osx
+    log_debug Mac osx detected
+	iscmd mvim && iscmd -n gvim && alias gvim="mvim"
 }
 
+# 以下大多为历史遗留问题
 
 osis Linux &&
 {
@@ -107,6 +117,16 @@ osis Linux &&
 
 osis Cygwin &&
 {
+	log_debug Cygwin detected
+
+    # cygwin下cmd不是很好用 这样可以弹出一个cmd
+    alias cmdk='cygstart cmd /k'
+    alias cmdc='cygstart cmd /c'
+
+    # mingw 版的gcc
+    iscmd i686-w64-mingw32-gcc && alias mgcc='i686-w64-mingw32-gcc'
+
+
 	# ====================
 	# PATH
 	# ====================
@@ -161,13 +181,6 @@ osis Cygwin &&
     # alias gvim='/env/vim/vim74/gvim'
     # alias gvim='cmd /c "set SHELL=cmd & `cygpath -d /env/vim/vim74/gvim.exe`"'
     # alias vim='cmd /c "set SHELL=cmd & start vim"'
-
-    # cygwin下cmd不是很好用 这样可以弹出一个cmd
-    alias cmdk='cygstart cmd /k'
-    alias cmdc='cygstart cmd /c'
-
-    # mingw 版的gcc
-    alias mgcc='i686-w64-mingw32-gcc'
 
 	# ecplise
 	alias eclipse='/env/eclipse64/standard/eclipse'

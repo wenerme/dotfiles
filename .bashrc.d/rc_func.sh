@@ -21,6 +21,16 @@ function o()
     command -v open > /dev/null && open $opath && return
 }
 
+# print the header (the first line of input)
+# and then run the specified command on the body (the rest of the input)
+# use it in a pipeline, e.g. ps | body grep somepattern
+# see http://unix.stackexchange.com/a/11859/47774
+body() {
+    IFS= read -r header
+    printf '%s\n' "$header"
+    "$@"
+}
+
 # 显示exe文件包含的dll
 # objdump a.exe -p|grep DLL\ [^:]\*|sed 's/^\s*//g'
 # objdump rex_pcre.dll -p|sed 's/^\s*DLL[^:：]*[:：]\s*\(.*\)/\t\1/p' -n
