@@ -9,6 +9,16 @@ dotfiles
 
 * bash 4+
 
+## rc 加载顺序
+
+```
+.bashrc -> .bash_profile -> utils.sh -> log4bash.sh ->
+func,exports,prompt,alias,extra,after -> rc_my
+```
+
+## 扩展和自定义
+可在 .bashrc.d 下添加自己的扩展配置,文件名格式为 `rc_my_*`.会在 after 后加载
+
 ## 目录说明
 .font
 	包含了一些我喜欢的字体文件
@@ -62,3 +72,4 @@ from [man bash](http://linux.die.net/man/1/bash).
 # Reference
 
 * [Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/)
+* [What rc mean ?](http://unix.stackexchange.com/a/3469/47774)
