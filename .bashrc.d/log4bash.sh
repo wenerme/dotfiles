@@ -132,7 +132,7 @@ log() {
 }
 
 
-log_info()      { log "$*"; }
+log_info()      { log "$*" "INFO" "${LOG_INFO_COLOR}"; }
 log_success()   { log "$*" "SUCCESS" "${LOG_SUCCESS_COLOR}"; }
 log_error()     { log "$*" "ERROR" "${LOG_ERROR_COLOR}"; }
 log_warn()      { log "$*" "WARN" "${LOG_WARN_COLOR}"; }

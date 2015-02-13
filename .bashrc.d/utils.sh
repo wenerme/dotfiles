@@ -46,6 +46,27 @@ iscontains ()
     return $(( $n ^ 1 ))
 }
 
+# 尝试将给定路径添加到 PATH 中
+try_prepand_path()
+{
+	for p in "$@"
+	do
+		(echo $PATH | grep "$p:" > /dev/null ) &&
+			log_debug Ignore prepand \'$p\',alread in PATH ||
+			{ log_info Prepand path \'$p\' ;export PATH="$p:$PATH"; }
+	done
+}
+
+# 尝试将给定路径添加到 MANPATH 中
+try_prepand_manpath()
+{
+	for p in "$@"
+	do
+		(echo $MANPATH | grep "$p:" > /dev/null ) &&
+			log_debug Ignore prepand \'$p\',alread in MANPATH ||
+			{ log_info Prepand manpath \'$p\' ;export $MANPATH="$p:$MANPATH"; }
+	done
+}
 
 # Document
 

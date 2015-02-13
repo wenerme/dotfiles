@@ -23,9 +23,8 @@ iscmd brew &&
 {
 log_debug Detect Homebrew
 # I prefer gnu's
-(echo $PATH |\
-    grep "/usr/local/opt/coreutils/libexec/gnubin:" > /dev/null )|| \
-    export PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
+try_prepand_path /usr/local/opt/coreutils/libexec/gnubin
+
 ( echo ${MANPATH} |\
     grep "/usr/local/opt/coreutils/libexec/gnuman:" > /dev/null ) || \
     export MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
@@ -41,6 +40,16 @@ find -L `brew --prefix`/etc/bash_completion.d -type f -print0 | while IFS= read 
 done
 }
 # }} Homebrew
+
+# npm {{
+iscmd npm &&
+{
+log_debug Detect npm
+
+try_prepand_path "`npm config get prefix`/bin"
+
+}
+# }} npm
 
 
 
