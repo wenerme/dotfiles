@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
- #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
+[[ ${BASH_VERSINFO[0]} -lt 4 ]] && { echo "Require bash 4+,$BASH_VERSINFO dectected";exit 0;}
+
+#Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
 
 # sshopt {{
