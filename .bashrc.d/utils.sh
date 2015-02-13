@@ -1,85 +1,84 @@
 #!/usr/bin/env bash
 
-bash_doc()
-{
-# reset file
-if [ $# -gt 0 ]
-then
-	[ "$1" = "reset" ] && rm /tmp/bash_doc_temporary 2> /dev/null
-return
-fi
-
-local IN
-read -t 0.001 -r -d "\0" IN
-if [ -z "$IN" ]; then
-	echo do cat
-	cat /tmp/bash_doc_temporary 2> /dev/null
-else
-	echo "$IN" >> /tmp/bash_doc_temporary
-fi
-}
-bash_doc reset
-
 # 检测系统
 osis()
 {
+	local n=0
+	if [[ "$1" = "-n" ]]; then n=1;shift; fi
+
     # echo $OS|grep $1 -i >/dev/null
-    uname -s |grep -i $1 >/dev/null
-    return $?
+    uname -s |grep -i "$1" >/dev/null
+
+	return $(( $n ^ $? ))
 }
 
 # 检测 term
 termis()
 {
+	local n=0
+	if [[ "$1" = "-n" ]]; then n=1;shift; fi
+
     echo $TERM |grep $1 -i >/dev/null
-    return $?
+
+    return $(( $n ^ $? ))
 }
 
 # Command exists
 iscmd()
 {
+	local n=0
+	if [[ "$1" = "-n" ]]; then n=1;shift; fi
+
     command -v $1 > /dev/null
-    return $?
+
+    return $(( $n ^ $? ))
 }
 
 # 判断元素是否在数组中
-iscontains () {
+iscontains ()
+{
+	local n=0
+	if [[ "$1" = "-n" ]]; then n=1;shift; fi
+
     local e
-    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return 0; done
-    return 1
+    for e in "${@:2}"; do [[ "$e" == "$1" ]] && return $(( $n ^ 0 )); done
+
+    return $(( $n ^ 1 ))
 }
 
 
 # Document
 
-bash_doc <<EOF
+echo -n <<'DOC-HERE'
 ## utils.sh
-工具类
-### bash_doc
-将输入的内存暂存,主要用于 shell 中的文档创建,示例
+辅助操作
+
+
+### Commands
+command | args | description
+----|---|---
+osis| -n |判断操作系统
+termis| -n | 判断 term 类型
+iscmd | -n | 判断是否为可执行命令
+iscontains | -n | 判断数组是否包含指定元素
+
+* -n for negative
+
+### Examples
+```
+iscmd cls || alias cls="echo -en '\ec'"
+iscmd clear ||  alias clear="cls"
+
+osis Cygwin && {
+	# Cygwin stuff
+}
+osis Linux && {
+	# Linux stuff
+}
+osis Darwin && {
+	# Mac OS X stuff
+}
 
 ```
-$ bash_doc <<DOC
-some doc for a
-DOC
-$ bash_doc <<DOC
-some doc for b
-DOC
+DOC-HERE
 
-$ bash_doc
-some doc for a
-some doc for b
-$ bash_doc reset # clean all
-```
-
-### osis
-判断操作系统
-
-### termis
-判断 term
-
-### iscmd
-判断是否为可执行命令
-### iscontains
-判断是否包含指定元素
-EOF

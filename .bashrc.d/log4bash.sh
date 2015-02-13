@@ -30,31 +30,26 @@ http://github.com/fredpalmer/log4bash
 * use `tput colors` to test the term
 
 ### Commands
-```
-log message level color
-log_speak
-log_debug
-log_info
-log_warn
-log_error
-log_success
-log_captains
-log_campfire
-```
-### Log level
-```
-DEBUG
-INFO
-SUCCESS
-WARN
-ERROR
-NONE
-```
+command | args | description
+----|---|---
+log | message level color | Basic log command
+log_speak | msg | speak out
+log_debug | msg | DEBUG level
+log_info | msg | INFO level
+log_warn | msg | WARN level
+log_error | msg | ERROR level
+log_success | msg | SUCCESS level
+log_captains | msg |
+log_campfire | msg |
+log_level | [level] | set/get log level
 
+### Log level
 Use level like this
-```
+```shell
 log_level WARN # Only show WARN ERROR
 log_level DEBUG # Only show DEBUG, no WARN
+log_level NONE # no log
+log_level # display log level
 ```
 DOC-HERE
 
