@@ -1,9 +1,7 @@
 #!/usr/bin/env bash
 
-# {{ Deal the path first
-# Add `~/bin` to the `$PATH`
-(echo $PATH | grep "$HOME/bin:" > /dev/null )|| export PATH="$HOME/bin:$PATH"
-# }}
+try_prepend_path "$HOME/bin/"
+try_prepend_manpath "$HOME/man/"
 
 # Make vim the default editor
 export EDITOR="vim"

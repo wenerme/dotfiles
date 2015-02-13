@@ -51,7 +51,7 @@ iscontains ()
 }
 
 # 尝试将给定路径添加到 PATH 中
-try_prepand_path()
+try_prepend_path()
 {
 	for p in "$@"
 	do
@@ -62,7 +62,7 @@ try_prepand_path()
 }
 
 # 尝试将给定路径添加到 MANPATH 中
-try_prepand_manpath()
+try_prepend_manpath()
 {
 	for p in "$@"
 	do

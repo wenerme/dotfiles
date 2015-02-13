@@ -8,8 +8,8 @@ iscmd brew &&
 log_debug Homebrew detected
 
 log_debug Prefer to use homebeww\'s coreutils,not g prefix
-try_prepand_path /usr/local/opt/coreutils/libexec/gnubin
-try_prepand_manpath /usr/local/opt/coreutils/libexec/gnuman
+try_prepend_path /usr/local/opt/coreutils/libexec/gnubin
+try_prepend_manpath /usr/local/opt/coreutils/libexec/gnuman
 
 # Try load bash_completion
 try_source $(brew --prefix)/etc/bash_completion && log_info Load bash_completion $_
@@ -33,7 +33,7 @@ iscmd npm &&
 	log_debug npm detected
 
 	log_info Add npm/bin to PATH
-	try_prepand_path "`npm config get prefix`/bin"
+	try_prepend_path "`npm config get prefix`/bin"
 }
 # }} npm
 
