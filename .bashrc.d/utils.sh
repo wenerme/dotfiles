@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # for test
-command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
+# command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
 
 
 # 检测系统
@@ -66,9 +66,9 @@ try_prepand_manpath()
 {
 	for p in "$@"
 	do
-		(echo $MANPATH | grep "$p:" > /dev/null ) &&
+		(echo "$MANPATH" | grep "$p:" > /dev/null ) &&
 			log_debug Ignore prepand \'$p\',alread in MANPATH ||
-			{ log_info Prepand manpath \'$p\' ;export $MANPATH="$p:$MANPATH"; }
+			{ log_info Prepand manpath \'$p\' ;export MANPATH="$p:$MANPATH"; }
 	done
 }
 
