@@ -100,6 +100,9 @@ osis| -n |判断操作系统
 termis| -n | 判断 term 类型
 iscmd | -n | 判断是否为可执行命令
 iscontains | -n | 判断数组是否包含指定元素
+try_prepend_path | | 如果给定路径不在 PATH 中,则添加
+try_prepend_manpath | | 如果给定路径不在  MANPATH 中,则添加
+try_source | | 尝试 source 文件
 
 * -n for negative
 

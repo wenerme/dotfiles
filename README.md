@@ -71,6 +71,11 @@ from [man bash](http://linux.die.net/man/1/bash).
 
 # Document
 
+## Alias
+
+## Command
+
+
 # Misc
 
 * 因为针对的是 bash 4+,所以使用bash-completion时要求使用[bash-completion2](https://github.com/Homebrew/homebrew-versions)

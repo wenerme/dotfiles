@@ -61,12 +61,6 @@ iscmd npm &&
 }
 
 
-osis Darwin &&
-{
-    log_debug Mac osx detected
-	iscmd mvim && iscmd -n gvim && alias gvim="mvim"
-}
-
 # 以下大多为历史遗留问题
 
 osis Linux &&

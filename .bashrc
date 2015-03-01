@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+pushd $PWD
+
 #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
 
@@ -121,4 +123,5 @@ BASHRC_LOADED=yes
 # Back to load .bashrc
 [ -f .bash_profile ] && source .bash_profile
 
+popd
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:
