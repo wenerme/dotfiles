@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 pushd $PWD
+cd ~
 
 #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
@@ -112,8 +113,9 @@ elif ! agent_has_keys; then
 fi
 
 unset env
+unset -f agent_is_running agent_load_env agent_is_running agent_start agent_has_keys
 
-}
+}# [ -e ~/.ssh/agent.env ]
 
 # }} ssh agent
 
