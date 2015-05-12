@@ -115,7 +115,7 @@ fi
 unset env
 unset -f agent_is_running agent_load_env agent_is_running agent_start agent_has_keys
 
-}# [ -e ~/.ssh/agent.env ]
+} # [ -e ~/.ssh/agent.env ]
 
 # }} ssh agent
 
@@ -126,4 +126,6 @@ BASHRC_LOADED=yes
 [ -f .bash_profile ] && source .bash_profile
 
 popd
+
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:
+

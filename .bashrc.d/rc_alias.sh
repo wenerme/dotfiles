@@ -92,5 +92,8 @@ alias gbk2utf8="iconv -f gbk -t utf-8"
 # 在已经打开的窗口中打开 vim
 iscmd gvim && alias gvimr="gvim --remote"
 
+# XD
+alias fuck='sudo $(fc -ln -1)'
+
 
 # vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
