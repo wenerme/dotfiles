@@ -209,4 +209,25 @@ function tre()
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
 
+# Instant Server for Current Directory
+# https://gist.github.com/JeffreyWay/1525217
+function server()
+{
+	local port=${1:-8000}
+	iscmd python && {
+		(sleep 1 && o "http://localhost:${port}/")&
+		python -m SimpleHTTPServer ${port}
+	}
+
+	iscmd npm && (npm -g ls --depth=0 | grep server@) >/dev/null && {
+		# Use npm server
+		(sleep 1 && o "http://localhost:${port}/")&
+		server ${port}
+	}
+
+	iscmd php && {
+		(sleep 1 && o "http://localhost:${port}/")&
+		php -S localhost:${port}
+	}
+}
 # vim: set foldmarker={{,}} foldlevel=0 foldmethod=marker:

@@ -35,7 +35,7 @@ iscmd npm &&
 	log_debug npm detected
 
 	log_info Add npm/bin to PATH
-	try_prepend_path "~/go/bin"
+	try_prepend_path "`npm config get prefix`/bin"
 }
 # }} npm
 

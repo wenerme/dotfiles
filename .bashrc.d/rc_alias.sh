@@ -93,7 +93,15 @@ alias gbk2utf8="iconv -f gbk -t utf-8"
 iscmd gvim && alias gvimr="gvim --remote"
 
 # XD
-alias fuck='sudo $(fc -ln -1)'
+alias please='sudo $(fc -ln -1)'
 
 
+
+osis Darwin && {
+alias ports=netstat -tulanp tcp
+}
+
+osis Linux && {
+alias ports=netstat -tulanp
+}
 # vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
