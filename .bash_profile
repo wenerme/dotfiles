@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+[[ "~" == "$PWD" ]] || {
+pushd $PWD >/dev/null
+cd ~ >/dev/null
+CD_TO_HOME=yes
+}
+
 # 由于不确定加载顺序 所以为了保证两个都加载,就做了这样一个处理
 [ "$BASHRC_LOADED" == 'yes' ] || { . .bashrc; unset BASHRC_LOADED; }
 
