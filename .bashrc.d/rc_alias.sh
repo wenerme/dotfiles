@@ -98,10 +98,10 @@ alias please='sudo $(fc -ln -1)'
 
 
 osis Darwin && {
-alias ports=netstat -tulanp tcp
+alias ports="netstat -tulanp tcp"
 }
 
 osis Linux && {
-alias ports=netstat -tulanp
+alias ports="netstat -tulanp"
 }
 # vim: set foldmarker={,} foldlevel=0 foldmethod=marker:
