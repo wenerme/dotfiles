@@ -5,20 +5,28 @@ command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 # After all, we will try to detect the env and setup some otherthing
 
 # Homebrew {{
+
+# Detect linux brew
+[ -e ~/.linuxbrew/bin ] && try_prepend_path ~/.linuxbrew/bin/ && log_info Detect linuxbrew/bin add to PATH $_
+
 iscmd brew &&
 {
 log_debug Homebrew detected
 
-log_debug Prefer to use homebeww\'s coreutils,not g prefix
-try_prepend_path /usr/local/opt/coreutils/libexec/gnubin
-try_prepend_manpath /usr/local/opt/coreutils/libexec/gnuman
+[ -e /usr/local/opt/coreutils ] && 
+{
+    log_debug Prefer to use homebeww\'s coreutils,not g prefix
+    try_prepend_path /usr/local/opt/coreutils/libexec/gnubin
+    try_prepend_manpath /usr/local/opt/coreutils/libexec/gnuman
+}
 
 # Try load bash_completion
 try_source $(brew --prefix)/etc/bash_completion && log_info Load bash_completion $_
 try_source $(brew --prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
 
+ 
 # Load formula completion
-find -L `brew --prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do
+[ -e `brew --prefix`/etc/bash_completion.d ] && find -L `brew --prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do
 	log_debug Load completion ${file}
     . ${file} 2>&1 | {
         read -d "\0" -t 0.01 error
