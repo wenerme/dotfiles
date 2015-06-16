@@ -157,31 +157,27 @@ osis Cygwin &&
 
 	[[ -z "$M2" ]] && [[ -e ~/.m2 ]] && { log_info Detect M2;export M2=~/.m2; }
 
-	iscmd brew &&
+	# Detect some common java tools
+	# Detect M2_HOME, no need
+	isbrewed maven && [[ -z "$M2_HOME" ]] && false &&
 	{
-		# Detect M2_HOME
-		# M2_HOME 不需要配置
-		[[ -z "$M2_HOME" ]] && false &&
-		{
-			# 如果 brew 没有该包,则会设置为空
-			export M2_HOME=`brew --prefix maven` 2>/dev/null
-			# 如果设置失败,则删除该变量
-			[[ -z "$M2_HOME" ]] && unset -v M2_HOME || log_info Set M2_HOME=${M2_HOME}
-		}
-		# Detect HADOOP_HOME
-		[[ -z "$HADOOP_HOME" ]] &&
-		{
-			export HADOOP_HOME=`brew --prefix hadoop` 2>/dev/null
-			[[ -z "$HADOOP_HOME" ]] && unset -v HADOOP_HOME || log_info Set HADOOP_HOME=${HADOOP_HOME}
-		}
-		# Detect ZOOKEEPER_HOME
-		[[ -z "$ZOOKEEPER_HOME" ]] &&
-		{
-			export ZOOKEEPER_HOME=`brew --prefix zookeeper` 2>/dev/null
-			[[ -z "$ZOOKEEPER_HOME" ]] && unset -v ZOOKEEPER_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
-		}
+		# 如果 brew 没有该包,则会设置为空
+		export M2_HOME=`brew --prefix maven 2>/dev/null`
+		# 如果设置失败,则删除该变量
+		[[ -z "$M2_HOME" ]] && unset -v M2_HOME || log_info Set M2_HOME=${M2_HOME}
 	}
-
+	# Detect HADOOP_HOME
+	isbrewed hadoop && [[ -z "$HADOOP_HOME" ]] &&
+	{
+		export HADOOP_HOME=`brew --prefix hadoop 2>/dev/null`
+		[[ -z "$HADOOP_HOME" ]] && unset -v HADOOP_HOME || log_info Set HADOOP_HOME=${HADOOP_HOME}
+	}
+	# Detect ZOOKEEPER_HOME
+	isbrewed zookeeper && [[ -z "$ZOOKEEPER_HOME" ]] &&
+	{
+		export ZOOKEEPER_HOME=`brew --prefix zookeeper 2>/dev/null`
+		[[ -z "$ZOOKEEPER_HOME" ]] && unset -v ZOOKEEPER_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
+	}
 	unset -v v p
 }
 

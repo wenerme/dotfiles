@@ -75,7 +75,7 @@ try_prepend_manpath()
 try_source()
 {
 	if [ -f "$1" ]; then
-		log_info Source "$1"
+		log_debug Source "$1"
 		. "$1"
 		return 0
 	fi
@@ -83,9 +83,12 @@ try_source()
 	return 1
 }
 
-
-
-
+# Detect have this formula
+isbrewed()
+{
+	iscmd brew || return 1
+	brew --prefix $1 1>/dev/null 2>/dev/null
+}
 # Document
 
 echo -n <<'DOC-HERE'
