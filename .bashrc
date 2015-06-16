@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-DEBUGGING=true
+# DEBUGGING=true
 [[ -z "$DEBUGGING" ]] || command -v osis &>/dev/null || { . .bashrc.d/utils.sh ; . .bashrc.d/log4bash.sh; log_level DEBUG; }
 
 [[ "~" == "$PWD" ]] || {
