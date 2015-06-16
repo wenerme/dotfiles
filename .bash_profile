@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-[[ "~" == "$PWD" ]] || {
-pushd $PWD >/dev/null
-cd ~ >/dev/null
+[ "$HOME" = "$PWD" ] || {
+command -v osis &>/dev/null && log_info Load from .bash_profile && log_info Will CD to HOME for Loading RC, PWD is `pwd`
+pushd "$HOME" >/dev/null
 CD_TO_HOME=yes
 }
 

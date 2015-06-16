@@ -2,10 +2,9 @@
 # DEBUGGING=true
 [[ -z "$DEBUGGING" ]] || command -v osis &>/dev/null || { . .bashrc.d/utils.sh ; . .bashrc.d/log4bash.sh; log_level DEBUG; }
 
-[[ "~" == "$PWD" ]] || {
+[ "$HOME" = "$PWD" ] || {
 command -v osis &>/dev/null && log_info Will CD to HOME for Loading RC, PWD is `pwd`
-pushd `pwd` >/dev/null
-cd ~ >/dev/null
+pushd "$HOME" >/dev/null
 CD_TO_HOME=yes
 }
 
@@ -135,8 +134,9 @@ BASHRC_LOADED=yes
 [ -f .bash_profile ] && source .bash_profile
 
 [ -z "$CD_TO_HOME" ] || {
-log_info Current is CD to HOME to load rc, will popd now
-log_info popd from HOME to `popd`
+log_debug Current is CD to HOME to load rc, will popd now
+popd >/dev/null
+log_info popd from HOME to $PWD
 #popd >/dev/null
 unset -v CD_TO_HOME
 }
