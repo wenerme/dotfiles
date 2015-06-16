@@ -127,7 +127,7 @@ log() {
 
 	if [ $level -gt $allowed_level ];then return 0;fi;
 
-    echo -e "${log_color}[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text} ${LOG_DEFAULT_COLOR}";
+    echo -e ${log_color}[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text} ${LOG_DEFAULT_COLOR};
     return 0;
 }
 

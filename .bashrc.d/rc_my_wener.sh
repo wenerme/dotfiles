@@ -5,55 +5,7 @@ command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 # wener's personal configuration
 # XD
 
-# Set up java path
-[[ -f /usr/libexec/java_home ]] &&
-{
-	log_debug Java detected
-	[[ -z "$JAVA_HOME" ]] && export JAVA_HOME=`/usr/libexec/java_home`
-
-	for v in 1.5 1.6 1.7 1.8;
-	do
-		/usr/libexec/java_home -v ${v} &>/dev/null &&
-		{
-			p=`/usr/libexec/java_home -v ${v}`
-			log_info Set "JAVA_${v/./_}_HOME"="$p"
-			export "JAVA_${v/./_}_HOME"="$p"
-		}
-	done
-
-	[[ -z "$M2" ]] && [[ -e ~/.m2 ]] && { log_info Detect M2;export M2=~/.m2; }
-
-	iscmd brew &&
-	{
-		# Detect M2_HOME
-		# M2_HOME 不需要配置
-		[[ -z "$M2_HOME" ]] && false &&
-		{
-			# 如果 brew 没有该包,则会设置为空
-			export M2_HOME=`brew --prefix maven` 2>/dev/null
-			# 如果设置失败,则删除该变量
-			[[ -z "$M2_HOME" ]] && unset -v M2_HOME || log_info Set M2_HOME=${M2_HOME}
-		}
-		# Detect HADOOP_HOME
-		[[ -z "$HADOOP_HOME" ]] &&
-		{
-			export HADOOP_HOME=`brew --prefix hadoop` 2>/dev/null
-			[[ -z "$HADOOP_HOME" ]] && unset -v HADOOP_HOME || log_info Set HADOOP_HOME=${HADOOP_HOME}
-		}
-		# Detect ZOOKEEPER_HOME
-		[[ -z "$ZOOKEEPER_HOME" ]] &&
-		{
-			export ZOOKEEPER_HOME=`brew --prefix zookeeper` 2>/dev/null
-			[[ -z "$ZOOKEEPER_HOME" ]] && unset -v ZOOKEEPER_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
-		}
-	}
-
-	unset -v v p
-}
-
-
-# 以下大多为历史遗留问题
-
+# Lagecy under Linux
 osis Linux &&
 {
 	# 检测 java 环境
@@ -99,7 +51,7 @@ osis Linux &&
 	}
 }
 
-
+# Lagecy under Windows
 osis Cygwin &&
 {
 	log_debug Cygwin detected
@@ -184,3 +136,61 @@ osis Cygwin &&
     export NODE_PATH=`cygpath -d /env/nodejs/node_modules/`
     export PATH
 }
+
+
+# Set up java path
+[[ -f /usr/libexec/java_home ]] &&
+{
+	log_debug Java detected
+	[[ -z "$JAVA_HOME" ]] && export JAVA_HOME=`/usr/libexec/java_home` &&
+		log_info Set JAVA_HOME=`/usr/libexec/java_home`
+
+	for v in 1.5 1.6 1.7 1.8;
+	do
+		/usr/libexec/java_home -v ${v} &>/dev/null &&
+		{
+			p=`/usr/libexec/java_home -v ${v}`
+			log_info Set "JAVA_${v/./_}_HOME"="$p"
+			export "JAVA_${v/./_}_HOME"="$p"
+		}
+	done
+
+	[[ -z "$M2" ]] && [[ -e ~/.m2 ]] && { log_info Detect M2;export M2=~/.m2; }
+
+	iscmd brew &&
+	{
+		# Detect M2_HOME
+		# M2_HOME 不需要配置
+		[[ -z "$M2_HOME" ]] && false &&
+		{
+			# 如果 brew 没有该包,则会设置为空
+			export M2_HOME=`brew --prefix maven` 2>/dev/null
+			# 如果设置失败,则删除该变量
+			[[ -z "$M2_HOME" ]] && unset -v M2_HOME || log_info Set M2_HOME=${M2_HOME}
+		}
+		# Detect HADOOP_HOME
+		[[ -z "$HADOOP_HOME" ]] &&
+		{
+			export HADOOP_HOME=`brew --prefix hadoop` 2>/dev/null
+			[[ -z "$HADOOP_HOME" ]] && unset -v HADOOP_HOME || log_info Set HADOOP_HOME=${HADOOP_HOME}
+		}
+		# Detect ZOOKEEPER_HOME
+		[[ -z "$ZOOKEEPER_HOME" ]] &&
+		{
+			export ZOOKEEPER_HOME=`brew --prefix zookeeper` 2>/dev/null
+			[[ -z "$ZOOKEEPER_HOME" ]] && unset -v ZOOKEEPER_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
+		}
+	}
+
+	unset -v v p
+}
+
+# Google cloud sdk
+[ -e ~/google-cloud-sdk ] &&
+{
+    log_info Detect google cloud sdk, will source completion and path
+    source ~/google-cloud-sdk/completion.bash.inc
+    source ~/google-cloud-sdk/path.bash.inc
+}
+
+[ "$$" != "$BASHPID" ] && log_warn Not in main process, $$ - $BASHPID

@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
+DEBUGGING=true
+[[ -z "$DEBUGGING" ]] || command -v osis &>/dev/null || { . .bashrc.d/utils.sh ; . .bashrc.d/log4bash.sh; log_level DEBUG; }
 
 [[ "~" == "$PWD" ]] || {
-pushd $PWD >/dev/null
+command -v osis &>/dev/null && log_info Will CD to HOME for Loading RC, PWD is `pwd`
+pushd `pwd` >/dev/null
 cd ~ >/dev/null
 CD_TO_HOME=yes
 }
+
+[[ ${DEBUGGING} != "" && ${CD_TO_HOME} != "" ]] && { log_info Unset CD to HOME in DEBUGGING;popd >/dev/null;unset -v CD_TO_HOME;}
 
 #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
@@ -43,18 +48,19 @@ log_info Load dependency utils,log4bash
 #   extra   will not commit, custom thing
 # The order is matter.
 
-log_debug Detect seperate rc
+log_debug Detect seperate rc, current PATH is "$PATH"
 for file in .bashrc.d/rc_{func,exports,prompt,alias,after,extra}.sh;
 do
-    [ -r "$file" ] && [ -f "$file" ] && { source "$file" ; log_info Load rc $file;continue; }
+    [ -r "$file" ] && [ -f "$file" ] && { log_info Load rc $file;continue;source "$file";log_debug Load ${file} complete ; }
 done
+log_debug Load seperate rc complete, current PATH is "$PATH"
 
 log_debug Detect optional rc
-find .bashrc.d/ -type f -iname "rc_my_*" | while read -r file; do
-    # [ -r "$file" ] || chmod +x $file
+while read -r file; do
     log_info Load optional rc ${file}
     source "$file"
-done
+    log_debug Load ${file} complete
+done < <(find .bashrc.d/ -type f -iname "rc_my_*" )
 
 unset file
 # }} dotfiles
@@ -128,9 +134,11 @@ BASHRC_LOADED=yes
 # Back to load .bashrc
 [ -f .bash_profile ] && source .bash_profile
 
-[[ "" == "$CD_TO_HOME" ]] || {
-popd >/dev/null
-unset CD_TO_HOME
+[ -z "$CD_TO_HOME" ] || {
+log_info Current is CD to HOME to load rc, will popd now
+log_info popd from HOME to `popd`
+#popd >/dev/null
+unset -v CD_TO_HOME
 }
 
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:

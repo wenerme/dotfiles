@@ -1,16 +1,4 @@
 # ignore all
+# use force add: $git add -f .gitignore
 *
-
-*_history
-*viminfo
-# temp files
-*.swp
-*.log
-*~
-
-!.font/
-!.bashrc.d/
-!.completion.d/
-!.tmux.d/
-
 

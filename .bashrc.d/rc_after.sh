@@ -9,6 +9,7 @@ command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 # Detect linux brew
 [ -e ~/.linuxbrew/bin ] && try_prepend_path ~/.linuxbrew/bin/ && log_info Detect linuxbrew/bin add to PATH $_
 
+# When detect brew
 iscmd brew &&
 {
 log_debug Homebrew detected
@@ -42,7 +43,7 @@ iscmd npm &&
 {
 	log_debug npm detected
 
-	log_info Add npm/bin to PATH
+	log_info Add npm/bin `npm config get prefix`/bin to PATH
 	try_prepend_path "`npm config get prefix`/bin"
 }
 # }} npm
@@ -51,16 +52,15 @@ iscmd npm &&
 # go {{
 iscmd go &&
 {
-	log_debug go detected
-
-	log_info Set GOPATH to ~/go
-	export GOPATH=~/go
+	log_debug Go detected
+	[[ -z "$GOPATH" ]]  && export GOPATH=~/go && log_info Set GOPATH to ~/go
 
 	log_info Add $GOPATH/bin to PATH
 	try_prepend_path $GOPATH/bin
 }
 # }} go
 
+log_debug After rc_after,the PATH become "$PATH"
 
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:
 

@@ -6,6 +6,8 @@
 	name = wener
 	email = wenermail@gmail.com
 [alias]
+	# This is my work any way
+	wener = checkout wener
 	master = checkout master
 	ci = commit
 	co = checkout
