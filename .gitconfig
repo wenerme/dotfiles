@@ -27,7 +27,7 @@
 [core]
 	autocrlf = input
 	safecrlf = false
-	quotepath = off
+	quotepath = false
 [credential]
 	helper = cache --timeout=3600
 [url "https://"]

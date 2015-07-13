@@ -50,7 +50,7 @@ log_info Load dependency utils,log4bash
 log_debug Detect seperate rc, current PATH is "$PATH"
 for file in .bashrc.d/rc_{func,exports,prompt,alias,after,extra}.sh;
 do
-    [ -r "$file" ] && [ -f "$file" ] && { log_info Load rc $file;continue;source "$file";log_debug Load ${file} complete ; }
+    [ -r "$file" ] && [ -f "$file" ] && { log_info Load rc $file;source "$file";log_debug Load ${file} complete ; }
 done
 log_debug Load seperate rc complete, current PATH is "$PATH"
 
@@ -127,11 +127,6 @@ unset -f agent_is_running agent_load_env agent_is_running agent_start agent_has_
 
 # }} ssh agent
 
-
-# ensure loaded
-BASHRC_LOADED=yes
-# Back to load .bashrc
-[ -f .bash_profile ] && source .bash_profile
 
 [ -z "$CD_TO_HOME" ] || {
 log_debug Current is CD to HOME to load rc, will popd now
