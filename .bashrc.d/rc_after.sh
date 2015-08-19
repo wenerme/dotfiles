@@ -38,6 +38,16 @@ unset -v file error
 }
 # }} Homebrew
 
+
+# nvm {{
+[ -e ~/.nvm/ ] &&
+{
+	log_debug nvm detected
+	export NVM_DIR=~/.nvm
+	source $(brew --prefix nvm)/nvm.sh
+}
+# }} nvm
+
 # npm {{
 iscmd npm &&
 {
