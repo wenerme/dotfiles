@@ -1,17 +1,32 @@
 dotfiles
 ========
+简单易用的个人 Bash 配置.
 
-可检测的配置
+## 可检测的配置
 
-*  Homebrew
+* Homebrew
+* Linuxbrew
+* Java
+* Go
+* npm
+* nvm
+* bash_completion
 
 ## 要求
 
 * bash 4+
 
+## 安装
+```
+cd ~
+git init
+git remote add origin https://github.com/wenerme/dotfiles
+git fetch --depth=1
+# 注意: 该操作会覆盖现有文件
+git checkout -t origin/master -f
+```
 
-
-## rc 加载顺序
+## 加载顺序
 
 ```
 .bashrc -> .bash_profile -> utils.sh -> log4bash.sh ->
@@ -41,7 +56,7 @@ cls <-> clear
 
 gvimr = gvim --remote
 
-lrc = . ~/.bashrc 
+lrc = . ~/.bashrc
 	从新加载配置文件
 
 lst 以树形显示, 在没有 tree 命令的时候很有用
@@ -67,7 +82,7 @@ lst 以树形显示, 在没有 tree 命令的时候很有用
 ~/.inputrc
 	Individual readline initialization file
 ```
-from [man bash](http://linux.die.net/man/1/bash).
+From [man bash](http://linux.die.net/man/1/bash).
 
 # Document
 

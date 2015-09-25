@@ -217,17 +217,20 @@ function server()
 	iscmd python && {
 		(sleep 1 && o "http://localhost:${port}/")&
 		python -m SimpleHTTPServer ${port}
+        return
 	}
 
 	iscmd npm && (npm -g ls --depth=0 | grep server@) >/dev/null && {
 		# Use npm server
 		(sleep 1 && o "http://localhost:${port}/")&
 		server ${port}
+        return
 	}
 
 	iscmd php && {
 		(sleep 1 && o "http://localhost:${port}/")&
 		php -S localhost:${port}
+        return
 	}
 }
 # vim: set foldmarker={{,}} foldlevel=0 foldmethod=marker:

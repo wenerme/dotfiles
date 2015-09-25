@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-try_prepend_path "$HOME/bin/"
-try_prepend_manpath "$HOME/man/"
+try_prepend_path "$HOME/bin"
+try_prepend_manpath "$HOME/man"
+try_prepend_path "/usr/local/sbin"
 
 # Make vim the default editor
 export EDITOR="vim"

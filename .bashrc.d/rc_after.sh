@@ -7,14 +7,14 @@ command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 # Homebrew {{
 
 # Detect linux brew
-[ -e ~/.linuxbrew/bin ] && try_prepend_path ~/.linuxbrew/bin/ && log_info Detect linuxbrew/bin add to PATH $_
+[ -e ~/.linuxbrew/bin ] && try_prepend_path ~/.linuxbrew/bin && log_info Detect linuxbrew/bin add to PATH $_
 
 # When detect brew
 iscmd brew &&
 {
 log_debug Homebrew detected
 
-[ -e /usr/local/opt/coreutils ] && 
+[ -e /usr/local/opt/coreutils ] &&
 {
     log_debug Prefer to use homebeww\'s coreutils,not g prefix
     try_prepend_path /usr/local/opt/coreutils/libexec/gnubin
@@ -25,7 +25,7 @@ log_debug Homebrew detected
 try_source $(brew --prefix)/etc/bash_completion && log_info Load bash_completion $_
 try_source $(brew --prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
 
- 
+
 # Load formula completion
 [ -e `brew --prefix`/etc/bash_completion.d ] && find -L `brew --prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do
 	log_debug Load completion ${file}
@@ -73,4 +73,3 @@ iscmd go &&
 log_debug After rc_after,the PATH become "$PATH"
 
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:
-
