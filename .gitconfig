@@ -19,6 +19,9 @@
 	sts = status -s
     stsb = status -sb
     latest = clone --depth 1 -v --progress
+	# svn push
+	svnc = !git stash && git svn dcommit && git stash pop
+	svnr = !git stash && git svn rebase  && git stash pop
 [color]
     diff = auto
     status = auto
@@ -32,4 +35,3 @@
 	helper = cache --timeout=3600
 [url "https://"]
     # insteadOf = git://
-
