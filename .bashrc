@@ -2,13 +2,12 @@
 # DEBUGGING=true
 [[ -z "$DEBUGGING" ]] || command -v osis &>/dev/null || { . .bashrc.d/utils.sh ; . .bashrc.d/log4bash.sh; log_level DEBUG; }
 
-[ "$HOME" = "$PWD" ] || {
+# If we are not home, then we go HOME
+[ "$HOME" = "$PWD" -o "$WE_GO_HOME" = "no"  ] || {
 command -v osis &>/dev/null && log_info Will CD to HOME for Loading RC, PWD is `pwd`
 pushd "$HOME" >/dev/null
-CD_TO_HOME=yes
+WE_GO_HOME=yes
 }
-
-[[ ${DEBUGGING} != "" && ${CD_TO_HOME} != "" ]] && { log_info Unset CD to HOME in DEBUGGING;popd >/dev/null;unset -v CD_TO_HOME;}
 
 #Allow \r in shell see https://cygwin.com/ml/cygwin-announce/2010-08/msg00015.html
 (set -o igncr) 2>/dev/null && set -o igncr; # this comment is needed
@@ -33,8 +32,10 @@ done
 
 # Load dependencies {{
 . .bashrc.d/utils.sh
-
 . .bashrc.d/log4bash.sh
+
+[[ -z "$DEBUGGING" ]] || { log_level DEBUG; log_debug In debug mode.; }
+
 log_info Load dependency utils,log4bash
 # }}
 
@@ -128,13 +129,10 @@ unset -f agent_is_running agent_load_env agent_is_running agent_start agent_has_
 # }} ssh agent
 
 
-[ -z "$CD_TO_HOME" ] || {
+[ "$WE_GO_HOME" = "yes" ] && {
 log_debug Current is CD to HOME to load rc, will popd now
 popd >/dev/null
 log_info popd from HOME to $PWD
-#popd >/dev/null
-unset -v CD_TO_HOME
 }
-
+unset -v WE_GO_HOME
 # vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={{,}} foldlevel=0 foldmethod=marker:
-

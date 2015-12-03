@@ -4,7 +4,7 @@ command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
 osis Darwin &&
 {
-    log_debug Mac osx detected
+  log_debug Mac osx detected
 	iscmd mvim && iscmd -n gvim && alias gvim="mvim"
 
 	# Use VPN from terminal
@@ -34,6 +34,6 @@ osis Darwin &&
 	return
 	EOF
 	}
-  
+
   alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
 }

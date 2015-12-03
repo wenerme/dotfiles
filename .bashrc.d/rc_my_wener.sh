@@ -178,6 +178,14 @@ osis Cygwin &&
 		export ZOOKEEPER_HOME=`brew --prefix zookeeper 2>/dev/null`
 		[[ -z "$ZOOKEEPER_HOME" ]] && unset -v ZOOKEEPER_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
 	}
+
+	isbrewed groovy && [[ -z "$GROOVY_HOME" ]] &&
+	{
+		export GROOVY_HOME=/usr/local/opt/groovy/libexec
+		[[ -z "$GROOVY_HOME" ]] && unset -v GROOVY_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
+	}
+
+
 	unset -v v p
 }
 
