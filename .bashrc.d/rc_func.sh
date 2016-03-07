@@ -10,15 +10,15 @@ function o()
     fi
 
     # Windows
-    command -v cygstart > /dev/null && cygstart $opath && return
+    command -v cygstart > /dev/null && cygstart "$opath" && return
     # Windows
-    command -v cmd > /dev/null && cmd /c start $opath && return
+    command -v cmd > /dev/null && cmd /c start "$opath" && return
     # Centos
-    command -v nautilus > /dev/null && nautilus --browser $opath && return
+    command -v nautilus > /dev/null && nautilus --browser "$opath" && return
     # Linux Mint Cinnamon
-    command -v nemo > /dev/null && nemo $opath && return
+    command -v nemo > /dev/null && nemo "$opath" && return
     # Mac
-    command -v open > /dev/null && open $opath && return
+    command -v open > /dev/null && open "$opath" && return
 }
 
 # print the header (the first line of input)
@@ -43,7 +43,7 @@ incdll()
             echo $i: included
             # objdump $i -p|grep DLL\ [^:]:|sed 's/^.*:/\t/g'
             objdump $i -p|sed 's/^\s*DLL[^:：]*[:：]\s*\(.*\)/\t\1/p' -n
-            echo 
+            echo
         else
             echo incdll:\'$i\' file not exists or permission deny
         fi
@@ -97,7 +97,7 @@ if [ $? -eq 0 ]; then
 fi
 
 # Create a data URL from a file
-function dataurl() 
+function dataurl()
 {
     local mimeType=$(file -b --mime-type "$1")
     if [[ $mimeType == text/* ]]; then
@@ -107,7 +107,7 @@ function dataurl()
 }
 
 # Create a git.io short URL
-function gitio() 
+function gitio()
 {
     if [ -z "${1}" -o -z "${2}" ]; then
         echo "Usage: \`gitio slug url\`"
@@ -118,7 +118,7 @@ function gitio()
 
 # Start a PHP server from a directory, optionally specifying the port
 # (Requires PHP 5.4.0+.)
-function phpserver() 
+function phpserver()
 {
     local port="${1:-4000}"
     local ip=$(ipconfig getifaddr en1)
@@ -147,7 +147,7 @@ function escape()
 }
 
 # Decode \x{ABCD}-style Unicode escape sequences
-function unidecode() 
+function unidecode()
 {
     perl -e "binmode(STDOUT, ':utf8'); print \"$@\""
     # print a newline unless we’re piping the output to another program
@@ -157,7 +157,7 @@ function unidecode()
 }
 
 # Get a character’s Unicode code point
-function codepoint() 
+function codepoint()
 {
     perl -e "use utf8; print sprintf('U+%04X', ord(\"$@\"))"
     # print a newline unless we’re piping the output to another program
@@ -170,7 +170,7 @@ function codepoint()
 
 # Install Grunt plugins and add them as `devDependencies` to `package.json`
 # Usage: `gi contrib-watch contrib-uglify zopfli`
-function gi() 
+function gi()
 {
     local IFS=,
     eval npm install --save-dev grunt-{"$*"}
@@ -178,7 +178,7 @@ function gi()
 
 # `v` with no arguments opens the current directory in Vim, otherwise opens the
 # given location
-function v() 
+function v()
 {
     if [ $# -eq 0 ]; then
         vim .
@@ -189,7 +189,7 @@ function v()
 
 # `np` with an optional argument `patch`/`minor`/`major`/`<version>`
 # defaults to `patch`
-function np() 
+function np()
 {
     git pull --rebase && \
         npm install && \
@@ -204,7 +204,7 @@ function np()
 # the `.git` directory, listing directories first. The output gets piped into
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
-function tre() 
+function tre()
 {
     tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
 }
