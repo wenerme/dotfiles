@@ -40,16 +40,15 @@ log_info Load dependency utils,log4bash
 # }}
 
 # dotfiles {{
-#   func    should contain some simple thing to support after config.
+#   func    contain util funcs
 #   exports define PATH, variables
-#   prompt  define the prompt
+#   after   after basic env was setup, we need to detect current env
 #   alias   some usefual alias
-#   after   After all
-#   extra   will not commit, custom thing
+#   extra   should not commit, custom thing
 # The order is matter.
 
 log_debug Detect seperate rc, current PATH is "$PATH"
-for file in .bashrc.d/rc_{func,exports,prompt,alias,after,extra}.sh;
+for file in .bashrc.d/rc_{func,exports,after,alias,extra}.sh;
 do
     [ -r "$file" ] && [ -f "$file" ] && { log_info Load rc $file;source "$file";log_debug Load ${file} complete ; }
 done
@@ -67,7 +66,19 @@ unset file
 
 
 log_debug Set PS1 to name@host dir [time]
-export PS1="\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n# "
+# export PS1="\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]\n$ "
+export PROMPT_COMMAND=__prompt_command
+
+function __prompt_command() {
+    local EXIT="$?"             # This needs to be first
+    PS1="\[\e[32m\]\u@\h \[\e[01;33m\]\w \[\e[34m\][\t] \[\e[0m\]"
+
+    if [ $EXIT != 0 ]; then
+        PS1+="❗️"
+    fi
+
+    PS1+="\n$ "
+}
 
 # 尝试启动 ssh-agent {{
 [ -e ~/.ssh/agent.env ] && {

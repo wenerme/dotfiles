@@ -2,21 +2,21 @@
 # For test
 command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
-# After all, we will try to detect the env and setup some otherthing
+# After all, we will try to detect the env and setup some otherthings
 
 # Homebrew {{
 
 # Detect linux brew
 [ -e ~/.linuxbrew/bin ] && try_prepend_path ~/.linuxbrew/bin && log_info Detect linuxbrew/bin add to PATH $_
 
-# When detect brew
+# Detect brew
 iscmd brew &&
 {
 log_debug Homebrew detected
 
 [ -e /usr/local/opt/coreutils ] &&
 {
-    log_debug Prefer to use homebeww\'s coreutils,not g prefix
+    log_debug Prefer to use homebrew\'s coreutils,not g prefix
     try_prepend_path /usr/local/opt/coreutils/libexec/gnubin
     try_prepend_manpath /usr/local/opt/coreutils/libexec/gnuman
 }
@@ -34,6 +34,10 @@ try_source $(brew --prefix)/share/bash-completion/bash_completion && log_info Lo
 		[ -z "$error" ] || log_warn Load completion ${file} failed: "\n${error}"
     }
 done
+
+# Init command not found
+if brew command command-not-found-init >/dev/null 2>&1; then eval "$(brew command-not-found-init)"; fi
+
 unset -v file error
 }
 # }} Homebrew
@@ -60,6 +64,15 @@ iscmd npm &&
 
 
 # go {{
+
+# If we don't have go command detected, try /usr/local/go
+iscmd go || [ -e /usr/local/go ] &&
+{
+  log_debug Detect go at /usr/local/go
+  export GOROOT=/usr/local/go
+  try_prepend_path $GOROOT/bin
+}
+
 iscmd go &&
 {
 	log_debug Go detected
@@ -69,6 +82,14 @@ iscmd go &&
 	try_prepend_path $GOPATH/bin
 }
 # }} go
+
+# by SSHRC
+[ "$SSHHOME" ] &&
+{
+  # Will replace broken inputrc
+  [ -e ~/.inputrc ] || ln -fs $SSHHOME/.sshrc.d/.inputrc ~/.inputrc
+}
+
 
 log_debug After rc_after,the PATH become "$PATH"
 

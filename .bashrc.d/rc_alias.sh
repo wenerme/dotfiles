@@ -23,7 +23,8 @@ alias cd...="cd ../.."
 # {{
 
 # Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; 
+# TODO This will failed when we use brew, because we will change PATH later.
+if ls --color > /dev/null 2>&1;
 then # GNU `ls`
 	colorflag="--color"
 else # OS X `ls`
