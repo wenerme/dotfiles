@@ -66,7 +66,7 @@ iscmd npm &&
 # go {{
 
 # If we don't have go command detected, try /usr/local/go
-iscmd go || [ -e /usr/local/go ] &&
+! iscmd go && [ -e /usr/local/go ] &&
 {
   log_debug Detect go at /usr/local/go
   export GOROOT=/usr/local/go
