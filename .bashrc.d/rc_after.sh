@@ -35,6 +35,8 @@ try_source $(brew --prefix)/share/bash-completion/bash_completion && log_info Lo
     }
 done
 
+[[ -z "$ANDROID_HOME" ]] && isbrewed android && export ANDROID_HOME=/usr/local/opt/android-sdk
+
 # Init command not found
 if brew command command-not-found-init >/dev/null 2>&1; then eval "$(brew command-not-found-init)"; fi
 
@@ -49,6 +51,7 @@ unset -v file error
 	log_debug nvm detected
 	export NVM_DIR=~/.nvm
 	source $(brew --prefix nvm)/nvm.sh
+  iscmd node || nvm use node > /dev/null && log_debug nvm use node
 }
 # }} nvm
 
@@ -57,6 +60,7 @@ iscmd npm &&
 {
 	log_debug npm detected
 
+  alias npm-exec='PATH=$(npm bin):$PATH'
 	log_info Add npm/bin `npm config get prefix`/bin to PATH
 	try_prepend_path "`npm config get prefix`/bin"
 }
