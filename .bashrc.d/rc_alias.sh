@@ -96,7 +96,13 @@ iscmd gvim && alias gvimr="gvim --remote"
 # XD
 alias please='sudo $(fc -ln -1)'
 
-
+alias tolower="tr '[:upper:]' '[:lower:]'"
+alias toupper="tr '[:lower:]' '[:upper:]'"
+random-string()
+{
+    cat /dev/urandom | env LC_CTYPE=C tr -dc 'a-zA-Z0-9' | head -c 32
+		# tr -dc [:graph:] < /dev/urandom | head -c 32
+}
 
 osis Darwin && {
 alias ports="netstat -tulanp tcp"
