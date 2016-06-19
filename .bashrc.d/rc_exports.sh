@@ -69,13 +69,9 @@ mov|fli|gl|dl|xcf|xwd|ogg|mp3|wav=01;35
 flv|mkv|mp4|mpg|mpeg|avi=01;36
 "
 
-read -rd '' exts < <(
-for i in $(echo $exts)
-do
-  echo $i | sed -rn 's/.*=(.*)/\1/p' | { read v; echo $i | sed "s/=.*//" | sed -rn "s/([^|]+)\|?/:\*.\1=$v/gp"; }
-done | tr -d '\n'
-)
-export LS_COLORS="$LS_COLORS$exts"
+# http://stackoverflow.com/q/37904939/1870054
+read -r -d '' exts < <( echo $exts | xargs -n1 | sed -r 's/\|/\n/g;:a;s/\n(.*(=.*))/\2:*.\1/;ta' | sed "s/^/*./g" | tr "\n" ":" )
+export LS_COLORS="$LS_COLORS:$exts"
 unset exts
 
 # Most FreeBSD & Apple Darwin supports colors
