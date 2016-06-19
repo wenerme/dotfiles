@@ -6,18 +6,14 @@
 # Licensed under the MIT license
 # http://github.com/fredpalmer/log4bash
 #--------------------------------------------------------------------------------------------------
-# set -e  # Fail on first error
 
-# This should probably be the right way - didn't have time to experiment though
-# declare -r INTERACTIVE_MODE="$([ tty --silent ] && echo on || echo off)"
-# declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
+bashdoc <<'DOC-HERE'
+## log4bash.sh
 
-echo -n <<'DOC-HERE'
-log4bash.sh
------------
 log for shell.
 
 Based on [fredpalmer/log4bash](http://github.com/fredpalmer/log4bash).
+
 ```
 log4bash - Makes logging in Bash scripting suck less
 Copyright (c) Fred Palmer
@@ -30,7 +26,7 @@ http://github.com/fredpalmer/log4bash
 * use `tput colors` to test the term
 
 ### Commands
-command | args | description
+Command | Arguments | Description
 ----|---|---
 log | message level color | Basic log command
 log_speak | msg | speak out
@@ -47,11 +43,18 @@ log_level | [level] | set/get log level
 Use level like this
 ```shell
 log_level WARN # Only show WARN ERROR
-log_level DEBUG # Only show DEBUG, no WARN
+log_level DEBUG # Only show DEBUG
 log_level NONE # no log
 log_level # display log level
 ```
+
 DOC-HERE
+
+# set -e  # Fail on first error
+
+# This should probably be the right way - didn't have time to experiment though
+# declare -r INTERACTIVE_MODE="$([ tty --silent ] && echo on || echo off)"
+# declare -r INTERACTIVE_MODE=$([ "$(uname)" == "Darwin" ] && echo "on" || echo "off")
 
 #--------------------------------------------------------------------------------------------------
 # Begin Logging Section
@@ -122,10 +125,10 @@ log() {
 
     # Test the log level
     declare -A LEVELS=( ["DEBUG"]=5 ["INFO"]=4 ["SUCCESS"]=3  ["WARN"]=2 ["ERROR"]=1 ["NONE"]=0)
-	local level="${LEVELS["$log_level"]}"
-	local allowed_level="${LEVELS["$LOG4BASH_LOG_LEVEL"]}"
+    local level="${LEVELS["$log_level"]}"
+    local allowed_level="${LEVELS["$LOG4BASH_LOG_LEVEL"]}"
 
-	if [ $level -gt $allowed_level ];then return 0;fi;
+    if [ $level -gt $allowed_level ];then return 0;fi;
 
     echo -e ${log_color}[$(date +"%Y-%m-%d %H:%M:%S %Z")] [${log_level}] ${log_text} ${LOG_DEFAULT_COLOR};
     return 0;
@@ -171,7 +174,7 @@ log_campfire() {
     # This function performs a campfire notification with the arguments passed to it
     if [[ -z ${CAMPFIRE_API_AUTH_TOKEN} || -z ${CAMPFIRE_NOTIFICATION_URL} ]]
     then
-        log_warning "CAMPFIRE_API_AUTH_TOKEN and CAMPFIRE_NOTIFICATION_URL must be set in order log to campfire."
+        log_warn "CAMPFIRE_API_AUTH_TOKEN and CAMPFIRE_NOTIFICATION_URL must be set in order log to campfire."
         return 1;
     fi
 

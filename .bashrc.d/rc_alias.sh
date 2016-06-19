@@ -1,5 +1,40 @@
 #!/usr/bin/env bash
 
+bashdoc <<'DOC-HERE'
+
+## rc_alias
+
+__cd__
+* 定义 `..`,`...`,`....`,`.....`,`~`,`-` 来作为常用的目录跳转
+* 定义 `cd-`,`cd..`,`cd...`
+
+__ls__
+
+* 默认启用 `-h` 使输出的 size 更可读
+* 定义 `l`,`la`,`ll`,`lsd`,`lst`
+
+__cls/clear__
+使 `cls` 和 `clear` 命令可互换使用
+
+__ifconfig/ipconfig__
+* 使 `ifconfig` 和 `ipconfig` 命令可互换使用
+* 在 `*nix` 在可能 `ipconfig` 已被使用,则不会替换为 `ifconfig`
+
+
+__其他__
+
+* pushcd 将当前目录入栈
+* lrc 重新加载 bashrc 配置
+* ports 显示所有使用的端口
+* utf82gbk,gbk2utf8 编码互转
+* please 使用 sudo 从新执行上一条命令
+* tolower,toupper 字符转换
+* random-string 生成一串随机字符串,用于作为密码什么的
+* Darwin
+	* saynow 报时
+
+DOC-HERE
+
 #==================
 # cd alias
 #==================
@@ -22,18 +57,8 @@ alias cd...="cd ../.."
 #==================
 # {{
 
-# Detect which `ls` flavor is in use
-# TODO This will failed when we use brew, because we will change PATH later.
-if ls --color > /dev/null 2>&1;
-then # GNU `ls`
-	colorflag="--color"
-else # OS X `ls`
-	colorflag="-G"
-fi
-
-# Always use color output for `ls`
-alias ls="command ls -h ${colorflag}"
-unset -v colorflag
+# Human Readable
+alias ls="ls -h"
 
 # List all files colorized in long format
 alias l="ls -lF"
@@ -52,9 +77,6 @@ lst()
     ls -R "$@" | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/   /' -e 's/-/|/';
 }
 
-# ls 颜色配置
-export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
-
 # }} ls
 
 #==================
@@ -62,7 +84,6 @@ export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40
 #==================
 
 # More Readable
-alias grep="grep --color=auto"
 alias du="du -h"
 
 # Gzip-enabled `curl`
@@ -75,8 +96,10 @@ alias week='date +%V'
 iscmd git && alias g="git"
 
 # clear/cls switchable
-iscmd cls && iscmd -n clear && alias cls="clear" || alias cls="echo -en '\ec'"
-iscmd clear && iscmd -n cls && alias clear="cls" || alias clear="echo -en '\ec'"
+iscmd cls && iscmd -n clear && alias clear="cls"
+iscmd clear && iscmd -n cls && alias cls="clear"
+iscmd -n cls && alias cls="echo -en '\ec'"
+iscmd -n clear && alias clear="echo -en '\ec'"
 
 # ifconfig/ipconfig switchable
 iscmd ipconfig && iscmd -n ifconfig && alias ifconfig="ipconfig"
@@ -106,6 +129,7 @@ random-string()
 
 osis Darwin && {
 alias ports="netstat -tulanp tcp"
+alias saynow='say `date +现在%H点%M分`'
 }
 
 osis Linux && {

@@ -2,6 +2,16 @@
 # For test
 command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
+bashdoc <<'DOC-HERE'
+## rc_my_osx
+定义我在 osx 下使用的一些配置
+
+* 将 macvim (mvim) 映射为 gvim
+* lockscreen 锁屏
+* screensaver 屏保
+
+DOC-HERE
+
 osis Darwin &&
 {
   log_debug Mac osx detected
@@ -36,4 +46,5 @@ osis Darwin &&
 	}
 
   alias lockscreen='/System/Library/CoreServices/"Menu Extras"/User.menu/Contents/Resources/CGSession -suspend'
+  alias screensaver='open -a /System/Library/Frameworks/ScreenSaver.framework/Versions/A/Resources/ScreenSaverEngine.app'
 }

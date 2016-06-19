@@ -2,6 +2,17 @@
 # For test
 command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
+bashdoc <<'DOC-HERE'
+## rc_after
+* 检测 Homebrew 环境
+  * 添加 bin 目录
+  * 添加无前缀的 coreutils
+  * 加载补全
+  * 设置 ANDROID_HOME
+  * 初始化 command-not-found-init
+
+DOC-HERE
+
 # After all, we will try to detect the env and setup some otherthings
 
 # Homebrew {{
@@ -44,6 +55,17 @@ unset -v file error
 }
 # }} Homebrew
 
+bashdoc <<'DOC-HERE'
+
+* nvm
+  * 检测并加载 nvm 环境
+  * nvm use node
+* npm
+  * 检测 npm 环境
+  * 添加全局 bin 目录到 `PATH`
+  * 添加 `npm-exec` 别名来执行安装的命令
+
+DOC-HERE
 
 # nvm {{
 [ -e ~/.nvm/ ] &&
@@ -66,11 +88,19 @@ iscmd npm &&
 }
 # }} npm
 
+bashdoc <<'DOC-HERE'
+
+* go
+  * 检测 go 语言环境
+    * 也会检测 /usr/local/go 目录,大多直接解压的会安装到这里
+  * 设置 GOROOT,GOPATH
+  * 添加 bin 目录
+DOC-HERE
 
 # go {{
 
 # If we don't have go command detected, try /usr/local/go
-! iscmd go && [ -e /usr/local/go ] &&
+iscmd -n go && [ -e /usr/local/go ] &&
 {
   log_debug Detect go at /usr/local/go
   export GOROOT=/usr/local/go
@@ -87,11 +117,20 @@ iscmd go &&
 }
 # }} go
 
+bashdoc <<'DOC-HERE'
+
+* sshrc
+  * 在 sshrc 下做一些后续处理
+  * 为 `~/.inputrc` 设置符号链接
+  * 为 `~/.gitconfig` 设置符号链接
+DOC-HERE
+
 # by SSHRC
 [ "$SSHHOME" ] &&
 {
   # Will replace broken inputrc
   [ -e ~/.inputrc ] || ln -fs $SSHHOME/.sshrc.d/.inputrc ~/.inputrc
+  [ -e ~/.gitconfig ] || ln -fs $SSHHOME/.sshrc.d/.gitconfig ~/.gitconfig
 }
 
 

@@ -5,6 +5,20 @@ command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 # wener's personal configuration
 # XD
 
+bashdoc <<'DOC-HERE'
+
+## rc_my_wener
+我的个人设置,主要用于检测一些环境
+
+* Linux
+	* 检测 Java 环境
+	* 检测 Maven 环境
+	* 检测 tomcat 环境
+	* 检测 Hadoop 环境
+
+
+DOC-HERE
+
 # Lagecy under Linux
 osis Linux &&
 {

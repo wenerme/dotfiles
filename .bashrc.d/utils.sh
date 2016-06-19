@@ -3,6 +3,16 @@
 # for test
 # command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
 
+# Use this function to accept the docs
+bashdoc(){
+	# https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
+	[ "$BASH_DOC_CAT" == "" ] || {
+		# printf '%s - %s - %s\n' "${FUNCNAME[@]}" "${BASH_SOURCE[@]}" "${BASH_LINENO[@]}"
+		echo "<!-- ${FUNCNAME[-2]}(${BASH_SOURCE[-2]}:${BASH_LINENO[-3]}) -->"
+		cat
+		echo
+	}
+}
 
 # 检测系统
 osis()
@@ -89,30 +99,32 @@ isbrewed()
 	iscmd brew || return 1
 	brew --prefix $1 1>/dev/null 2>/dev/null
 }
-# Document
 
-echo -n <<'DOC-HERE'
+
+bashdoc <<'DOC-HERE'
 ## utils.sh
-辅助操作
+工具类定义
 
 
 ### Commands
-command | args | description
+command | args | description | e.g.
 ----|---|---
-osis| -n |判断操作系统
-termis| -n | 判断 term 类型
-iscmd | -n | 判断是否为可执行命令
+bashdoc | | 用于接收脚本中的文档
+osis| -n |判断操作系统 | `osis cygwin`, `osis -n linux`
+termis| -n | 判断 term 类型 | `termis xterm`
+iscmd | -n | 判断是否为可执行命令 | `iscmd git`,`iscmd -n brew`
 iscontains | -n | 判断数组是否包含指定元素
-try_prepend_path | | 如果给定路径不在 PATH 中,则添加
-try_prepend_manpath | | 如果给定路径不在  MANPATH 中,则添加
-try_source | | 尝试 source 文件
+isbrewed | | 判断给定的 formula 是否被安装 | `isbrewed go`
+try_prepend_path | | 如果给定路径不在 PATH 中,则添加 | `try_prepend_path ~/bin`
+try_prepend_manpath | | 如果给定路径不在  MANPATH 中,则添加 | `try_prepend_path ~/man`
+try_source | | 尝试 source 文件 | `try_source ~/my-bash`
 
-* -n for negative
+* `-n` for negative
 
 ### Examples
 ```
 iscmd cls || alias cls="echo -en '\ec'"
-iscmd clear ||  alias clear="cls"
+iscmd -n clear &&  alias clear="cls"
 
 osis Cygwin && {
 	# Cygwin stuff
@@ -124,6 +136,7 @@ osis Darwin && {
 	# Mac OS X stuff
 }
 
+# 接收文档并放在剪切板中
+BASH_DOC_CAT=1 lrc | pbcopy
 ```
 DOC-HERE
-
