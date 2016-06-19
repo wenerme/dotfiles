@@ -56,9 +56,22 @@ alias cd...="cd ../.."
 # ls alias
 #==================
 # {{
+# Detect which `ls` flavor is in use
+# Don't expect use the Darwin flavor ls
+# if ls --color > /dev/null 2>&1;
+# then # GNU `ls`
+# 	colorflag="--color"
+# else # OS X `ls`
+# 	colorflag="-G"
+# fi
+# alias ls="command ls -h ${colorflag}"
+# unset -v colorflag
+# alias ls="command ls --color=auto"
+# Not works
+# export LS_OPTS='--color=auto'
 
 # Human Readable
-alias ls="ls -h"
+alias ls="command ls --color=auto -h"
 
 # List all files colorized in long format
 alias l="ls -lF"
@@ -82,6 +95,10 @@ lst()
 #==================
 # other alias
 #==================
+
+# deprecated
+# export GREP_OPTIONS="--color=auto"
+alias grep="grep --color=auto"
 
 # More Readable
 alias du="du -h"

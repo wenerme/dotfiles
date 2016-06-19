@@ -105,12 +105,11 @@ bashdoc <<'DOC-HERE'
 ## utils.sh
 工具类定义
 
-
 ### Commands
 
 Command | Arguments | Description | e.g.
 ----|----|----|----
-bashdoc | | 用于接收脚本中的文档
+bashdoc | | 用于接收脚本中的文档 | `bashdoc <<<'#Title Here'`
 osis| -n |判断操作系统 | `osis cygwin`, `osis -n linux`
 termis| -n | 判断 term 类型 | `termis xterm`
 iscmd | -n | 判断是否为可执行命令 | `iscmd git`,`iscmd -n brew`
@@ -137,7 +136,13 @@ osis Darwin && {
 	# Mac OS X stuff
 }
 
-# 接收文档并放在剪切板中
-BASH_DOC_CAT=1 lrc | pbcopy
+	bashdoc <<'DOC-HERE'
+	# Markdown title
+
+	What dose `this` mean.
+	DOC-HERE
+
+# Generate docs
+BASH_DOC_CAT=1 lrc
 ```
 DOC-HERE
