@@ -67,7 +67,19 @@ From [man bash](http://linux.die.net/man/1/bash).
 # Bash Doc
 
 以下文档使用 `BASH_DOC_CAT=1 lrc` 生成
-<!-- BEGIN BASH-DOC -->
+
+```bash
+# Update docs
+BASH_DOC_CAT=1 lrc > /tmp/BASH_DOC_CAT
+sed -e '/^<!--\s*BEGIN-BASH-DOC/,/END-BASH-DOC/c\<!-- BEGIN-BASH-DOC -->\nHERE-BASH-DOC\n<!-- END-BASH-DOC -->' README.md -i
+sed -e '/^HERE-BASH-DOC/{
+	s/^HERE-BASH-DOC//g
+	r /tmp/BASH_DOC_CAT
+}' README.md -i
+```
+
+
+<!-- BEGIN-BASH-DOC -->
 
 <!-- source(.bashrc.d/utils.sh:104) -->
 ## utils.sh
@@ -75,8 +87,9 @@ From [man bash](http://linux.die.net/man/1/bash).
 
 
 ### Commands
-command | args | description | e.g.
-----|---|---
+
+Command | Arguments | Description | e.g.
+----|----|----|----
 bashdoc | | 用于接收脚本中的文档
 osis| -n |判断操作系统 | `osis cygwin`, `osis -n linux`
 termis| -n | 判断 term 类型 | `termis xterm`
@@ -270,7 +283,8 @@ __其他__
 	* 检测 Hadoop 环境
 
 
-<!-- END BASH-DOC -->
+
+<!-- END-BASH-DOC -->
 
 # Misc
 

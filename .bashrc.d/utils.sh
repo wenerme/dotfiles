@@ -107,8 +107,9 @@ bashdoc <<'DOC-HERE'
 
 
 ### Commands
-command | args | description | e.g.
-----|---|---
+
+Command | Arguments | Description | e.g.
+----|----|----|----
 bashdoc | | 用于接收脚本中的文档
 osis| -n |判断操作系统 | `osis cygwin`, `osis -n linux`
 termis| -n | 判断 term 类型 | `termis xterm`
