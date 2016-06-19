@@ -1,8 +1,8 @@
 dotfiles
 ========
-简单易用的个人 Bash 配置.
+Relax dotfiles for Linux, Cygwin & Mac OSX
 
-## 可检测的配置
+## 可检测的配置/Features
 
 * Homebrew
 * Linuxbrew
@@ -12,37 +12,42 @@ dotfiles
 * nvm
 * bash_completion
 
-## 要求
+## 要求/Requirement
 
 * bash 4+
 
-## 安装
+## 安装/Install
 ```
 cd ~
 git init
 git remote add origin https://github.com/wenerme/dotfiles
 git fetch --depth=1
-# 注意: 该操作会覆盖现有文件
+# Warning: this will replace exists files.
 git checkout -t origin/master -f
+
+# Replace my name and email to yours
+vim ~/.gitconfig
 ```
 
-## 加载顺序
+## 加载顺序/Load order
 
 ```
 .bashrc -> .bash_profile -> utils.sh -> log4bash.sh ->
-func,exports,prompt,alias,extra,after -> rc_my
+func,exports,prompt,alias,extra,after -> rc_my_*
 ```
 
-## 扩展和自定义
+## 扩展和自定义/Customize
 可在 .bashrc.d 下添加自己的扩展配置,文件名格式为 `rc_my_*`.会在 after 后加载
 
 ## 目录说明
+```
 .font
 	包含了一些我喜欢的字体文件
 .bashrc.d
 	所有 bashrc 的文件都在这里
 .completion.d
 	包含了一部分补全脚本
+```
 
 # 配置文件说明
 
@@ -64,7 +69,7 @@ func,exports,prompt,alias,extra,after -> rc_my
 ```
 From [man bash](http://linux.die.net/man/1/bash).
 
-# Bash Doc
+# 文档/Document
 
 以下文档使用 `BASH_DOC_CAT=1 lrc` 生成
 
