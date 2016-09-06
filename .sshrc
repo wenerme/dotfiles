@@ -3,20 +3,20 @@
 echo $USER Logged in at `date '+%F %T (%A)'`
 
 tmuxrc() {
-    if ! [ -z "$TMUXRC" ]; then
-      SSHHOME=$TMUXRC SHELL=$TMUXRC/bashsshrc tmux -S $TMUXRC/tmuxserver $@;
-      return $?;
+    if [ -z "$TMUXRC" ]; then
+      local TMUXDIR=/tmp/extratmuxserver
+      if ! [ -d $TMUXDIR ]; then
+          command rm -rf $TMUXDIR
+          mkdir -p $TMUXDIR
+      fi
+      command rm -rf $TMUXDIR/.sshrc.d
+      # 使用 moshrc 时没有 sshrc
+      [[ -e "$SSHHOME/sshrc" ]] && command cp $SSHHOME/sshrc $TMUXDIR
+      command cp -rf $SSHHOME/.sshrc $SSHHOME/bashsshrc $SSHHOME/.sshrc.d $TMUXDIR
+      export TMUXRC=$TMUXDIR
     fi
 
-    local TMUXDIR=/tmp/extratmuxserver
-    if ! [ -d $TMUXDIR ]; then
-        command rm -rf $TMUXDIR
-        mkdir -p $TMUXDIR
-    fi
-    command rm -rf $TMUXDIR/.sshrc.d
-    command cp -rf $SSHHOME/.sshrc $SSHHOME/bashsshrc $SSHHOME/sshrc $SSHHOME/.sshrc.d $TMUXDIR
-    SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc tmux -S $TMUXDIR/tmuxserver $@
-    export TMUXRC=$TMUXDIR
+    VIMINIT="let \$MYVIMRC='$TMUXRC/.sshrc.d/.vimrc' | source \$MYVIMRC" SSHHOME=$TMUXRC SHELL=$TMUXRC/bashsshrc tmux -f $TMUXRC/.sshrc.d/.tmux.conf -S $TMUXRC/tmuxserver $@;
 }
 
 # eval tmux-no-exit
@@ -25,6 +25,7 @@ tmux-no-exit(){
 }
 
 export SHELL=`which bash`
+export VIMINIT="let \$MYVIMRC='$SSHHOME/.sshrc.d/.vimrc' | source \$MYVIMRC"
 
 pushd $PWD > /dev/null
 # DEBUGGING=yes
