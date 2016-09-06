@@ -3,6 +3,11 @@
 echo $USER Logged in at `date '+%F %T (%A)'`
 
 tmuxrc() {
+    if ! [ -z "$TMUXRC" ]; then
+      SSHHOME=$TMUXRC SHELL=$TMUXRC/bashsshrc tmux -S $TMUXRC/tmuxserver $@;
+      return $?;
+    fi
+
     local TMUXDIR=/tmp/extratmuxserver
     if ! [ -d $TMUXDIR ]; then
         command rm -rf $TMUXDIR
@@ -11,7 +16,14 @@ tmuxrc() {
     command rm -rf $TMUXDIR/.sshrc.d
     command cp -rf $SSHHOME/.sshrc $SSHHOME/bashsshrc $SSHHOME/sshrc $SSHHOME/.sshrc.d $TMUXDIR
     SSHHOME=$TMUXDIR SHELL=$TMUXDIR/bashsshrc tmux -S $TMUXDIR/tmuxserver $@
+    export TMUXRC=$TMUXDIR
 }
+
+# eval tmux-no-exit
+tmux-no-exit(){
+  return "alias exit='echo Please do not exit,use [CTRL-A+D] to detach from this session, if you really want to exit, use [command exit] instead'"
+}
+
 export SHELL=`which bash`
 
 pushd $PWD > /dev/null

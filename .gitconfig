@@ -35,3 +35,9 @@
 	helper = cache --timeout=36000
 [url "https://"]
     # insteadOf = git://
+[http "https://git.725p.flynnhub.com"]
+	sslCAInfo = /Users/wener/.flynn/ca-certs/flynn-1469596429.pem
+[credential "https://git.725p.flynnhub.com"]
+	helper = /usr/local/bin/flynn git-credentials
+[http]
+	proxy = socks://127.0.0.1:8888

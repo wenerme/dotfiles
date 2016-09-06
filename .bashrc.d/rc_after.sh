@@ -18,7 +18,7 @@ DOC-HERE
 # Homebrew {{
 
 # Detect linux brew
-[ -e ~/.linuxbrew/bin ] && try_prepend_path ~/.linuxbrew/bin && log_info Detect linuxbrew/bin add to PATH $_
+[ -e ~/.linuxbrew/bin ] && { try_prepend_path ~/.linuxbrew/bin;try_prepend_path ~/.linuxbrew/sbin; } && log_info Detect linuxbrew/[s]bin add to PATH $_
 
 # Detect brew
 iscmd brew &&
