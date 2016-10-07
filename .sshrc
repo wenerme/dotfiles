@@ -21,7 +21,7 @@ tmuxrc() {
 
 # eval tmux-no-exit
 tmux-no-exit(){
-  return "alias exit='echo Please do not exit,use [CTRL-A+D] to detach from this session, if you really want to exit, use [command exit] instead'"
+  echo "alias exit='echo Please do not exit,use [CTRL-A+D] to detach from this session, if you really want to exit, use [command exit] instead'"
 }
 
 export SHELL=`which bash`

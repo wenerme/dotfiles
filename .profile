@@ -36,3 +36,4 @@ if [ -n "${BASH_VERSION}" ]; then
   fi
 fi
 
+ARTOOLKIT5_ROOT=/Users/wener/works/trials/ios/ARToolKit5-bin-5.3.2r1-OSX; export ARTOOLKIT5_ROOT
