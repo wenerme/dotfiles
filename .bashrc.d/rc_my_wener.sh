@@ -159,7 +159,7 @@ osis Cygwin &&
 	[[ -z "$JAVA_HOME" ]] && export JAVA_HOME=`/usr/libexec/java_home` &&
 		log_info Set JAVA_HOME=`/usr/libexec/java_home`
 
-	for v in 1.5 1.6 1.7 1.8;
+	for v in 1.5 1.6 1.7 1.8 1.9;
 	do
 		/usr/libexec/java_home -v ${v} &>/dev/null &&
 		{
