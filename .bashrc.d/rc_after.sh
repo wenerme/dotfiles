@@ -121,7 +121,7 @@ iscmd go &&
 
 # go {{
 # Detect java versions, setup some homes
-[[ -f /usr/libexec/java_home ]] &&
+[[ -f /usr/libexec/java_home ]] && /usr/libexec/java_home &>/dev/null 2>&1 &&
 {
 	log_debug Java detected
 	[[ -z "$JAVA_HOME" ]] && export JAVA_HOME=`/usr/libexec/java_home` &&
