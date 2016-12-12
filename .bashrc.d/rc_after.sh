@@ -68,7 +68,7 @@ bashdoc <<'DOC-HERE'
 DOC-HERE
 
 # nvm {{
-[ -e ~/.nvm/ ] &&
+iscmd brew && [ -e ~/.nvm/ ] &&
 {
 	log_debug nvm detected
 	export NVM_DIR=~/.nvm

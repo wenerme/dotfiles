@@ -81,7 +81,7 @@ function __prompt_command() {
 }
 
 # 尝试启动 ssh-agent {{
-[ -e ~/.ssh/agent.env ] && {
+[ -z "$SSH_CLIENT" ] && [ -e ~/.ssh/agent.env ] && {
 
 #-----------------------------
 # See https://help.github.com/articles/working-with-ssh-key-passphrases
