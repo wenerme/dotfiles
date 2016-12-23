@@ -172,6 +172,16 @@ iscmd go &&
 # }} java
 
 bashdoc <<'DOC-HERE'
+* direnv
+  * `eval "$(direnv hook bash)"`
+DOC-HERE
+# 初始化 direnv
+iscmd direnv &&
+{
+  eval "$(direnv hook bash)"
+}
+
+bashdoc <<'DOC-HERE'
 
 * sshrc
   * 在 sshrc 下做一些后续处理
