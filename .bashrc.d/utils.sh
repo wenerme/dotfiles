@@ -4,10 +4,11 @@
 # command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
 
 # Use this function to accept the docs
+# e.g. BASH_DOC_CAT=en lrc > doc.md # This will generate all docs to doc.md
 bashdoc()
 {
 	# https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
-	[ "$BASH_DOC_CAT" == "" ] || {
+	[ "$BASH_DOC_GEN" != "" ] && ( [ "$1" == "" -o "$BASH_DOC_GEN" == "$1" ] ) && {
 		# printf '%s - %s - %s\n' "${FUNCNAME[@]}" "${BASH_SOURCE[@]}" "${BASH_LINENO[@]}"
 		echo "<!-- ${FUNCNAME[-2]}(${BASH_SOURCE[-2]}:${BASH_LINENO[-3]}) -->"
 		cat
@@ -122,8 +123,53 @@ isbrewed()
 	brew --prefix $1 1>/dev/null 2>/dev/null
 }
 
+bashdoc en <<'DOC-HERE'
+## utils.sh
+Utils used for whole configs.
 
-bashdoc <<'DOC-HERE'
+### Commands
+
+Command | Arguments | Description | e.g.
+----|----|----|----
+bashdoc | | Used to accept docs | `bashdoc <<<'#Title Here'`
+osis| -n | OS check | `osis cygwin`, `osis -n linux`
+termis| -n | `$TERM` typ check | `termis xterm`
+iscmd | -n | Command chech | `iscmd git`,`iscmd -n brew`
+iscontains | -n | Check element in array
+isbrewed | | Check formula is installed | `isbrewed go`
+try_prepend_path | | Ensure prepend givend path to `$PATH` | `try_prepend_path ~/bin`
+try_prepend_manpath | | Ensure prepend givend path to `$MANPATH` | `try_prepend_path ~/man`
+try_source | | 尝试 source 文件 | `try_source ~/my-bash`
+
+* `-n` for negative
+
+### Examples
+```
+iscmd cls || alias cls="echo -en '\ec'"
+iscmd -n clear &&  alias clear="cls"
+
+osis Cygwin && {
+	# Cygwin stuff
+}
+osis Linux && {
+	# Linux stuff
+}
+osis Darwin && {
+	# Mac OS X stuff
+}
+
+	bashdoc <<'DOC-HERE'
+	# Markdown title
+
+	What dose `this` mean.
+	DOC-HERE
+
+# Generate docs
+BASH_DOC_CAT=1 lrc
+```
+DOC-HERE
+
+bashdoc zh <<'DOC-HERE'
 ## utils.sh
 工具类定义
 

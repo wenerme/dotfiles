@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bashdoc <<'DOC-HERE'
+bashdoc zh <<'DOC-HERE'
 
 ## rx_exports
 

@@ -2,7 +2,18 @@
 # For test
 command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
-bashdoc <<'DOC-HERE'
+bashdoc en <<'DOC-HERE'
+## rc_after
+* Detech Homebrew
+  * Add bin
+  * Add coreutils without `g` prefix
+  * Add bash_completion
+  * Setup relate PATH or HOME
+  * Init command-not-found-init
+
+DOC-HERE
+
+bashdoc zh <<'DOC-HERE'
 ## rc_after
 * 检测 Homebrew 环境
   * 添加 bin 目录
@@ -55,7 +66,17 @@ unset -v file error
 }
 # }} Homebrew
 
-bashdoc <<'DOC-HERE'
+bashdoc en <<'DOC-HERE'
+
+* nvm
+  * nvm use node
+* npm
+  * Add bin
+  * Setup `npm-exec`
+
+DOC-HERE
+
+bashdoc zh <<'DOC-HERE'
 
 * nvm
   * 检测并加载 nvm 环境
@@ -88,7 +109,16 @@ iscmd npm &&
 }
 # }} npm
 
-bashdoc <<'DOC-HERE'
+bashdoc cn <<'DOC-HERE'
+
+* go
+  * Detech gp
+    * Detech /usr/local/go folder
+  * Setup GOROOT,GOPATH
+  * Add bin
+DOC-HERE
+
+bashdoc zh <<'DOC-HERE'
 
 * go
   * 检测 go 语言环境
@@ -175,14 +205,20 @@ bashdoc <<'DOC-HERE'
 * direnv
   * `eval "$(direnv hook bash)"`
 DOC-HERE
+
 # 初始化 direnv
 iscmd direnv &&
 {
   eval "$(direnv hook bash)"
 }
 
-bashdoc <<'DOC-HERE'
+bashdoc en <<'DOC-HERE'
+* sshrc
+  * After sshrc
+  * Add sym link for `~/.inputrc`,`~/.gitconfig`
+DOC-HERE
 
+bashdoc zh <<'DOC-HERE'
 * sshrc
   * 在 sshrc 下做一些后续处理
   * 为 `~/.inputrc` 设置符号链接

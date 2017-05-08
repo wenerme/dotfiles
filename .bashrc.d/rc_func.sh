@@ -1,7 +1,25 @@
 #!/usr/bin/env bash
 
-bashdoc <<'DOC-HERE'
+bashdoc en <<'DOC-HERE'
+## rc_func
 
+* `o [dir]`
+  * Open director
+  * Support cmd,cygwin,Centos(nautilus),Mint(nemo),OS X
+* mkd
+  * mkdir && cd
+* colorname
+  * Echo manual for color and name
+* 256colors
+  * for 256 color
+* 16colors
+  * for 16 color
+* server [port:-8000]
+  * stary a simple http server
+  * will try python, npm server, php
+DOC-HERE
+
+bashdoc zh <<'DOC-HERE'
 ## rc_func
 
 * `o [dir]`

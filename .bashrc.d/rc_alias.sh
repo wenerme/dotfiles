@@ -1,27 +1,44 @@
 #!/usr/bin/env bash
 
-bashdoc <<'DOC-HERE'
-
+bashdoc en <<'DOC-HERE'
 ## rc_alias
+* cd
+	* `..`,`...`,`....`,`.....`,`~`,`-`
+	* `cd-`,`cd..`,`cd...`
+* ls
+	* `-h` by default
+	* `l`,`la`,`ll`,`lsd`,`lst`
+* cls <-> clear
+* ifconfig <-> ipconfig
 
-__cd__
-* 定义 `..`,`...`,`....`,`.....`,`~`,`-` 来作为常用的目录跳转
-* 定义 `cd-`,`cd..`,`cd...`
+* pushcd
+	* push current director
+* lrc
+ 	* reload bashrc
+* ports
+ 	* show used ports
+* utf82gbk,gbk2utf8
+* please
+ 	* use sudo to run last command
+* tolower,toupper
+* random-string
+* Darwin
+	* saynow
+DOC-HERE
 
-__ls__
-
-* 默认启用 `-h` 使输出的 size 更可读
-* 定义 `l`,`la`,`ll`,`lsd`,`lst`
-
-__cls/clear__
-使 `cls` 和 `clear` 命令可互换使用
-
-__ifconfig/ipconfig__
-* 使 `ifconfig` 和 `ipconfig` 命令可互换使用
-* 在 `*nix` 在可能 `ipconfig` 已被使用,则不会替换为 `ifconfig`
-
-
-__其他__
+bashdoc zh <<'DOC-HERE'
+## rc_alias
+* cd
+	* `..`,`...`,`....`,`.....`,`~`,`-`
+	* `cd-`,`cd..`,`cd...`
+* ls
+	* 默认启用 `-h` 使输出的 size 更可读
+	* 定义 `l`,`la`,`ll`,`lsd`,`lst`
+* cls <-> clear
+	* 使 `cls` 和 `clear` 命令可互换使用
+* ifconfig <-> ipconfig
+	* 使 `ifconfig` 和 `ipconfig` 命令可互换使用
+	* 在 `*nix` 在可能 `ipconfig` 已被使用,则不会替换为 `ifconfig`
 
 * pushcd 将当前目录入栈
 * lrc 重新加载 bashrc 配置
