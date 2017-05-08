@@ -100,9 +100,24 @@ sed -e '/^HERE-BASH-DOC/{
 
 <!-- BEGIN-BASH-DOC -->
 
-<!-- source(.bashrc.d/utils.sh:126) -->
+<!-- source(.bashrc.d/utils.sh:19) -->
 ## utils.sh
 Utils used for whole configs.
+### Docs
+
+```bash
+# Generate doc for en
+BASH_DOC_GEN=en lrc > doc_en.md
+```
+
+	# You can write doc in scripts like this, if no locale, this doc will used for all locale
+	bashdoc en <<'DOC-HERE'
+	# Header
+	Content
+	DOC-HERE
+
+
+<!-- source(.bashrc.d/utils.sh:145) -->
 
 ### Commands
 

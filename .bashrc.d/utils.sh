@@ -16,6 +16,25 @@ bashdoc()
 	}
 }
 
+bashdoc en <<'DOC-HERE'
+## utils.sh
+Utils used for whole configs.
+### Docs
+
+```bash
+# Generate doc for en
+BASH_DOC_GEN=en lrc > doc_en.md
+```
+
+	# You can write doc in scripts like this, if no locale, this doc will used for all locale
+	bashdoc en <<'DOC-HERE'
+	# Header
+	Content
+	DOC-HERE
+
+DOC-HERE
+
+
 # Check OS Type
 osis()
 {
@@ -124,8 +143,6 @@ isbrewed()
 }
 
 bashdoc en <<'DOC-HERE'
-## utils.sh
-Utils used for whole configs.
 
 ### Commands
 
@@ -211,6 +228,6 @@ osis Darwin && {
 	DOC-HERE
 
 # Generate docs
-BASH_DOC_CAT=1 lrc
+BASH_DOC_GEN=en lrc
 ```
 DOC-HERE
