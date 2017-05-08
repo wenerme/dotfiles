@@ -4,7 +4,8 @@
 # command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
 
 # Use this function to accept the docs
-bashdoc(){
+bashdoc()
+{
 	# https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
 	[ "$BASH_DOC_CAT" == "" ] || {
 		# printf '%s - %s - %s\n' "${FUNCNAME[@]}" "${BASH_SOURCE[@]}" "${BASH_LINENO[@]}"
@@ -14,7 +15,7 @@ bashdoc(){
 	}
 }
 
-# 检测系统
+# Check OS Type
 osis()
 {
 	local n=0
@@ -26,7 +27,7 @@ osis()
 	return $(( $n ^ $? ))
 }
 
-# 检测 term
+# Check $TERM Type
 termis()
 {
 	local n=0
@@ -37,7 +38,7 @@ termis()
     return $(( $n ^ $? ))
 }
 
-# Command exists
+# Check Command exists
 iscmd()
 {
 	local n=0
@@ -48,7 +49,7 @@ iscmd()
     return $(( $n ^ $? ))
 }
 
-# 判断元素是否在数组中
+# Check is element in array
 iscontains ()
 {
 	local n=0
@@ -60,26 +61,47 @@ iscontains ()
     return $(( $n ^ 1 ))
 }
 
-# 尝试将给定路径添加到 PATH 中
+# Prepend Given Path To $PATH
 try_prepend_path()
 {
 	for p in "$@"
 	do
-		(echo $PATH | grep "$p:" > /dev/null ) &&
-			log_debug Ignore prepand \'$p\',alread in PATH ||
-			{ log_info Prepand path \'$p\' ;export PATH="$p:$PATH"; }
+		# Ensure prepent
+		export PATH=$(unique_path "$p:$PATH")
+		# (echo $PATH | grep "$p:" > /dev/null ) &&
+		# 	log_debug Ignore prepand \'$p\',alread in PATH ||
+		# 	{ log_info Prepand path \'$p\' ;export PATH="$p:$PATH"; }
 	done
 }
 
-# 尝试将给定路径添加到 MANPATH 中
+# Prepend Given Path To $MANPATH
 try_prepend_manpath()
 {
 	for p in "$@"
 	do
-		(echo "$MANPATH" | grep "$p:" > /dev/null ) &&
-			log_debug Ignore prepand \'$p\',alread in MANPATH ||
-			{ log_info Prepand manpath \'$p\' ;export MANPATH="$p:$MANPATH"; }
+		export MANPATH=$(unique_path "$p:$MANPATH")
+		# (echo "$MANPATH" | grep "$p:" > /dev/null ) &&
+		# 	log_debug Ignore prepand \'$p\',alread in MANPATH ||
+		# 	{ log_info Prepand manpath \'$p\' ;export MANPATH="$p:$MANPATH"; }
 	done
+}
+
+# Remove duplicated path
+unique_path()
+{
+    local old=${1:-$PATH}:
+    local neo
+    local x
+    while [ -n "$old" ]; do
+        x=${old%%:*}       # the first remaining entry
+        case $neo: in
+          *:"$x":*) ;;         # already there
+          *) neo=$neo:$x;;    # not there yet
+        esac
+        old=${old#*:}
+    done
+    neo=${neo#:}
+    echo ${neo}
 }
 
 try_source()

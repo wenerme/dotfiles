@@ -21,6 +21,11 @@ bashdoc <<'DOC-HERE'
 
 DOC-HERE
 
+# 尝试加载其他的配置
+try_source "$HOME/.iterm2_shell_integration.bash"
+try_source "$HOME/google-cloud-sdk/path.bash.inc"
+try_source "$HOME/google-cloud-sdk/completion.bash.inc"
+
 # Lagecy under Linux
 osis Linux &&
 {

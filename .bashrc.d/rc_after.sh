@@ -28,8 +28,8 @@ log_debug Homebrew detected
 [ -e /usr/local/opt/coreutils ] &&
 {
     log_debug Prefer to use homebrew\'s coreutils,not g prefix
-    try_prepend_path /usr/local/opt/coreutils/libexec/gnubin
-    try_prepend_manpath /usr/local/opt/coreutils/libexec/gnuman
+    try_prepend_path $(brew --prefix coreutils)/libexec/gnubin
+    try_prepend_manpath $(brew --prefix coreutils)/libexec/gnuman
 }
 
 # Try load bash_completion
