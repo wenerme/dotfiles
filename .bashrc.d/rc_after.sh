@@ -89,7 +89,7 @@ bashdoc zh <<'DOC-HERE'
 DOC-HERE
 
 # nvm {{
-iscmd brew && [ -e ~/.nvm/ ] &&
+iscmd brew && iscmd nvm && [ -e ~/.nvm/ ] &&
 {
 	log_debug nvm detected
 	export NVM_DIR=~/.nvm
@@ -233,6 +233,8 @@ DOC-HERE
   [ -e ~/.gitconfig ] || ln -fs $SSHHOME/.sshrc.d/.gitconfig ~/.gitconfig
 }
 
+# Load iterm2 shell integration
+try_source "${HOME}/.iterm2_shell_integration.bash"
 
 log_debug After rc_after,the PATH become "$PATH"
 
