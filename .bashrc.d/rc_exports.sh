@@ -2,7 +2,7 @@
 
 bashdoc zh <<'DOC-HERE'
 
-## rx_exports
+## rc_exports
 
 * 设置 LESS 颜色
 * 设置 LS 颜色,并为以下类型设置特殊的颜色
@@ -18,6 +18,16 @@ DOC-HERE
 try_prepend_path "$HOME/bin"
 try_prepend_manpath "$HOME/man"
 try_prepend_path "/usr/local/sbin"
+
+# We may depends on these commands
+# gunbin install by brew without g-prefix
+for i in /usr/local/opt/*/libexec/gnubin; 
+do
+  [ -e "$i" ] || continue
+  log_debug Prefer to use homebrew\'s gnubin $i
+  try_prepend_path $i
+	try_prepend_manpath $(dirname $i)/gnuman
+done
 
 # Make vim the default editor
 export EDITOR="vim"
