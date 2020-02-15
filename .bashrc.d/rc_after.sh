@@ -84,9 +84,10 @@ DOC-HERE
 # nvm {{
 iscmd brew && iscmd nvm && [ -e ~/.nvm/ ] &&
 {
-	log_debug nvm detected
-	export NVM_DIR=~/.nvm
-	source $(brew --prefix nvm)/nvm.sh
+  log_debug nvm detected
+  export NVM_DIR=~/.nvm
+  source $(brew --prefix nvm)/nvm.sh
+  source $(brew --prefix nvm)/etc/bash_completion.d/nvm
   iscmd node || nvm use node > /dev/null && log_debug nvm use node
 }
 # }} nvm
@@ -94,11 +95,11 @@ iscmd brew && iscmd nvm && [ -e ~/.nvm/ ] &&
 # npm {{
 iscmd npm &&
 {
-	log_debug npm detected
+  log_debug npm detected
 
   alias npm-exec='PATH=$(npm bin):$PATH'
-	log_info Add npm/bin `npm config get prefix`/bin to PATH
-	try_prepend_path "`npm config get prefix`/bin"
+  log_info Add npm/bin `npm config get prefix`/bin to PATH
+  try_prepend_path "`npm config get prefix`/bin"
 }
 # }} npm
 
