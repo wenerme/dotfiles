@@ -82,7 +82,7 @@ bashdoc zh <<'DOC-HERE'
 DOC-HERE
 
 # nvm {{
-iscmd brew && iscmd nvm && [ -e ~/.nvm/ ] &&
+iscmd brew && isbrewed nvm && [ -e ~/.nvm/ ] &&
 {
   log_debug nvm detected
   export NVM_DIR=~/.nvm
@@ -102,6 +102,12 @@ iscmd npm &&
   try_prepend_path "`npm config get prefix`/bin"
 }
 # }} npm
+
+iscmd gpg &&
+{
+  # GPG use tty
+  export GPG_TTY=$(tty)
+}
 
 bashdoc cn <<'DOC-HERE'
 

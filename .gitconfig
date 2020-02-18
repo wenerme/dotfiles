@@ -9,6 +9,7 @@
 	master = checkout master
 	ci = commit
 	co = checkout
+	wt = worktree
 	loggo = log --graph --oneline
 	l = log --graph --oneline --decorate
 	logg = log --graph

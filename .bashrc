@@ -127,9 +127,10 @@ fi
 
 if ! agent_is_running; then
     agent_start
-    ssh-add
+    #ssh-add
 elif ! agent_has_keys; then
-    ssh-add
+    # ssh-add
+    log_debug SKIP
 fi
 
 unset env
