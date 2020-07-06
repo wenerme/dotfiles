@@ -23,10 +23,35 @@ DOC-HERE
 
 # 尝试加载其他的配置
 try_source "$HOME/.iterm2_shell_integration.bash"
-try_source "$HOME/google-cloud-sdk/path.bash.inc"
-try_source "$HOME/google-cloud-sdk/completion.bash.inc"
+
+# Google cloud sdk
+# ============
+[ -e ~/google-cloud-sdk ] &&
+{
+    log_info Detect google cloud sdk, will source completion and path
+    source ~/google-cloud-sdk/completion.bash.inc
+    source ~/google-cloud-sdk/path.bash.inc
+}
+
+# ops command
+# ============
+iscmd kubectl && ! iscmd __start_kubectl &&
+{
+  log_info Detect kubectl add completion
+  source <(kubectl completion bash)
+  
+  alias k=kubectl
+  complete -F __start_kubectl k
+}
+
+iscmd terraform &&
+{
+  log_info Detect terraform add completion
+  complete -C $(which terraform) terraform
+}
 
 # Lagecy under Linux
+# ============
 osis Linux &&
 {
 	# 检测 java 环境
@@ -73,6 +98,7 @@ osis Linux &&
 }
 
 # Lagecy under Windows
+# ============
 osis Cygwin &&
 {
 	log_debug Cygwin detected
@@ -156,14 +182,6 @@ osis Cygwin &&
     # export PATH, JAVA_HOME, MAVEN_HOME, ANT_HOME, CATALINA_HOME, MINI_ENV_PATH
     export NODE_PATH=`cygpath -d /env/nodejs/node_modules/`
     export PATH
-}
-
-# Google cloud sdk
-[ -e ~/google-cloud-sdk ] &&
-{
-    log_info Detect google cloud sdk, will source completion and path
-    source ~/google-cloud-sdk/completion.bash.inc
-    source ~/google-cloud-sdk/path.bash.inc
 }
 
 [ "$$" != "$BASHPID" ] && log_warn Not in main process, $$ - $BASHPID
