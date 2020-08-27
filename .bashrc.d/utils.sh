@@ -4,7 +4,7 @@
 # command -v log_debug &>/dev/null || { . log4bash.sh; log_level DEBUG; }
 
 # Use this function to accept the docs
-# e.g. BASH_DOC_CAT=en lrc > doc.md # This will generate all docs to doc.md
+# e.g. BASH_DOC_GEN=en lrc > doc.md # This will generate all docs to doc.md
 bashdoc()
 {
 	# https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html
@@ -87,7 +87,12 @@ try_prepend_path()
 	for p in "$@"
 	do
 		# Ensure prepent
-		export PATH=$(unique_path "$p:$PATH")
+		# export PATH=$(unique_path "$p:$PATH")
+
+    if [[ "$PATH" =~ "$p" ]]; then continue; fi
+    log_info Prepand path \'$p\'
+    export PATH="$p:$PATH"
+
 		# (echo $PATH | grep "$p:" > /dev/null ) &&
 		# 	log_debug Ignore prepand \'$p\',alread in PATH ||
 		# 	{ log_info Prepand path \'$p\' ;export PATH="$p:$PATH"; }
@@ -99,7 +104,12 @@ try_prepend_manpath()
 {
 	for p in "$@"
 	do
-		export MANPATH=$(unique_path "$p:$MANPATH")
+		# export MANPATH=$(unique_path "$p:$MANPATH")
+
+    if [[ "$MANPATH" =~ "$p" ]]; then continue; fi
+    log_info Prepand manpath \'$p\'
+    export MANPATH="$p:$PATH"
+
 		# (echo "$MANPATH" | grep "$p:" > /dev/null ) &&
 		# 	log_debug Ignore prepand \'$p\',alread in MANPATH ||
 		# 	{ log_info Prepand manpath \'$p\' ;export MANPATH="$p:$MANPATH"; }
@@ -139,7 +149,15 @@ try_source()
 isbrewed()
 {
 	iscmd brew || return 1
-	brew --prefix $1 1>/dev/null 2>/dev/null
+  # brew use 11s, -d check use 5s for lrc
+	# brew --prefix $1 1>/dev/null 2>/dev/null
+	[ -d "/usr/local/Cellar/$1" ]
+}
+
+# brew --prefix <formula> very slow
+brew-prefix()
+{
+  [ -z "$1" ] && brew --prefix || echo $(brew --prefix)/opt/$1
 }
 
 bashdoc en <<'DOC-HERE'
@@ -182,7 +200,7 @@ osis Darwin && {
 	DOC-HERE
 
 # Generate docs
-BASH_DOC_CAT=1 lrc
+BASH_DOC_GEN=en lrc
 ```
 DOC-HERE
 

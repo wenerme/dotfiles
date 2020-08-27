@@ -2,7 +2,7 @@
 # For test
 command -v osis &>/dev/null || { . utils.sh ; . log4bash.sh; log_level DEBUG; }
 
-bashdoc <<'DOC-HERE'
+bashdoc zh <<'DOC-HERE'
 ## rc_my_osx
 定义我在 osx 下使用的一些配置
 

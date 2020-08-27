@@ -7,7 +7,7 @@
 # http://github.com/fredpalmer/log4bash
 #--------------------------------------------------------------------------------------------------
 
-bashdoc <<'DOC-HERE'
+bashdoc en <<'DOC-HERE'
 ## log4bash.sh
 
 log for shell.

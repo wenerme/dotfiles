@@ -18,7 +18,6 @@ bashdoc <<'DOC-HERE'
 	* 检测 tomcat 环境
 	* 检测 Hadoop 环境
 
-
 DOC-HERE
 
 # 尝试加载其他的配置
@@ -31,23 +30,6 @@ try_source "$HOME/.iterm2_shell_integration.bash"
     log_info Detect google cloud sdk, will source completion and path
     source ~/google-cloud-sdk/completion.bash.inc
     source ~/google-cloud-sdk/path.bash.inc
-}
-
-# ops command
-# ============
-iscmd kubectl && ! iscmd __start_kubectl &&
-{
-  log_info Detect kubectl add completion
-  source <(kubectl completion bash)
-  
-  alias k=kubectl
-  complete -F __start_kubectl k
-}
-
-iscmd terraform &&
-{
-  log_info Detect terraform add completion
-  complete -C $(which terraform) terraform
 }
 
 # Lagecy under Linux

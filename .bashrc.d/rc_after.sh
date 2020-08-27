@@ -32,28 +32,33 @@ DOC-HERE
 [ -e ~/.linuxbrew/bin ] && { try_prepend_path ~/.linuxbrew/bin;try_prepend_path ~/.linuxbrew/sbin; } && log_info Detect linuxbrew/[s]bin add to PATH $_
 
 # Detect brew
-iscmd brew &&
-{
+# ===================
+iscmd brew && {
 log_debug Homebrew detected
 
 # Try load bash_completion
-try_source $(brew --prefix)/etc/bash_completion && log_info Load bash_completion $_
-try_source $(brew --prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
-
+try_source $(brew-prefix)/etc/bash_completion && log_info Load bash_completion $_
+try_source $(brew-prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
 
 # Load formula completion
-[ -e `brew --prefix`/etc/bash_completion.d ] && find -L `brew --prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do
-	log_debug Load completion ${file}
-    . ${file} 2>&1 | {
-        read -d "\0" -t 0.01 error
-		[ -z "$error" ] || log_warn Load completion ${file} failed: "\n${error}"
-    }
-done
+# [ -e `brew-prefix`/etc/bash_completion.d ] && find -L `brew-prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do
+# 	log_debug Load completion ${file}
+#     . ${file} 2>&1 | {
+#         read -d "\0" -t 0.01 error
+# 		[ -z "$error" ] || log_warn Load completion ${file} failed: "\n${error}"
+#     }
+# done
+[ -e `brew-prefix`/etc/bash_completion.d ] && {
+  log_debug Load completions
+  source `brew-prefix`/etc/bash_completion.d/*
+}
 
 [[ -z "$ANDROID_HOME" ]] && isbrewed android && export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # Init command not found
-if brew command command-not-found-init >/dev/null 2>&1; then eval "$(brew command-not-found-init)"; fi
+# https://github.com/Homebrew/homebrew-command-not-found
+file=$(brew-prefix)/Homebrew/Library/Taps/homebrew/homebrew-command-not-found/handler.sh
+if [ -f "$file" ]; then source "$file"; fi
 
 unset -v file error
 }
@@ -86,8 +91,8 @@ iscmd brew && isbrewed nvm && [ -e ~/.nvm/ ] &&
 {
   log_debug nvm detected
   export NVM_DIR=~/.nvm
-  source $(brew --prefix nvm)/nvm.sh
-  source $(brew --prefix nvm)/etc/bash_completion.d/nvm
+  source $(brew-prefix nvm)/nvm.sh
+  source $(brew-prefix nvm)/etc/bash_completion.d/nvm
   iscmd node || nvm use node > /dev/null && log_debug nvm use node
 }
 # }} nvm
@@ -109,7 +114,7 @@ iscmd gpg &&
   export GPG_TTY=$(tty)
 }
 
-bashdoc cn <<'DOC-HERE'
+bashdoc en <<'DOC-HERE'
 
 * go
   * Detech gp
@@ -174,20 +179,20 @@ iscmd go &&
 	isbrewed maven && [[ -z "$M2_HOME" ]] && false &&
 	{
 		# 如果 brew 没有该包,则会设置为空
-		export M2_HOME=`brew --prefix maven 2>/dev/null`
+		export M2_HOME=`brew-prefix maven 2>/dev/null`
 		# 如果设置失败,则删除该变量
 		[[ -z "$M2_HOME" ]] && unset -v M2_HOME || log_info Set M2_HOME=${M2_HOME}
 	}
 	# Detect HADOOP_HOME
 	isbrewed hadoop && [[ -z "$HADOOP_HOME" ]] &&
 	{
-		export HADOOP_HOME=`brew --prefix hadoop 2>/dev/null`
+		export HADOOP_HOME=`brew-prefix hadoop 2>/dev/null`
 		[[ -z "$HADOOP_HOME" ]] && unset -v HADOOP_HOME || log_info Set HADOOP_HOME=${HADOOP_HOME}
 	}
 	# Detect ZOOKEEPER_HOME
 	isbrewed zookeeper && [[ -z "$ZOOKEEPER_HOME" ]] &&
 	{
-		export ZOOKEEPER_HOME=`brew --prefix zookeeper 2>/dev/null`
+		export ZOOKEEPER_HOME=`brew-prefix zookeeper 2>/dev/null`
 		[[ -z "$ZOOKEEPER_HOME" ]] && unset -v ZOOKEEPER_HOME || log_info Set ZOOKEEPER_HOME=${ZOOKEEPER_HOME}
 	}
 
