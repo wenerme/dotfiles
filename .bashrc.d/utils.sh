@@ -81,28 +81,7 @@ iscontains ()
     return $(( $n ^ 1 ))
 }
 
-# Prepend Given Path To $PATH
-try_prepend_path()
-{
-	for p in "$@"
-	do
-		# Ensure prepent
-    if [[ "$PATH" =~ "$p" ]]; then continue; fi
-    log_info Prepand path \'$p\'
-    export PATH="$p:$PATH"
-	done
-}
 
-# Prepend Given Path To $MANPATH
-try_prepend_manpath()
-{
-	for p in "$@"
-	do
-    if [[ "$MANPATH" =~ "$p" ]]; then continue; fi
-    log_info Prepand manpath \'$p\'
-    export MANPATH="$p:$PATH"
-	done
-}
 
 try-path()
 {
@@ -208,8 +187,7 @@ termis| -n | `$TERM` typ check | `termis xterm`
 iscmd | -n | Command chech | `iscmd git`,`iscmd -n brew`
 iscontains | -n | Check element in array
 isbrewed | | Check formula is installed | `isbrewed go`
-try_prepend_path | | Ensure prepend givend path to `$PATH` | `try_prepend_path ~/bin`
-try_prepend_manpath | | Ensure prepend givend path to `$MANPATH` | `try_prepend_path ~/man`
+try-path | -fmCvnhV | Ensure prepend givend path to `$PATH` | `try-path ~/bin`
 try_source | | 尝试 source 文件 | `try_source ~/my-bash`
 
 * `-n` for negative
@@ -254,8 +232,7 @@ termis| -n | 判断 term 类型 | `termis xterm`
 iscmd | -n | 判断是否为可执行命令 | `iscmd git`,`iscmd -n brew`
 iscontains | -n | 判断数组是否包含指定元素
 isbrewed | | 判断给定的 formula 是否被安装 | `isbrewed go`
-try_prepend_path | | 如果给定路径不在 PATH 中,则添加 | `try_prepend_path ~/bin`
-try_prepend_manpath | | 如果给定路径不在  MANPATH 中,则添加 | `try_prepend_path ~/man`
+try-path | -fmCvnhV | 如果给定路径不在 PATH 中,则添加 | `try-path ~/bin`
 try_source | | 尝试 source 文件 | `try_source ~/my-bash`
 
 * `-n` for negative

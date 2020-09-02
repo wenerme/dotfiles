@@ -29,7 +29,7 @@ DOC-HERE
 # Homebrew {{
 
 # Detect linux brew
-[ -e ~/.linuxbrew/bin ] && { try_prepend_path ~/.linuxbrew/bin;try_prepend_path ~/.linuxbrew/sbin; } && log_info Detect linuxbrew/[s]bin add to PATH $_
+[ -e ~/.linuxbrew/bin ] && { try-path ~/.linuxbrew/bin;try-path ~/.linuxbrew/sbin; } && log_info Detect linuxbrew/[s]bin add to PATH $_
 
 # Detect brew
 # ===================
@@ -104,7 +104,7 @@ iscmd npm &&
 
   alias npm-exec='PATH=$(npm bin):$PATH'
   log_info Add npm/bin `npm config get prefix`/bin to PATH
-  try_prepend_path "`npm config get prefix`/bin"
+  try-path "`npm config get prefix`/bin"
 }
 # }} npm
 
@@ -139,7 +139,7 @@ iscmd -n go && [ -e /usr/local/go ] &&
 {
   log_debug Detect go at /usr/local/go
   export GOROOT=/usr/local/go
-  try_prepend_path $GOROOT/bin
+  try-path $GOROOT/bin
 }
 
 iscmd go &&
@@ -148,7 +148,7 @@ iscmd go &&
 	[[ -z "$GOPATH" ]]  && export GOPATH=~/go && log_info Set GOPATH to ~/go
 
 	log_info Add $GOPATH/bin to PATH
-	try_prepend_path $GOPATH/bin
+	try-path $GOPATH/bin
 }
 # }} go
 

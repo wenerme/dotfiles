@@ -91,7 +91,7 @@ alias cd...="cd ../.."
 alias ls="command ls --color=auto -h"
 
 # List all files colorized in long format
-alias l="ls -lF"
+alias l="ls -lashF"
 
 # List all files colorized in long format, including dot files
 alias la="ls -aF"
@@ -152,6 +152,7 @@ iscmd gvim && alias gvimr="gvim --remote"
 
 # XD
 alias please='sudo $(fc -ln -1)'
+alias proxy='all_proxy=$use_proxy https_proxy=$use_proxy http_proxy=$use_proxy $(fc -ln -1)'
 
 alias tolower="tr '[:upper:]' '[:lower:]'"
 alias toupper="tr '[:lower:]' '[:upper:]'"
@@ -164,6 +165,8 @@ random-string()
 osis Darwin && {
 alias ports="netstat -tulanp tcp"
 alias saynow='say `date +现在%H点%M分`'
+# mac use upper uuid
+alias uuidgen="uuidgen | tr '[:upper:]' '[:lower:]'"
 }
 
 osis Linux && {
