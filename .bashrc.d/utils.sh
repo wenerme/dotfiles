@@ -87,15 +87,9 @@ try_prepend_path()
 	for p in "$@"
 	do
 		# Ensure prepent
-		# export PATH=$(unique_path "$p:$PATH")
-
     if [[ "$PATH" =~ "$p" ]]; then continue; fi
     log_info Prepand path \'$p\'
     export PATH="$p:$PATH"
-
-		# (echo $PATH | grep "$p:" > /dev/null ) &&
-		# 	log_debug Ignore prepand \'$p\',alread in PATH ||
-		# 	{ log_info Prepand path \'$p\' ;export PATH="$p:$PATH"; }
 	done
 }
 
@@ -104,15 +98,57 @@ try_prepend_manpath()
 {
 	for p in "$@"
 	do
-		# export MANPATH=$(unique_path "$p:$MANPATH")
-
     if [[ "$MANPATH" =~ "$p" ]]; then continue; fi
     log_info Prepand manpath \'$p\'
     export MANPATH="$p:$PATH"
+	done
+}
 
-		# (echo "$MANPATH" | grep "$p:" > /dev/null ) &&
-		# 	log_debug Ignore prepand \'$p\',alread in MANPATH ||
-		# 	{ log_info Prepand manpath \'$p\' ;export MANPATH="$p:$MANPATH"; }
+try-path()
+{
+  local OPTIND o
+  local force check=1 verbose= dry var=PATH
+  while getopts 'fmCvnhV:' o; do
+    case $o in
+      f)
+        force=1;;
+      m)
+        var=MANPATH;;
+      V)
+        var="$OPTARG";;
+      C)
+        check=;;
+      v)
+        verbose=1;;
+      n)
+        dry=1;;
+      h|?)
+        echo "Usage: try-path [-fmCvnh] ...paths";;
+    esac
+  done
+  shift $((OPTIND - 1))
+
+  local p
+	for p in "$@"
+	do
+    if [ -n "$check" ] && [ ! -d "$p" ]; then
+      [ -n "$verbose" ] && echo "ignore missing $var '$p'"
+      continue
+    fi
+
+    if [ -n "$force" ]; then
+      [ -n "$verbose" ] && echo "force prepand $var '$p'"
+      # Ensure prepend
+      [ -n "$dry" ] || export "$var=$(unique_path "$p:${!var}")"
+      continue;
+    fi
+
+    if [[ "${!var}" =~ $p ]]; then 
+      [ -n "$verbose" ] && echo "ignore exists $var '$p'"
+      continue;
+    fi
+    [ -n "$verbose" ] && echo "prepand $var '$p'"
+    [ -n "$dry" ] || export "$var=$p:${!var}"
 	done
 }
 

@@ -15,19 +15,15 @@ bashdoc zh <<'DOC-HERE'
 
 DOC-HERE
 
-try_prepend_path "$HOME/bin"
-try_prepend_manpath "$HOME/man"
-try_prepend_path "/usr/local/sbin"
+# common path
+try-path "$HOME/bin" "/usr/local/sbin"
+try-path -m "$HOME/man"
 
 # We may depends on these commands
 # gunbin install by brew without g-prefix
-for i in /usr/local/opt/*/libexec/gnubin; 
-do
-  [ -e "$i" ] || continue
-  log_debug Prefer to use homebrew\'s gnubin $i
-  try_prepend_path $i
-	try_prepend_manpath $(dirname $i)/gnuman
-done
+log_info "Prefer to use homebrew's gnubin /usr/local/opt/*/libexec/gnubin"
+try-path -f /usr/local/opt/*/libexec/gnubin
+try-path -m /usr/local/opt/*/libexec/gnuman
 
 # Make vim the default editor
 export EDITOR="vim"
@@ -44,8 +40,8 @@ export LANG="en_US"
 export LC_ALL="en_US.UTF-8"
 # 如果有中文则启用
 iscmd locale && locale -a | grep -q ^zh_CN && {
-    export LANG="zh_CN"
-    export LC_ALL="zh_CN.UTF-8"
+  export LANG="zh_CN"
+  export LC_ALL="zh_CN.UTF-8"
 }
 
 # Don’t clear the screen after quitting a manual page
@@ -78,11 +74,10 @@ jpg|jpeg|gif|bmp|pbm|pgm|ppm|tga|xbm|xpm|tif|tiff|png=01;34
 mov|fli|gl|dl|xcf|xwd|ogg|mp3|wav=01;35
 flv|mkv|mp4|mpg|mpeg|avi=01;36
 "
-
 # http://stackoverflow.com/q/37904939/1870054
 read -r -d '' exts < <( echo $exts | xargs -n1 | sed -r 's/\|/\n/g;:a;s/\n(.*(=.*))/\2:*.\1/;ta' | sed "s/^/*./g" | tr "\n" ":" )
 export LS_COLORS="$LS_COLORS:$exts"
-unset exts
+unset exts SED
 
 # Most FreeBSD & Apple Darwin supports colors
 export CLICOLOR=true
