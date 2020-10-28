@@ -7,8 +7,9 @@ bashdoc zh <<'DOC-HERE'
 定义我在 osx 下使用的一些配置
 
 * 将 macvim (mvim) 映射为 gvim
-* lockscreen 锁屏
-* screensaver 屏保
+* lockscreen - 锁屏
+* screensaver - 屏保
+* pbsort - 剪切板内容排序
 
 DOC-HERE
 
@@ -16,6 +17,7 @@ osis Darwin &&
 {
   log_debug Mac osx detected
 	iscmd mvim && iscmd -n gvim && alias gvim="mvim"
+  alias pbsort="pbpaste | sort | pbcopy"
 
 	# Use VPN from terminal
 	# See http://superuser.com/a/358663/242730

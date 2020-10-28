@@ -16,7 +16,7 @@ bashdoc zh <<'DOC-HERE'
 DOC-HERE
 
 # common path
-try-path "$HOME/bin" "/usr/local/sbin"
+try-path "$HOME/.local/bin" "$HOME/bin" "/usr/local/sbin"
 try-path -m "$HOME/man"
 
 # We may depends on these commands

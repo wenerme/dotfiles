@@ -23,6 +23,10 @@ DOC-HERE
 # 尝试加载其他的配置
 try_source "$HOME/.iterm2_shell_integration.bash"
 
+sshtrc(){
+	sshrc "$*" tmuxrc new -A -s main
+}
+
 # Google cloud sdk
 # ============
 [ -e ~/google-cloud-sdk ] &&
