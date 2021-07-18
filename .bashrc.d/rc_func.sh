@@ -46,17 +46,17 @@ function o()
     else
         local opath="$@"
     fi
-
+    # Mac
+    command -v open > /dev/null && open "$opath" && return
     # Windows
     command -v cygstart > /dev/null && cygstart "$opath" && return
+    command -v cygpath > /dev/null && start "$(cygpath -d $opath)" && return
     # Windows
     command -v cmd > /dev/null && cmd /c start "$opath" && return
     # Centos
     command -v nautilus > /dev/null && nautilus --browser "$opath" && return
     # Linux Mint Cinnamon
     command -v nemo > /dev/null && nemo "$opath" && return
-    # Mac
-    command -v open > /dev/null && open "$opath" && return
 }
 
 # print the header (the first line of input)
@@ -339,5 +339,9 @@ function server()
 		php -S localhost:${port}
         return
 	}
+}
+
+function sshtrc(){
+	sshrc "$*" tmuxrc new -A -s main
 }
 # vim: set foldmarker={{,}} foldlevel=0 foldmethod=marker:

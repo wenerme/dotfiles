@@ -51,7 +51,7 @@ bashdoc <<'DOC-HERE'
 DOC-HERE
 
 # self complete
-for i in terraform consul vault nomand; do
+for i in terraform consul vault nomad; do
   log_info Detect self complete $i
   iscmd $i && complete -C $(which $i) $i
 done

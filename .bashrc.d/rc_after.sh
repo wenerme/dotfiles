@@ -93,7 +93,7 @@ iscmd brew && isbrewed nvm && [ -e ~/.nvm/ ] &&
   export NVM_DIR=~/.nvm
   source $(brew-prefix nvm)/nvm.sh
   source $(brew-prefix nvm)/etc/bash_completion.d/nvm
-  iscmd node || nvm use node > /dev/null && log_debug nvm use node
+  iscmd node || nvm use --lts > /dev/null && log_debug nvm use node
 }
 # }} nvm
 
