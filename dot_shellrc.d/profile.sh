@@ -38,6 +38,13 @@ iscmd() {
   command -v "$1" >/dev/null 2>&1
 }
 
+isinteractive() {
+  case $- in
+  *i*) return 0 ;;
+  *) return 1 ;;
+  esac
+}
+
 trypath /opt/homebrew/bin /opt/homebrew/sbin
 
 iscmd brew && {
@@ -46,10 +53,6 @@ iscmd brew && {
   trypath "${BREW_PREFIX}/opt/bash/bin" "${BREW_PREFIX}"/opt/{coreutils,make,grep,findutils,gnu-{sed,which,time}}/libexec/gnubin
 }
 
-# ls -d $(brew --prefix)/opt/*/libexec/gnubin
-# echo $PATH | gxargs -n 1 -d ':'  echo
-# libexec is to compact with macOS
-trypath ~/bin ~/.local/bin ~/go/bin
 
 #region macOS
 osis Darwin && {
@@ -63,10 +66,36 @@ osis Darwin && {
 #region Windows MSYS
 osis _NT && {
   [ "$MSYSTEM" = "MSYS" ] && {
-    export MSYSTEM=MINGW32
+    # UCRT64 is recommended for Windows 10+
+    export MSYSTEM=UCRT64
     trysource /etc/profile
   }
+  trysource "$HOME/bin/win-sudo/s/path.sh"
 }
+#endregion
+
+#region JDK
+[ -e "$HOME/.sdkman" ] && {
+    export SDKMAN_DIR="$HOME/.sdkman"
+    [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && . "$HOME/.sdkman/bin/sdkman-init.sh"
+}
+#endregion
+
+#region NodeJS
+[ -s "$HOME/.nvm" ] && {
+  export NVM_DIR="$HOME/.nvm"
+  trysource "$NVM_DIR/nvm.sh"
+  # "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+}
+#endregion
+
+#region Personalized
+
+# ls -d $(brew --prefix)/opt/*/libexec/gnubin
+# echo $PATH | gxargs -n 1 -d ':'  echo
+# libexec is to compact with macOS
+trypath ~/bin ~/.local/bin ~/go/bin
+
 #endregion
 
 unset trypath

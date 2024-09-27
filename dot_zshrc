@@ -48,12 +48,12 @@ zstyle ':vcs_info:*' enable git
 
 # user@hostname ~/project (main) 12:34:56 ❌
 # %
-PS1='%F{green}%n@%m %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset} %F{cyan}%*%F{reset}%(?..%F{red} ❌%f)'$'\n''%# '
+# PS1='%F{green}%n@%m %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset} %F{cyan}%*%F{reset}%(?..%F{red} ❌%f)'$'\n''%# '
 
-# user ~/project (main) ❌ <-> 12:34:56
+# user ~/project (main) ERRNO <-> 12:34:56
 # %
 # 不需要 hostname @%m
-PS1='%F{green}%n %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset} %F{reset}%(?..%F{red} ❌%f)'$'\n''%# '
+PS1='%F{green}%n %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset} %F{reset}%(?..%F{red} %?%f)'$'\n''%# '
 RPROMPT='%F{cyan}%*%f'
 
 # [ -f /usr/local/etc/profile.d/autojump.sh ] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -70,8 +70,3 @@ unset trysource
 # bun completions
 # [ -s "/opt/homebrew/share/zsh/site-functions/_bun" ] && source "/opt/homebrew/share/zsh/site-functions/_bun"
 
-# SDKMAN for JDK
-[ -e "$HOME/.sdkman" ] && {
-    export SDKMAN_DIR="$HOME/.sdkman"
-    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
-}
