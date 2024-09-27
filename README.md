@@ -1,32 +1,70 @@
-dotfiles
-========
-Relax dotfiles for Linux, Cygwin & Mac OSX
+# dotfiles
 
-## 可检测的配置/Features
+Relax dotfiles for Linux, Cygwin & macOS
 
-* Homebrew
-* Linuxbrew
-* Java
-* Go
-* npm
-* nvm
-* bash_completion
+## Features
 
-## 要求/Requirement
+- Homebrew
+- Linuxbrew
+- Java
+- Go
+- npm
+- nvm
+- bash_completion
+- cygwin
+- msys2
 
-* bash 4+
+## Configuration
 
-## 安装/Install
+- profile - for login shell
+  - setup PATH
+- rc - for interactive shell
+  - setup Terminal, autocomplete, prompt
+
+| item    | sh       | BASH          | ZSH       |
+| ------- | -------- | ------------- | --------- |
+| profile | .profile | .bash_profile | .zprofile |
+| rc      |          | .bashrc       | .zshrc    |
+| login   |          | .bash_login   | .zlogin   |
+| logout  |          | .bash_logout  | .zlogout  |
+
+- PATH
+  - $HOME/.local/bin - by XDG 3.0
+  - $HOME/bin - persinal bin
+- bash
+  - `--login`, `-l` - Login
+  - `-i` - Interactive
+  - `-r` - Restricted
+  - `--noprofile`
+    - /etc/profile, ~/.bash_profile, ~/.bash_login, ~/.profile
+  - `--norc`
+    - ~/.bashrc
+  - `--rcfile ~/.bashrc`
+  - `--init-file FILE`
+  - non-interactively
+    - load `$BASH_ENV`
+      - e.g. `if [ -n "$BASH_ENV" ]; then . "$BASH_ENV"; fi`
+  - symlink to sh
+    - minimic sh
+    - `.profile`
+  - SHELLOPTS, BASHOPTS, CDPATH, GLOBIGNORE
+- zsh
+  - ZDOTDIR=$HOME
+  - TMPPREFIX=/tmp/zsh
+
+---
+
+- TCSH
+  - .login, tcshrc, .logout
+- PDKSH
+  - .profile, .kshrc
+- [bash.1](https://www.man7.org/linux/man-pages/man1/bash.1.html)
+- [Bash Startup Files](https://www.gnu.org/software/bash/manual/html_node/Bash-Startup-Files.html)
+
+## Installation
+
 ```
-cd ~
-git init
-git remote add origin https://github.com/wenerme/dotfiles
-git fetch --depth=1
-# Warning: this will replace exists files.
-git checkout -t origin/master -f
-
-# Replace my name and email to yours
-vim ~/.gitconfig
+chezmoi init --source wenerme
 ```
 
 ## 加载顺序/Load order
@@ -37,9 +75,11 @@ func,exports,prompt,alias,extra,after -> rc_my_*
 ```
 
 ## 扩展和自定义/Customize
+
 可在 .bashrc.d 下添加自己的扩展配置,文件名格式为 `rc_my_*`.会在 after 后加载
 
 ## 目录说明
+
 ```
 .font
 	包含了一些我喜欢的字体文件
@@ -49,36 +89,15 @@ func,exports,prompt,alias,extra,after -> rc_my_*
 	包含了一部分补全脚本
 ```
 
-# 配置文件说明
-
-```
-/bin/bash
-	The bash executable
-/etc/profile
-	The systemwide initialization file, executed for login shells
-/etc/bash.bash_logout
-	The systemwide login shell cleanup file, executed when a login shell exits
-~/.bash_profile
-	The personal initialization file, executed for login shells
-~/.bashrc
-	The individual per-interactive-shell startup file
-~/.bash_logout
-	The individual login shell cleanup file, executed when a login shell exits
-~/.inputrc
-	Individual readline initialization file
-```
-From [man bash](http://linux.die.net/man/1/bash).
-
-
 # Misc
 
-* 因为针对的是 bash 4+,所以使用bash-completion时要求使用[bash-completion2](https://github.com/Homebrew/homebrew-versions)
-	brew 默认是 bash-completion,因为 OS 默认的 Bash 是3+的
+- 因为针对的是 bash 4+,所以使用 bash-completion 时要求使用[bash-completion2](https://github.com/Homebrew/homebrew-versions)
+  brew 默认是 bash-completion,因为 OS 默认的 Bash 是 3+的
 
 # Reference
 
-* [Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/)
-* [What rc mean ?](http://unix.stackexchange.com/a/3469/47774)
+- [Advanced Bash-Scripting Guide](http://tldp.org/LDP/abs/html/)
+- [What rc mean ?](http://unix.stackexchange.com/a/3469/47774)
 
 # Document
 
@@ -97,12 +116,14 @@ sed -e '/^HERE-BASH-DOC/{
 }' README.md -i
 ```
 
-
 <!-- BEGIN-BASH-DOC -->
 
 <!-- source(.bashrc.d/utils.sh:19) -->
+
 ## utils.sh
+
 Utils used for whole configs.
+
 ### Docs
 
 ```bash
@@ -110,32 +131,32 @@ Utils used for whole configs.
 BASH_DOC_GEN=en lrc > doc_en.md
 ```
 
-	# You can write doc in scripts like this, if no locale, this doc will used for all locale
-	bashdoc en <<'DOC-HERE'
-	# Header
-	Content
-	DOC-HERE
-
+    # You can write doc in scripts like this, if no locale, this doc will used for all locale
+    bashdoc en <<'DOC-HERE'
+    # Header
+    Content
+    DOC-HERE
 
 <!-- source(.bashrc.d/utils.sh:145) -->
 
 ### Commands
 
-Command | Arguments | Description | e.g.
-----|----|----|----
-bashdoc | | Used to accept docs | `bashdoc <<<'#Title Here'`
-osis| -n | OS check | `osis cygwin`, `osis -n linux`
-termis| -n | `$TERM` typ check | `termis xterm`
-iscmd | -n | Command chech | `iscmd git`,`iscmd -n brew`
-iscontains | -n | Check element in array
-isbrewed | | Check formula is installed | `isbrewed go`
-try_prepend_path | | Ensure prepend givend path to `$PATH` | `try_prepend_path ~/bin`
-try_prepend_manpath | | Ensure prepend givend path to `$MANPATH` | `try_prepend_path ~/man`
-try_source | | 尝试 source 文件 | `try_source ~/my-bash`
+| Command             | Arguments | Description                              | e.g.                           |
+| ------------------- | --------- | ---------------------------------------- | ------------------------------ |
+| bashdoc             |           | Used to accept docs                      | `bashdoc <<<'#Title Here'`     |
+| osis                | -n        | OS check                                 | `osis cygwin`, `osis -n linux` |
+| termis              | -n        | `$TERM` typ check                        | `termis xterm`                 |
+| iscmd               | -n        | Command chech                            | `iscmd git`,`iscmd -n brew`    |
+| iscontains          | -n        | Check element in array                   |
+| isbrewed            |           | Check formula is installed               | `isbrewed go`                  |
+| try_prepend_path    |           | Ensure prepend givend path to `$PATH`    | `try_prepend_path ~/bin`       |
+| try_prepend_manpath |           | Ensure prepend givend path to `$MANPATH` | `try_prepend_path ~/man`       |
+| try_source          |           | 尝试 source 文件                         | `try_source ~/my-bash`         |
 
-* `-n` for negative
+- `-n` for negative
 
 ### Examples
+
 ```
 iscmd cls || alias cls="echo -en '\ec'"
 iscmd -n clear &&  alias clear="cls"
@@ -161,6 +182,7 @@ BASH_DOC_CAT=1 lrc
 ```
 
 <!-- source(.bashrc.d/log4bash.sh:10) -->
+
 ## log4bash.sh
 
 log for shell.
@@ -175,25 +197,29 @@ http://github.com/fredpalmer/log4bash
 ```
 
 ### Changelog
-* Add log level
-* use `tput colors` to test the term
+
+- Add log level
+- use `tput colors` to test the term
 
 ### Commands
-Command | Arguments | Description
-----|---|---
-log | message level color | Basic log command
-log_speak | msg | speak out
-log_debug | msg | DEBUG level
-log_info | msg | INFO level
-log_warn | msg | WARN level
-log_error | msg | ERROR level
-log_success | msg | SUCCESS level
-log_captains | msg |
-log_campfire | msg |
-log_level | [level] | set/get log level
+
+| Command      | Arguments           | Description       |
+| ------------ | ------------------- | ----------------- |
+| log          | message level color | Basic log command |
+| log_speak    | msg                 | speak out         |
+| log_debug    | msg                 | DEBUG level       |
+| log_info     | msg                 | INFO level        |
+| log_warn     | msg                 | WARN level        |
+| log_error    | msg                 | ERROR level       |
+| log_success  | msg                 | SUCCESS level     |
+| log_captains | msg                 |
+| log_campfire | msg                 |
+| log_level    | [level]             | set/get log level |
 
 ### Log level
+
 Use level like this
+
 ```shell
 log_level WARN # Only show WARN ERROR
 log_level DEBUG # Only show DEBUG
@@ -201,85 +227,90 @@ log_level NONE # no log
 log_level # display log level
 ```
 
-
 <!-- source(.bashrc.d/rc_func.sh:3) -->
+
 ## rc_func
 
-* `o [dir]`
-  * Open director
-  * Support cmd,cygwin,Centos(nautilus),Mint(nemo),OS X
-* mkd
-  * mkdir && cd
-* colorname
-  * Echo manual for color and name
-* 256colors
-  * for 256 color
-* 16colors
-  * for 16 color
-* server [port:-8000]
-  * stary a simple http server
-  * will try python, npm server, php
+- `o [dir]`
+  - Open director
+  - Support cmd,cygwin,Centos(nautilus),Mint(nemo),OS X
+- mkd
+  - mkdir && cd
+- colorname
+  - Echo manual for color and name
+- 256colors
+  - for 256 color
+- 16colors
+  - for 16 color
+- server [port:-8000]
+  - stary a simple http server
+  - will try python, npm server, php
 
 <!-- source(.bashrc.d/rc_after.sh:5) -->
-## rc_after
-* Detech Homebrew
-  * Add bin
-  * Add coreutils without `g` prefix
-  * Add bash_completion
-  * Setup relate PATH or HOME
-  * Init command-not-found-init
 
+## rc_after
+
+- Detech Homebrew
+  - Add bin
+  - Add coreutils without `g` prefix
+  - Add bash_completion
+  - Setup relate PATH or HOME
+  - Init command-not-found-init
 
 <!-- source(.bashrc.d/rc_after.sh:69) -->
 
-* nvm
-  * nvm use node
-* npm
-  * Add bin
-  * Setup `npm-exec`
-
+- nvm
+  - nvm use node
+- npm
+  - Add bin
+  - Setup `npm-exec`
 
 <!-- source(.bashrc.d/rc_after.sh:204) -->
-* direnv
-  * `eval "$(direnv hook bash)"`
+
+- direnv
+  - `eval "$(direnv hook bash)"`
 
 <!-- source(.bashrc.d/rc_after.sh:215) -->
-* sshrc
-  * After sshrc
-  * Add sym link for `~/.inputrc`,`~/.gitconfig`
+
+- sshrc
+  - After sshrc
+  - Add sym link for `~/.inputrc`,`~/.gitconfig`
 
 <!-- source(.bashrc.d/rc_alias.sh:3) -->
-## rc_alias
-* cd
-	* `..`,`...`,`....`,`.....`,`~`,`-`
-	* `cd-`,`cd..`,`cd...`
-* ls
-	* `-h` by default
-	* `l`,`la`,`ll`,`lsd`,`lst`
-* cls <-> clear
-* ifconfig <-> ipconfig
 
-* pushcd
-	* push current director
-* lrc
- 	* reload bashrc
-* ports
- 	* show used ports
-* utf82gbk,gbk2utf8
-* please
- 	* use sudo to run last command
-* tolower,toupper
-* random-string
-* Darwin
-	* saynow
+## rc_alias
+
+- cd
+  - `..`,`...`,`....`,`.....`,`~`,`-`
+  - `cd-`,`cd..`,`cd...`
+- ls
+  - `-h` by default
+  - `l`,`la`,`ll`,`lsd`,`lst`
+- cls <-> clear
+- ifconfig <-> ipconfig
+
+- pushcd
+  - push current director
+- lrc
+  - reload bashrc
+- ports
+  - show used ports
+- utf82gbk,gbk2utf8
+- please
+  - use sudo to run last command
+- tolower,toupper
+- random-string
+- Darwin
+  - saynow
 
 <!-- source(.bashrc.d/rc_my_osx.sh:5) -->
+
 ## rc_my_osx
+
 定义我在 osx 下使用的一些配置
 
-* 将 macvim (mvim) 映射为 gvim
-* lockscreen 锁屏
-* screensaver 屏保
-
+- 将 macvim (mvim) 映射为 gvim
+- lockscreen 锁屏
+- screensaver 屏保
 
 <!-- END-BASH-DOC -->
