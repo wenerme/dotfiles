@@ -38,7 +38,10 @@ log_debug Homebrew detected
 
 # Try load bash_completion
 try_source $(brew-prefix)/etc/bash_completion && log_info Load bash_completion $_
-try_source $(brew-prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
+# Bash v4+
+[ "${BASH_VERSINFO}" -ge 4 ] && {
+  try_source $(brew-prefix)/share/bash-completion/bash_completion && log_info Load bash_completion $_
+}
 
 # Load formula completion
 # [ -e `brew-prefix`/etc/bash_completion.d ] && find -L `brew-prefix`/etc/bash_completion.d -maxdepth 1 -type f | while read -r file; do

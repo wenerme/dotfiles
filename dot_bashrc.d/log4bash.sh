@@ -101,6 +101,7 @@ log_level()
 		return
 	fi
 
+  ! [ "${BASH_VERSINFO}" -ge 4 ] && return;
 	# set log level
 	declare -A LEVELS=( ["DEBUG"]=5 ["INFO"]=4 ["SUCCESS"]=3  ["WARN"]=2 ["ERROR"]=1 ["NONE"]=0)
 	local level="${LEVELS["$1"]}"
@@ -122,6 +123,9 @@ log() {
     # Default level to "info"
     [[ -z ${log_level} ]] && log_level="INFO";
     [[ -z ${log_color} ]] && log_color="${LOG_INFO_COLOR}";
+
+    # bash 3 do not support declare -A
+    ! [ "${BASH_VERSINFO}" -ge 4 ] && return;
 
     # Test the log level
     declare -A LEVELS=( ["DEBUG"]=5 ["INFO"]=4 ["SUCCESS"]=3  ["WARN"]=2 ["ERROR"]=1 ["NONE"]=0)

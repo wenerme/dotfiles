@@ -75,9 +75,10 @@ mov|fli|gl|dl|xcf|xwd|ogg|mp3|wav=01;35
 flv|mkv|mp4|mpg|mpeg|avi=01;36
 "
 # http://stackoverflow.com/q/37904939/1870054
-read -r -d '' exts < <( echo $exts | xargs -n1 | sed -r 's/\|/\n/g;:a;s/\n(.*(=.*))/\2:*.\1/;ta' | sed "s/^/*./g" | tr "\n" ":" )
-export LS_COLORS="$LS_COLORS:$exts"
-unset exts SED
+# fixme macOS default sed not support
+# read -r -d '' exts < <( echo $exts | xargs -n1 | sed -r 's/\|/\n/g;:a;s/\n(.*(=.*))/\2:*.\1/;ta' | sed "s/^/*./g" | tr "\n" ":" )
+# export LS_COLORS="$LS_COLORS:$exts"
+# unset exts SED
 
 # Most FreeBSD & Apple Darwin supports colors
 export CLICOLOR=true
