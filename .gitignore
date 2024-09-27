@@ -1,4 +1,0 @@
-# ignore all
-# use force add: $git add -f .gitignore
-*
-

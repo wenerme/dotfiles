@@ -1,0 +1,76 @@
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
+
+    autoload -Uz compinit
+    compinit
+fi
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+
+setopt CORRECT
+
+setopt AUTO_CD
+setopt AUTO_PUSHD
+
+setopt NO_NOMATCH
+
+
+setopt PROMPT_SUBST
+autoload -Uz vcs_info
+precmd() { vcs_info }
+
+zstyle ':vcs_info:git:*' formats '(%b)'
+zstyle ':vcs_info:*' enable git
+
+# user@hostname ~/project (main)
+# % 
+# PS1='%F{green}%n@%m %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset}'$'\n''%# '
+
+# user@hostname ~/project (main) 12:34:56 ❌
+# % 
+PS1='%F{green}%n@%m %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset} %F{cyan}%*%F{reset}%(?..%F{red} ❌%f)'$'\n''%# '
+
+# user ~/project (main) ❌ <-> 12:34:56 
+# % 
+# 不需要 hostname @%m
+PS1='%F{green}%n %F{blue}%~%F{yellow} ${vcs_info_msg_0_}%F{reset} %F{reset}%(?..%F{red} ❌%f)'$'\n''%# '
+RPROMPT='%F{cyan}%*%f'
+
+# [ -f /usr/local/etc/profile.d/autojump.sh ] && source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+trysource() {
+    if [ -f $1 ]; then
+        source $1
+    fi
+}
+trysource ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+trysource ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+unset trysource
+
+trypath() {
+    for dir in "$@"; do
+        if [ -d "$dir" ] && [[ ":$PATH:" != *":$dir:"* ]]; then
+            export PATH="$dir:$PATH"
+        fi
+    done
+}
+
+# trypath ~/bin ~/.local/bin ~/go/bin /opt/homebrew/opt/{make,grep,gnu-{sed,which,time}}/libexec/gnubin
+trypath ~/bin ~/.local/bin ~/go/bin /opt/homebrew/opt/{make,grep}/libexec/gnubin
+
+unset trypath
+
+# bun completions
+# [ -s "/opt/homebrew/share/zsh/site-functions/_bun" ] && source "/opt/homebrew/share/zsh/site-functions/_bun"
+
+# SDKMAN for JDK
+[ -e "$HOME/.sdkman" ] && {
+    export SDKMAN_DIR="$HOME/.sdkman"
+    [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+}
