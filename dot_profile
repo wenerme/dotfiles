@@ -1,5 +1,8 @@
 #!/bin/sh
 
+. ~/.shellrc.d/profile.sh
+
+
 # Set user-defined locale
 #export LANG=$(locale -uU)
 #

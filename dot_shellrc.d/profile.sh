@@ -53,7 +53,6 @@ iscmd brew && {
   trypath "${BREW_PREFIX}/opt/bash/bin" "${BREW_PREFIX}"/opt/{coreutils,make,grep,findutils,gnu-{sed,which,time}}/libexec/gnubin
 }
 
-
 #region macOS
 osis Darwin && {
   # Jetbrains Toolbox
@@ -76,8 +75,8 @@ osis _NT && {
 
 #region JDK
 [ -e "$HOME/.sdkman" ] && {
-    export SDKMAN_DIR="$HOME/.sdkman"
-    [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && . "$HOME/.sdkman/bin/sdkman-init.sh"
+  export SDKMAN_DIR="$HOME/.sdkman"
+  [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && . "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 #endregion
 
@@ -98,5 +97,8 @@ trypath ~/bin ~/.local/bin ~/go/bin
 
 #endregion
 
-unset trypath
-unset trysource
+#region Interactive
+[[ "$-" == *i* ]] && {
+  trysource ~/.shellrc.d/rc.sh
+}
+#endregion
