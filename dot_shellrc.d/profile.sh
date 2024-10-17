@@ -114,6 +114,7 @@ trypath ~/bin ~/.local/bin ~/go/bin
 [[ "$-" == *i* ]] && {
   trysource ~/.shellrc.d/rc.sh
   # debug
-  alias lspath='echo $PATH | xargs -n 1 -d ':'  echo'
+  # xargs -d need gnu xargs
+  # alias lspath='echo $PATH | xargs -n 1 -d ':'  echo'
 }
 #endregion
