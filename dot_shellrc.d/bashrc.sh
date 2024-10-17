@@ -37,4 +37,5 @@ __prompt_char() {
         echo "%"
     fi
 }
-export PS1='\[\e[0;31m\]$(_rc=${?##0};echo ${_rc:+"> ${_rc} "})\[\e[32m\]\u@\h\[\e[35m\]$(echo ${MSYSTEM:+" ${MSYSTEM}"}) \[\e[34m\]\w$(__git_branch) \[\e[36m\][$(date +"%H:%M:%S")]\[\e[0m\]\n$(__prompt_char) '
+export PS1='\[\e[0;31m\]$(_rc=${?##0};echo ${_rc:+"> ${_rc} "})\[\e[32m\]\u@\h\[\e[35m\]$(echo ${MSYSTEM:+" ${MSYSTEM}"}) \[\e[34m\]\w$(__git_branch) \[\e[36m\][$(date +"%H:%M:%S")]\[\e[0m\]
+$(__prompt_char) '
