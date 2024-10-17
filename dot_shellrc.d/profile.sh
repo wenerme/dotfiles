@@ -45,13 +45,24 @@ isinteractive() {
   esac
 }
 
-trypath /opt/homebrew/bin /opt/homebrew/sbin
+# e.g. isshell bash && echo Bash
+isshell() {
+  case $0 in
+  bash) [ -n "$BASH_VERSION" ] ;;
+  zsh) [ -n "$ZSH_VERSION" ] ;;
+  fish) [ -n "$FISH_VERSION" ] ;;
+  *) return 1 ;;
+  esac
+}
 
+#region Brew
+trypath "/opt/homebrew/bin"
 iscmd brew && {
   BREW_PREFIX="$(brew --prefix)"
   export BREW_PREFIX
-  trypath "${BREW_PREFIX}/opt/bash/bin" "${BREW_PREFIX}"/opt/{coreutils,make,grep,findutils,gnu-{sed,which,time}}/libexec/gnubin
+  trypath "$BREW_PREFIX/sbin" "${BREW_PREFIX}/opt/bash/bin" "${BREW_PREFIX}"/opt/{coreutils,make,grep,findutils,gnu-{sed,which,time}}/libexec/gnubin
 }
+#endregion
 
 #region macOS
 osis Darwin && {
@@ -84,14 +95,16 @@ osis _NT && {
 [ -s "$HOME/.nvm" ] && {
   export NVM_DIR="$HOME/.nvm"
   trysource "$NVM_DIR/nvm.sh"
-  # "/usr/local/opt/nvm/etc/bash_completion.d/nvm"
+}
+
+iscmd npm && {
+  trypath "$(npm config -g get prefix)/bin"
 }
 #endregion
 
 #region Personalized
 
 # ls -d $(brew --prefix)/opt/*/libexec/gnubin
-# echo $PATH | gxargs -n 1 -d ':'  echo
 # libexec is to compact with macOS
 trypath ~/bin ~/.local/bin ~/go/bin
 
@@ -100,5 +113,7 @@ trypath ~/bin ~/.local/bin ~/go/bin
 #region Interactive
 [[ "$-" == *i* ]] && {
   trysource ~/.shellrc.d/rc.sh
+  # debug
+  alias lspath='echo $PATH | xargs -n 1 -d ':'  echo'
 }
 #endregion

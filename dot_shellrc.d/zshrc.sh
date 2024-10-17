@@ -75,9 +75,3 @@ group by commands.argv order by count(*) desc limit 1"
   ZSH_AUTOSUGGEST_STRATEGY=histdb_top_here
 }
 
-if type brew &>/dev/null; then
-  FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-  autoload -Uz compinit
-  compinit
-fi

@@ -1,5 +1,25 @@
 #!/bin/sh
 
+trysource ~/.shellrc.d/z.sh
+
+iscmd brew && {
+  isshell bash && {
+    trysource "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+  }
+
+  isshell zsh && {
+    _dir=$(brew --prefix)/share/zsh-completions
+    if [ -e "$_dir" ]; then
+      FPATH=$_dir:$FPATH
+
+      autoload -Uz compinit
+      compinit
+    fi
+  }
+
+  unset _dir
+}
+
 iscmd git && {
   alias g='git'
 }
@@ -70,3 +90,5 @@ server() {
     return
   }
 }
+
+# ex: ts=4 sw=4 et filetype=sh
