@@ -87,12 +87,12 @@ osis _NT && {
 #region JDK
 [ -e "$HOME/.sdkman" ] && {
   export SDKMAN_DIR="$HOME/.sdkman"
-  [ -s "$HOME/.sdkman/bin/sdkman-init.sh" ] && . "$HOME/.sdkman/bin/sdkman-init.sh"
+  [ -e "$HOME/.sdkman/bin/sdkman-init.sh" ] && . "$HOME/.sdkman/bin/sdkman-init.sh"
 }
 #endregion
 
 #region NodeJS
-[ -s "$HOME/.nvm" ] && {
+[ -e "$HOME/.nvm" ] && {
   export NVM_DIR="$HOME/.nvm"
   trysource "$NVM_DIR/nvm.sh"
 }
