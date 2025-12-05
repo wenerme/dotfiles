@@ -1,25 +1,57 @@
 #!/bin/sh
 
+isdebug() {
+  return 1
+}
+
+log() {
+  isdebug && {
+    printf "[$(date +%Y-%m-%dT%H:%M:%S)] %s\n" "$*"
+    return
+  }
+}
+
+log "Loading shell profile..."
+
 # Add directories to PATH if they exist
 trypath() {
+  _force=0
+  if [ "$1" = "-f" ]; then
+    _force=1
+    shift
+  fi
   i=$#
   while [ $i -gt 0 ]; do
     eval "dir=\${$i}"
+
     if [ -d "$dir" ]; then
+      if [ $_force -eq 1 ]; then
+        log "Adding(forced) $dir to PATH"
+        PATH="$dir:$PATH"
+      else
       case ":$PATH:" in
-      *":$dir:"*) ;;
-      *) PATH="$dir:$PATH" ;;
+      *":$dir:"*)
+        log "Directory $dir is already in PATH"
+      ;;
+      *)
+        log "Adding $dir to PATH"
+        PATH="$dir:$PATH" ;;
       esac
+      fi
+
     fi
     i=$((i - 1))
   done
+  if [ $_force -eq 1 ]; then
+    PATH="$(echo "$PATH" | tr : '\n' | awk '!x[$0]++' | tr '\n' ':')"
+  fi
   export PATH
 }
 
 trysource() {
-  if [ -f "$1" ]; then
-    . "$1"
-  fi
+  for _f in "$@"; do
+    [ -f "$_f" ] && . "$_f"
+  done
 }
 
 # Check OS Type by `uname -s`
@@ -38,6 +70,10 @@ iscmd() {
   command -v "$1" >/dev/null 2>&1
 }
 
+isbrewed() {
+  iscmd brew && brew list "$1" >/dev/null 2>&1
+}
+
 isinteractive() {
   case $- in
   *i*) return 0 ;;
@@ -47,16 +83,22 @@ isinteractive() {
 
 # e.g. isshell bash && echo Bash
 isshell() {
-  case $0 in
-  bash) [ -n "$BASH_VERSION" ] ;;
-  zsh) [ -n "$ZSH_VERSION" ] ;;
-  fish) [ -n "$FISH_VERSION" ] ;;
-  *) return 1 ;;
+  [ $# -eq 0 ] && return 1
+  shell="$1"
+  case "$shell" in
+    bash) [ -n "$BASH_VERSION" ] ;;
+    zsh) [ -n "$ZSH_VERSION" ] ;;
+    fish) [ -n "$FISH_VERSION" ] ;;
+    *)
+      curr_shell="$(ps -p $$ -ocomm= | awk -F/ '{print $NF}')"
+      [ "$curr_shell" = "$shell" ]
+      ;;
   esac
 }
 
 #region Brew
-trypath "/opt/homebrew/bin"
+trypath -f "/opt/homebrew/bin"
+
 iscmd brew && {
   BREW_PREFIX="$(brew --prefix)"
   export BREW_PREFIX
@@ -97,9 +139,8 @@ osis _NT && {
   trysource "$NVM_DIR/nvm.sh"
 }
 
-iscmd npm && {
-  trypath "$(npm config -g get prefix)/bin"
-}
+# bun completions
+trysource "$HOME/.bun/_bun"
 #endregion
 
 #region Personalized
@@ -111,7 +152,7 @@ trypath ~/bin ~/.local/bin ~/go/bin
 #endregion
 
 #region Interactive
-[[ "$-" == *i* ]] && {
+isinteractive && {
   trysource ~/.shellrc.d/rc.sh
   # debug
   # xargs -d need gnu xargs

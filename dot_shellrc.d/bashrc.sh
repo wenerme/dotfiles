@@ -26,7 +26,7 @@ fi
 __git_branch() {
     if git rev-parse --git-dir > /dev/null 2>&1; then
         local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
-        echo -e " \e[33m(${branch})"
+        echo -e " \e[00;33m(${branch})"
     fi
 }
 
@@ -37,5 +37,5 @@ __prompt_char() {
         echo "%"
     fi
 }
-export PS1='\[\e[0;31m\]$(_rc=${?##0};echo ${_rc:+"> ${_rc} "})\[\e[32m\]\u@\h\[\e[35m\]$(echo ${MSYSTEM:+" ${MSYSTEM}"}) \[\e[34m\]\w$(__git_branch) \[\e[36m\][$(date +"%H:%M:%S")]\[\e[0m\]
+export PS1='\[\e[0;31m\]$(_rc=${?##0};echo ${_rc:+"> ${_rc} "})\[\e[32m\]\u@\h\[\e[35m\]$(echo ${MSYSTEM:+" ${MSYSTEM}"}) \[\e[01;33m\]\w$(__git_branch) \[\e[36m\][$(date +"%H:%M:%S")]\[\e[0m\]
 $(__prompt_char) '

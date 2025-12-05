@@ -10,15 +10,10 @@ trim_trailing_whitespace = true
 indent_size = 2
 indent_style = space
 
-[*.go]
+[{Makefile,*.mk,*.go}]
 indent_size = 4
 indent_style = tab
 
-[Makefile,*.mk]
+[*.py]
 indent_size = 4
-indent_style = tab
-
-
-[Makefile]
-indent_size = 4
-indent_style = tab
+indent_style = space

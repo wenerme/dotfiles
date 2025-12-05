@@ -7,27 +7,36 @@ iscmd brew && {
     trysource "$(brew --prefix)/etc/profile.d/bash_completion.sh"
   }
 
-  isshell zsh && {
-    _dir=$(brew --prefix)/share/zsh-completions
-    if [ -e "$_dir" ]; then
-      FPATH=$_dir:$FPATH
-
-      autoload -Uz compinit
-      compinit
-    fi
+  # Add rustup to PATH if installed via brew
+  isbrewed rustup && {
+    trypath "$(brew --prefix rustup)/bin"
   }
-
-  unset _dir
 }
+
+# Load cached completions from completion.d
+# Regenerate: kubectl completion zsh > ~/.shell.d/completion.d/kubectl.zsh
+#             gh copilot alias -- zsh > ~/.shell.d/completion.d/gh-copilot.zsh
+isshell zsh && trysource ~/.shell.d/completion.d/*.zsh
+isshell bash && trysource ~/.shell.d/completion.d/*.bash
+
+#region Alias
 
 iscmd git && {
   alias g='git'
 }
 
 iscmd kubectl && {
-  # todo auto completion
+  if [ -n "$KREW_ROOT" ]; then
+    trypath "$KREW_ROOT/bin"
+  else
+    trypath "$HOME/.krew/bin"
+  fi
+
   alias k='kubectl'
-  # todo helm  completion
+
+  # Enable kubectl completion for 'k' alias
+  isshell bash && complete -F __start_kubectl k 2>/dev/null
+  isshell zsh && compdef k=kubectl 2>/dev/null
 }
 
 # Get week number
@@ -44,6 +53,25 @@ osis Darwin && {
   alias uuidgen="uuidgen | tr '[:upper:]' '[:lower:]'"
 }
 
+
+# zsh completions with daily cache rebuild
+iscmd brew && isshell zsh && {
+  _dir=$(brew --prefix)/share/zsh-completions
+  if [ -e "$_dir" ]; then
+    FPATH=$_dir:$FPATH
+    autoload -Uz compinit
+    # Only rebuild dump once per day
+    if [ "$(date +%j)" != "$(stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null)" ]; then
+      compinit
+    else
+      compinit -C
+    fi
+  fi
+  unset _dir
+}
+
+
+# Open a directory in the file manager
 o() {
   if [ $# -eq 0 ]; then
     opath=.
@@ -63,6 +91,8 @@ o() {
   command -v nemo >/dev/null && nemo "$opath" && return
 }
 
+# Start a simple HTTP server
+# Usage: server [port]
 server() {
   port=${1:-8000}
 
@@ -142,5 +172,8 @@ Current term
   Column: $(tput cols)
 "
 }
+
+
+#endregion
 
 # ex: ts=4 sw=4 et filetype=sh

@@ -19,14 +19,14 @@ bindkey "^[[3~" delete-char      # Delete
 
 #region History
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
+HISTSIZE=10000 # will save 10000 command
 SAVEHIST=10000
-setopt SHARE_HISTORY
-setopt APPEND_HISTORY
-setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY # will share history between all sessions
+setopt APPEND_HISTORY # will not overwrite history file
+setopt HIST_IGNORE_DUPS # will not save duplicated command
+setopt HIST_IGNORE_SPACE # will not save command start with space
 
-setopt CORRECT
+setopt CORRECT # auto correct command
 
 setopt AUTO_CD
 setopt AUTO_PUSHD
