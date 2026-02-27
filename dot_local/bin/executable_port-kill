@@ -1,0 +1,20 @@
+#!/bin/bash
+# Kill process(es) listening on specified port(s)
+
+if [ $# -eq 0 ]; then
+    echo "Usage: port-kill <port> [port2] [port3] ..."
+    echo "Example: port-kill 3000 8080"
+    exit 1
+fi
+
+for port in "$@"; do
+    pids=$(lsof -ti :"$port" 2>/dev/null)
+    if [ -z "$pids" ]; then
+        echo "No process found on port $port"
+    else
+        for pid in $pids; do
+            name=$(ps -p "$pid" -o comm= 2>/dev/null)
+            kill "$pid" 2>/dev/null && echo "Killed $name (PID $pid) on port $port" || echo "Failed to kill PID $pid"
+        done
+    fi
+done

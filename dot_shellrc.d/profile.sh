@@ -102,7 +102,7 @@ trypath -f "/opt/homebrew/bin"
 iscmd brew && {
   BREW_PREFIX="$(brew --prefix)"
   export BREW_PREFIX
-  trypath "$BREW_PREFIX/sbin" "${BREW_PREFIX}/opt/bash/bin" "${BREW_PREFIX}"/opt/{coreutils,make,grep,findutils,gnu-{sed,which,time}}/libexec/gnubin
+  trypath "$BREW_PREFIX/sbin" "${BREW_PREFIX}/opt/bash/bin" "${BREW_PREFIX}"/opt/{curl,coreutils,make,grep,findutils,gnu-{sed,which,time}}/libexec/gnubin "${BREW_PREFIX}/opt/curl/bin"
 }
 #endregion
 
@@ -144,6 +144,8 @@ trysource "$HOME/.bun/_bun"
 #endregion
 
 #region Personalized
+
+export DO_NOT_TRACK=1
 
 # ls -d $(brew --prefix)/opt/*/libexec/gnubin
 # libexec is to compact with macOS

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Find which process is using a port
+
+if [ -z "$1" ]; then
+  echo "Usage: port-find <port>"
+  exit 1
+fi
+
+# Get listening processes
+result=$(lsof -i :"$1" -P -n 2>/dev/null | awk 'NR==1 || /LISTEN/')
+
+if [ -z "$result" ]; then
+  echo "No process listening on port $1"
+  exit 0
+fi
+
+echo "$result"
+
+# Get PIDs of listening processes
+pids=$(echo "$result" | awk 'NR>1 {print $2}' | sort -u)
+
+for pid in $pids; do
+  echo ""
+  echo "=== PID $pid ==="
+  echo "CMD: $(ps -p $pid -o args= 2>/dev/null)"
+  echo "CWD: $(lsof -p $pid 2>/dev/null | awk '$4=="cwd" {print $NF}')"
+done
